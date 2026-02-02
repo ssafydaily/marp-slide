@@ -4,7 +4,7 @@
 
 ## 구간 표현
 
-![](images/1d_range1.png)
+![](images/1d_range1.png)(width=70%)
 
 ## 모든 구간들의 합 계산하기
 

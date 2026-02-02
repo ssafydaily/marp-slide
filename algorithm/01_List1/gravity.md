@@ -2,7 +2,7 @@
 
 ### 바닥과의 거리
 
-![](images/gravity01.png){width=400px}
+![](images/gravity01.png){width=50%}
 
 ### 가장 낙차 값이 큰 상자는?
 

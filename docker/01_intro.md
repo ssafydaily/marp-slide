@@ -131,6 +131,8 @@ myimage:v1   d54908035598        117MB         29.5MB
 
 # Run 실행
 
+- 컨테이너 실행
+
 ```bash
 docker run --name mycontainer myimage:v1
 ```
@@ -138,11 +140,15 @@ docker run --name mycontainer myimage:v1
 
 ![h:300](./images/docker_run_container.png)
 
+---
 
-- 컨테이너 실행 중지 & 삭제
+- 컨테이너 실행 중지 
 ```bash
 docker stop mycontainer
+```
 
+- 컨테이너 삭제
+```bash
 docker rm mycontainer
 ```
 ---
@@ -162,8 +168,6 @@ docer rmi [이미지이름]:[태그]
 
 
 ```
-
-
 
 ---
 

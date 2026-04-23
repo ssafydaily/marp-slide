@@ -125,3 +125,35 @@ fastapi dev
 {"item_id": 5, "q": "somequery"}
 ```
 
+---
+
+## API Docs
+- API 문서 보기([Swagger UI](https://github.com/swagger-api/swagger-ui))
+- http://127.0.0.1:8000/docs
+- http://127.0.0.1:8000/redoc
+
+![bg right:50% w:100%](./images/api_docs.png)
+
+---
+
+## 예제 추가
+```python
+from pydantic import BaseModel
+
+class Item(BaseModel):
+    name: str
+    price: float
+    is_offer: bool | None = None
+
+
+@app.put("/item/{item_id}")
+def update_item(item_id: int, item: Item):
+    return { "item_name": item.name, "item_id": item_id}
+```
+
+---
+
+# 대화형 API Doc으로 테스트
+
+![bg w:100%](images/make_request.png)
+![bg w:100%](images/response.png)

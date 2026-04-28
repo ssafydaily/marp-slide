@@ -1,0 +1,402 @@
+<style>
+  *{box-sizing:border-box}
+  .sim{font-size:13px;color:var(--color-text-primary)}
+  .tab-bar{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+  .tb{border:0.5px solid var(--color-border-secondary);border-radius:20px;padding:4px 13px;font-size:12px;background:var(--color-background-primary);cursor:pointer;color:var(--color-text-secondary);transition:all .15s}
+  .tb.on{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-border-info)}
+  .panel{display:flex;gap:12px;align-items:flex-start}
+  .browser{flex:1;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;min-width:0}
+  .brow-top{background:var(--color-background-secondary);padding:8px 12px;display:flex;align-items:center;gap:8px;border-bottom:0.5px solid var(--color-border-tertiary)}
+  .dots{display:flex;gap:4px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--color-border-secondary)}
+  .url-bar{flex:1;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:6px;padding:3px 8px;font-size:11px;color:var(--color-text-secondary);font-family:var(--font-mono)}
+  .brow-body{padding:12px;min-height:220px}
+  .code-box{flex:0 0 240px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:10px 12px;font-family:var(--font-mono);font-size:11px;line-height:1.8;color:var(--color-text-primary)}
+  .code-box .hl{background:var(--color-background-warning);border-radius:3px;padding:0 2px}
+  .log{margin-top:10px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:8px 10px;font-family:var(--font-mono);font-size:11px;min-height:36px;color:var(--color-text-success);line-height:1.7}
+  .btn-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+  .act-btn{border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:6px 12px;font-size:12px;cursor:pointer;background:var(--color-background-primary);color:var(--color-text-primary);transition:all .15s}
+  .act-btn:hover{background:var(--color-background-secondary)}
+  .act-btn:active{transform:scale(.97)}
+  .mock-search{display:flex;gap:6px;margin-bottom:10px}
+  .mock-input{flex:1;border:0.5px solid var(--color-border-secondary);border-radius:6px;padding:5px 8px;font-size:12px;background:var(--color-background-primary);color:var(--color-text-primary);outline:none}
+  .mock-input:focus{border-color:var(--color-border-info)}
+  .mock-input.typed{border-color:var(--color-border-info);background:var(--color-background-info)}
+  .mock-btn{border:0.5px solid var(--color-border-secondary);border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer;background:var(--color-background-secondary);color:var(--color-text-primary)}
+  .post-item{border-bottom:0.5px solid var(--color-border-tertiary);padding:6px 0;font-size:12px;cursor:pointer;transition:background .15s;border-radius:4px;padding-left:4px}
+  .post-item:hover{background:var(--color-background-secondary)}
+  .post-item.clicked{background:var(--color-background-info)}
+  .scroll-area{max-height:160px;overflow-y:auto;border:0.5px solid var(--color-border-tertiary);border-radius:6px;padding:4px}
+  .scroll-marker{height:3px;background:var(--color-border-info);width:0;transition:width .6s;border-radius:2px;margin-bottom:6px}
+  .select-el{border:0.5px solid var(--color-border-secondary);border-radius:6px;padding:5px 8px;font-size:12px;width:100%;margin-bottom:8px;background:var(--color-background-primary);color:var(--color-text-primary)}
+  .chk-row{display:flex;align-items:center;gap:6px;margin-bottom:6px;font-size:12px}
+  .iframe-mock{border:0.5px dashed var(--color-border-secondary);border-radius:6px;padding:8px;margin-top:6px;font-size:11px;color:var(--color-text-secondary)}
+  .alert-mock{background:var(--color-background-warning);border:0.5px solid var(--color-border-warning);border-radius:6px;padding:8px;font-size:12px;margin-top:8px;display:none}
+  .alert-mock.show{display:block}
+</style>
+
+<div class="sim">
+  <div class="tab-bar">
+    <button class="tb on" onclick="setTab('click')">클릭 조작</button>
+    <button class="tb" onclick="setTab('input')">텍스트 입력</button>
+    <button class="tb" onclick="setTab('scroll')">스크롤</button>
+    <button class="tb" onclick="setTab('select')">드롭다운·체크박스</button>
+    <button class="tb" onclick="setTab('frame')">팝업·iframe</button>
+    <button class="tb" onclick="setTab('js')">JavaScript 실행</button>
+  </div>
+
+  <div class="panel">
+    <div class="browser">
+      <div class="brow-top">
+        <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        <div class="url-bar" id="urlBar">https://finance.naver.com/item/board.naver?code=005930</div>
+      </div>
+      <div class="brow-body" id="browBody"></div>
+    </div>
+    <div class="code-box" id="codeBox"></div>
+  </div>
+  <div class="log" id="logBox">시뮬레이터가 준비됐습니다. 아래 버튼을 눌러 동작을 실행해보세요.</div>
+  <div class="btn-row" id="btnRow"></div>
+</div>
+
+<script>
+const tabs = {
+  click: {
+    url:'https://finance.naver.com/item/board.naver?code=005930',
+    code:`from selenium.webdriver.common.by import By
+
+el = driver.find_element(
+  By.CSS_SELECTOR, ".post-item a")
+
+<span class="hl">el.click()</span>
+
+next_btn = driver.find_element(
+  By.LINK_TEXT, "다음")
+<span class="hl">next_btn.click()</span>
+
+driver.back()
+driver.forward()
+driver.refresh()`,
+    body:`<div style="font-size:12px;font-weight:500;margin-bottom:8px;color:var(--color-text-secondary)">삼성전자 토론방</div>
+<div id="p1" class="post-item"><span style="color:var(--color-text-secondary);margin-right:8px">1024</span><a href="#" onclick="return false" style="color:var(--color-text-info)">오늘 실적 어떻게 보세요?</a><span style="float:right;color:var(--color-text-secondary)">홍길동</span></div>
+<div id="p2" class="post-item"><span style="color:var(--color-text-secondary);margin-right:8px">1023</span><a href="#" onclick="return false" style="color:var(--color-text-info)">매수 타이밍 질문드립니다</a><span style="float:right;color:var(--color-text-secondary)">이순신</span></div>
+<div id="p3" class="post-item"><span style="color:var(--color-text-secondary);margin-right:8px">1022</span><a href="#" onclick="return false" style="color:var(--color-text-info)">외인 수급 분석</a><span style="float:right;color:var(--color-text-secondary)">강감찬</span></div>
+<div style="display:flex;gap:8px;margin-top:10px;font-size:12px">
+  <a href="#" onclick="return false" style="color:var(--color-text-secondary)">이전</a>
+  <a href="#" onclick="return false" style="color:var(--color-text-info);font-weight:500">1</a>
+  <a href="#" onclick="return false" id="nextLink" style="color:var(--color-text-secondary)">다음</a>
+</div>`,
+    btns:[
+      {label:'게시글 클릭', fn:()=>{
+        ['p1','p2','p3'].forEach(id=>document.getElementById(id)?.classList.remove('clicked'));
+        document.getElementById('p1').classList.add('clicked');
+        log('el.click() → "오늘 실적 어떻게 보세요?" 클릭됨');
+      }},
+      {label:'다음 페이지 클릭', fn:()=>{
+        const el=document.getElementById('nextLink');
+        el.style.fontWeight='500';el.style.color='var(--color-text-info)';
+        log('next_btn.click() → 2페이지로 이동 시뮬레이션');
+      }},
+      {label:'뒤로 가기', fn:()=>log('driver.back() → 이전 페이지로 이동')},
+      {label:'새로고침', fn:()=>{
+        ['p1','p2','p3'].forEach(id=>document.getElementById(id)?.classList.remove('clicked'));
+        document.getElementById('nextLink').style.fontWeight='';
+        log('driver.refresh() → 페이지 새로고침 완료');
+      }},
+    ]
+  },
+  input: {
+    url:'https://finance.naver.com',
+    code:`from selenium.webdriver.common.keys import Keys
+
+search = driver.find_element(
+  By.ID, "search_text")
+
+search.clear()
+<span class="hl">search.send_keys("삼성전자")</span>
+<span class="hl">search.send_keys(Keys.ENTER)</span>
+
+search.send_keys(
+  Keys.CONTROL + "a")
+search.send_keys(Keys.DELETE)`,
+    body:`<div class="mock-search">
+  <input class="mock-input" id="mockInput" placeholder="종목명·펀드명·지수 입력" readonly>
+  <button class="mock-btn" id="mockSearchBtn">검색</button>
+</div>
+<div id="inputResult" style="font-size:12px;color:var(--color-text-secondary);min-height:24px"></div>
+<div style="margin-top:12px;font-size:11px;color:var(--color-text-secondary)">Keys 상수 주요 목록:</div>
+<div style="font-family:var(--font-mono);font-size:11px;line-height:1.9;margin-top:4px">
+  Keys.ENTER &nbsp;&nbsp;&nbsp;Keys.TAB<br>
+  Keys.CONTROL &nbsp;Keys.SHIFT<br>
+  Keys.ARROW_DOWN / UP<br>
+  Keys.HOME &nbsp;&nbsp;Keys.END<br>
+  Keys.ESCAPE &nbsp;Keys.DELETE
+</div>`,
+    btns:[
+      {label:'clear()', fn:()=>{
+        const el=document.getElementById('mockInput');
+        el.value='';el.classList.remove('typed');
+        document.getElementById('inputResult').textContent='입력창이 비워졌습니다';
+        log('search.clear() → 기존 텍스트 삭제');
+      }},
+      {label:'send_keys("삼성전자")', fn:()=>{
+        const el=document.getElementById('mockInput');
+        el.classList.add('typed');
+        let i=0,text='삼성전자';el.value='';
+        const iv=setInterval(()=>{el.value+=text[i++];if(i>=text.length)clearInterval(iv);},80);
+        log('send_keys("삼성전자") → 한 글자씩 입력 중...');
+      }},
+      {label:'Keys.ENTER', fn:()=>{
+        const val=document.getElementById('mockInput').value;
+        document.getElementById('inputResult').textContent=val?`"${val}" 검색 실행됨`:'먼저 텍스트를 입력하세요';
+        log(val?`Keys.ENTER → "${val}" 검색 요청`:'입력 값이 없습니다');
+      }},
+      {label:'Keys.CONTROL+A', fn:()=>{
+        const el=document.getElementById('mockInput');
+        el.select&&el.select();
+        log('Keys.CONTROL+"a" → 전체 선택');
+      }},
+    ]
+  },
+  scroll: {
+    url:'https://finance.naver.com/item/board.naver?code=005930',
+    code:`driver.execute_script(
+  "window.scrollTo(0, 1000)")
+
+driver.execute_script(
+  "window.scrollTo(0, \
+document.body.scrollHeight)")
+
+el = driver.find_element(
+  By.CSS_SELECTOR, ".post-item")
+driver.execute_script(
+  <span class="hl">"arguments[0]\
+.scrollIntoView();", el</span>)
+
+from selenium.webdriver.common\
+  .action_chains import ActionChains
+ActionChains(driver)\
+  .scroll_by_amount(0, 300)\
+  .perform()`,
+    body:`<div id="scrollMarker" class="scroll-marker"></div>
+<div class="scroll-area" id="scrollArea">
+  ${Array.from({length:15},(_,i)=>`<div class="post-item" id="si${i}" style="font-size:11px"><span style="color:var(--color-text-secondary);margin-right:6px">${1024-i}</span>게시글 제목 ${1024-i}번 — 클릭하면 스크롤됩니다</div>`).join('')}
+</div>`,
+    btns:[
+      {label:'맨 위로 스크롤', fn:()=>{
+        const sa=document.getElementById('scrollArea');
+        sa.scrollTop=0;
+        document.getElementById('scrollMarker').style.width='10%';
+        log('scrollTo(0, 0) → 페이지 최상단으로 이동');
+      }},
+      {label:'300px 아래로', fn:()=>{
+        const sa=document.getElementById('scrollArea');
+        sa.scrollTop+=80;
+        document.getElementById('scrollMarker').style.width='40%';
+        log('scroll_by_amount(0, 300) → 300px 아래로 스크롤');
+      }},
+      {label:'맨 아래로', fn:()=>{
+        const sa=document.getElementById('scrollArea');
+        sa.scrollTop=sa.scrollHeight;
+        document.getElementById('scrollMarker').style.width='100%';
+        log('scrollTo(0, document.body.scrollHeight) → 맨 아래로 이동');
+      }},
+      {label:'특정 요소로 scrollIntoView', fn:()=>{
+        const sa=document.getElementById('scrollArea');
+        const target=document.getElementById('si10');
+        target&&target.scrollIntoView({block:'nearest'});
+        target&&(target.style.background='var(--color-background-info)');
+        setTimeout(()=>target&&(target.style.background=''),1200);
+        log('scrollIntoView() → si10 요소 위치로 스크롤');
+      }},
+    ]
+  },
+  select: {
+    url:'https://finance.naver.com/item/board.naver?code=005930',
+    code:`from selenium.webdriver.support\
+  .ui import Select
+
+sel = Select(driver.find_element(
+  By.NAME, "board_type"))
+
+<span class="hl">sel.select_by_visible_text(
+  "종목토론실")</span>
+sel.select_by_index(0)
+sel.select_by_value("1")
+
+chk = driver.find_element(
+  By.CSS_SELECTOR, \
+  "input[type='checkbox']")
+<span class="hl">chk.click()</span>
+print(chk.is_selected())`,
+    body:`<div style="font-size:12px;margin-bottom:6px;color:var(--color-text-secondary)">게시판 유형 선택</div>
+<select class="select-el" id="mockSelect">
+  <option value="0">전체</option>
+  <option value="1">종목토론실</option>
+  <option value="2">공시/뉴스</option>
+  <option value="3">분석/전망</option>
+</select>
+<div id="selectResult" style="font-size:11px;color:var(--color-text-secondary);margin-bottom:10px"></div>
+<div style="font-size:12px;margin-bottom:6px;color:var(--color-text-secondary)">필터 옵션</div>
+<div class="chk-row"><input type="checkbox" id="chk1"><label for="chk1">오늘만 보기</label></div>
+<div class="chk-row"><input type="checkbox" id="chk2"><label for="chk2">추천수 10 이상</label></div>
+<div class="chk-row"><input type="checkbox" id="chk3" checked><label for="chk3">댓글 있는 글만</label></div>
+<div id="chkResult" style="font-size:11px;color:var(--color-text-secondary);margin-top:4px"></div>`,
+    btns:[
+      {label:'종목토론실 선택', fn:()=>{
+        const s=document.getElementById('mockSelect');
+        s.value='1';
+        document.getElementById('selectResult').textContent='select_by_visible_text("종목토론실") → value=1 선택됨';
+        log('Select.select_by_visible_text("종목토론실") 실행');
+      }},
+      {label:'인덱스 0 선택', fn:()=>{
+        const s=document.getElementById('mockSelect');
+        s.value='0';
+        document.getElementById('selectResult').textContent='select_by_index(0) → "전체" 선택됨';
+        log('Select.select_by_index(0) → 첫 번째 옵션 선택');
+      }},
+      {label:'체크박스 클릭', fn:()=>{
+        const c=document.getElementById('chk1');
+        c.checked=!c.checked;
+        document.getElementById('chkResult').textContent=`chk.is_selected() → ${c.checked}`;
+        log(`chk.click() → is_selected(): ${c.checked}`);
+      }},
+      {label:'체크 상태 확인', fn:()=>{
+        const states=[1,2,3].map(i=>`chk${i}: ${document.getElementById('chk'+i).checked}`).join(', ');
+        log('is_selected() 결과 — '+states);
+      }},
+    ]
+  },
+  frame: {
+    url:'https://finance.naver.com/item/board.naver',
+    code:`driver.switch_to.frame(
+  "frame_main")
+
+driver.switch_to.frame(
+  driver.find_element(
+    By.CSS_SELECTOR, "iframe"))
+
+<span class="hl">driver.switch_to\
+  .default_content()</span>
+
+alert = driver.switch_to.alert
+print(alert.text)
+<span class="hl">alert.accept()</span>
+alert.dismiss()
+
+handles = driver.window_handles
+driver.switch_to.window(
+  handles[-1])`,
+    body:`<div style="font-size:12px;margin-bottom:8px;color:var(--color-text-secondary)">메인 페이지 컨텍스트</div>
+<div class="iframe-mock">
+  <div style="font-size:11px;font-weight:500;margin-bottom:4px;color:var(--color-text-secondary)">iframe: 광고 영역</div>
+  <div style="font-size:11px">iframe 내부의 요소를 찾으려면<br>먼저 switch_to.frame() 필요</div>
+</div>
+<div id="alertMock" class="alert-mock">
+  팝업 알림: "로그인이 필요합니다"<br>
+  <div style="display:flex;gap:6px;margin-top:6px">
+    <button class="mock-btn" onclick="document.getElementById('alertMock').classList.remove('show');window._logFn&&window._logFn('alert.accept() → 확인 클릭, 팝업 닫힘')">확인 (accept)</button>
+    <button class="mock-btn" onclick="document.getElementById('alertMock').classList.remove('show');window._logFn&&window._logFn('alert.dismiss() → 취소 클릭, 팝업 닫힘')">취소 (dismiss)</button>
+  </div>
+</div>`,
+    btns:[
+      {label:'iframe으로 전환', fn:()=>log('switch_to.frame("frame_main") → iframe 컨텍스트로 진입')},
+      {label:'메인으로 복귀', fn:()=>log('switch_to.default_content() → 메인 프레임으로 복귀')},
+      {label:'팝업 알림 띄우기', fn:()=>{
+        document.getElementById('alertMock').classList.add('show');
+        log('switch_to.alert → alert 감지됨: "로그인이 필요합니다"');
+      }},
+      {label:'새 탭 전환', fn:()=>log('window_handles[-1] → 새로 열린 탭으로 switch_to.window() 전환')},
+    ]
+  },
+  js: {
+    url:'https://finance.naver.com/item/board.naver',
+    code:`result = driver.execute_script(
+  "return document.title")
+
+driver.execute_script(
+  "window.scrollTo(0, 500)")
+
+el = driver.find_element(
+  By.CSS_SELECTOR, ".hidden-btn")
+driver.execute_script(
+  <span class="hl">"arguments[0].click()", el</span>)
+
+driver.execute_script("""
+  arguments[0].style.border =
+    '2px solid red';
+  arguments[0].setAttribute(
+    'data-scraped', 'true');
+""", el)
+
+driver.execute_script(
+  "return arguments[0]\
+.getBoundingClientRect()", el)`,
+    body:`<div style="font-size:12px;margin-bottom:8px;color:var(--color-text-secondary)">JavaScript 직접 실행 시뮬레이터</div>
+<div id="jsTarget" style="border:0.5px solid var(--color-border-tertiary);border-radius:6px;padding:8px;font-size:12px;transition:border .3s">
+  <div style="font-weight:500;margin-bottom:4px">대상 요소 (숨겨진 버튼)</div>
+  <button id="hiddenBtn" class="mock-btn" style="visibility:hidden">숨겨진 버튼</button>
+  <div style="font-size:11px;color:var(--color-text-secondary);margin-top:4px">visibility:hidden 상태 → 일반 click()으로는 클릭 불가</div>
+</div>
+<div id="jsResult" style="font-family:var(--font-mono);font-size:11px;margin-top:8px;color:var(--color-text-secondary);min-height:20px"></div>`,
+    btns:[
+      {label:'document.title 가져오기', fn:()=>{
+        document.getElementById('jsResult').textContent='반환값: "삼성전자 : 네이버 금융"';
+        log('execute_script("return document.title") → 페이지 제목 반환');
+      }},
+      {label:'숨긴 요소 강제 클릭', fn:()=>{
+        document.getElementById('hiddenBtn').style.visibility='visible';
+        setTimeout(()=>document.getElementById('hiddenBtn').style.visibility='hidden',800);
+        document.getElementById('jsResult').textContent='arguments[0].click() 실행됨';
+        log('execute_script("arguments[0].click()", el) → 숨겨진 버튼 강제 클릭 성공');
+      }},
+      {label:'스타일 강제 변경', fn:()=>{
+        const t=document.getElementById('jsTarget');
+        t.style.border='2px solid var(--color-border-danger)';
+        setTimeout(()=>t.style.border='0.5px solid var(--color-border-tertiary)',1200);
+        log('execute_script("arguments[0].style.border = \'2px solid red\'", el)');
+      }},
+      {label:'getBoundingClientRect', fn:()=>{
+        const r=document.getElementById('jsTarget').getBoundingClientRect();
+        document.getElementById('jsResult').textContent=`{top:${Math.round(r.top)}, left:${Math.round(r.left)}, width:${Math.round(r.width)}, height:${Math.round(r.height)}}`;
+        log('execute_script("return arguments[0].getBoundingClientRect()", el) → 위치·크기 반환');
+      }},
+    ]
+  }
+};
+
+let cur='click';
+window._logFn=null;
+
+function log(msg){
+  const lb=document.getElementById('logBox');
+  lb.textContent='> '+msg;
+}
+window._logFn=log;
+
+function setTab(t){
+  cur=t;
+  document.querySelectorAll('.tb').forEach((b,i)=>{
+    b.classList.toggle('on',['click','input','scroll','select','frame','js'][i]===t);
+  });
+  render();
+}
+
+function render(){
+  const d=tabs[cur];
+  document.getElementById('urlBar').textContent=d.url;
+  document.getElementById('browBody').innerHTML=d.body;
+  document.getElementById('codeBox').innerHTML=d.code;
+  document.getElementById('logBox').textContent='시뮬레이터 준비. 버튼을 눌러 동작을 실행하세요.';
+  const br=document.getElementById('btnRow');
+  br.innerHTML='';
+  d.btns.forEach(b=>{
+    const el=document.createElement('button');
+    el.className='act-btn';
+    el.textContent=b.label;
+    el.onclick=b.fn;
+    br.appendChild(el);
+  });
+}
+render();
+</script>

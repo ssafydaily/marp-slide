@@ -1,0 +1,288 @@
+<style>
+*{box-sizing:border-box}
+.ws{font-size:13px;color:var(--color-text-primary)}
+.tab-bar{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.tb{border:0.5px solid var(--color-border-secondary);border-radius:20px;padding:5px 14px;font-size:12px;background:var(--color-background-primary);cursor:pointer;color:var(--color-text-secondary);transition:all .15s}
+.tb.on{background:var(--color-background-warning);color:#633806;border-color:#854F0B}
+.tb.on.blue{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-border-info)}
+.tb.on.green{background:var(--color-background-success);color:var(--color-text-success);border-color:var(--color-border-success)}
+.sim-area{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 16px;margin-bottom:12px;background:var(--color-background-primary)}
+.timeline{position:relative;height:52px;margin:10px 0 4px}
+.tl-track{height:6px;background:var(--color-background-secondary);border-radius:3px;margin-top:23px;position:relative;overflow:hidden}
+.tl-fill{height:100%;border-radius:3px;width:0;transition:width .05s linear}
+.tl-label{position:absolute;font-size:10px;color:var(--color-text-secondary);top:0}
+.tl-tick{position:absolute;top:20px;height:10px;width:0.5px;background:var(--color-border-secondary)}
+.tl-marker{position:absolute;top:14px;width:12px;height:12px;border-radius:50%;transform:translateX(-50%);transition:left .05s linear;border:1.5px solid var(--color-background-primary)}
+.event-dot{position:absolute;top:18px;width:6px;height:6px;border-radius:50%;transform:translateX(-50%)}
+.status-row{display:flex;align-items:center;gap:8px;margin-top:4px;font-size:12px}
+.badge{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:500}
+.code-area{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 12px;font-family:var(--font-mono);font-size:11px;line-height:1.8;margin-bottom:12px;color:var(--color-text-primary)}
+.hl-amber{background:#FAEEDA;color:#633806;border-radius:3px;padding:0 3px}
+.hl-blue{background:#E6F1FB;color:#0C447C;border-radius:3px;padding:0 3px}
+.hl-green{background:#EAF3DE;color:#27500A;border-radius:3px;padding:0 3px}
+.ctrl-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.btn{border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:6px 13px;font-size:12px;cursor:pointer;background:var(--color-background-primary);color:var(--color-text-primary);transition:all .15s}
+.btn:hover{background:var(--color-background-secondary)}
+.btn:active{transform:scale(.97)}
+.log{font-family:var(--font-mono);font-size:11px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:8px 10px;min-height:44px;line-height:1.8;color:var(--color-text-primary)}
+.ec-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px}
+.ec-card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:8px 10px;cursor:pointer;transition:all .15s}
+.ec-card:hover{background:var(--color-background-secondary)}
+.ec-card.active{border-color:var(--color-border-info);background:var(--color-background-info)}
+.ec-name{font-size:12px;font-weight:500;margin-bottom:2px;color:var(--color-text-primary)}
+.ec-card.active .ec-name{color:var(--color-text-info)}
+.ec-desc{font-size:11px;color:var(--color-text-secondary)}
+</style>
+
+<div class="ws">
+<div class="tab-bar">
+  <button class="tb on" id="t0" onclick="setTab(0)">time.sleep</button>
+  <button class="tb blue" id="t1" onclick="setTab(1)">Implicit Wait</button>
+  <button class="tb green" id="t2" onclick="setTab(2)">Explicit Wait + EC</button>
+</div>
+
+<div class="sim-area" id="simArea"></div>
+
+<div class="code-area" id="codeArea"></div>
+
+<div class="ctrl-row">
+  <button class="btn" onclick="runSim()">시뮬레이션 실행</button>
+  <button class="btn" onclick="resetSim()">초기화</button>
+  <span id="ctrlExtra"></span>
+</div>
+<div class="log" id="logBox">시뮬레이션을 실행하면 각 대기 전략이 어떻게 동작하는지 타임라인으로 보여드립니다.</div>
+</div>
+
+<script>
+const TAB_DATA = [
+  {
+    label:'time.sleep',
+    color:'amber',
+    tlColor:'#EF9F27',
+    markerColor:'#633806',
+    totalMs:5000,
+    elementAppearAt:2200,
+    code:`import time
+
+driver.find_element(By.CSS_SELECTOR, ".next-btn").click()
+
+<span class="hl-amber">time.sleep(3)</span>   # 무조건 3초 대기
+
+posts = driver.find_elements(
+    By.CSS_SELECTOR, ".post-item")
+
+# 문제점:
+# 1. 1초 만에 로드돼도 2초를 낭비
+# 2. 5초 걸리면 StaleElementReference 발생
+# 3. 최적 대기시간을 사이트마다 수동 조정`,
+    events:[
+      {t:0, label:'클릭', color:'#EF9F27'},
+      {t:2200, label:'로드 완료', color:'#639922'},
+      {t:3000, label:'sleep 종료', color:'#EF9F27'},
+    ],
+    steps:[
+      {at:0,    msg:'▶ 다음 페이지 클릭'},
+      {at:500,  msg:'⏳ time.sleep(3) 시작 — 무조건 3초 기다림'},
+      {at:2200, msg:'✓ 서버 응답 완료 (요소 로드됨) — 하지만 계속 대기 중'},
+      {at:3000, msg:'▶ sleep 종료 → find_elements 실행 (0.8초 낭비됨)'},
+      {at:3200, msg:'✓ 게시글 목록 수집 완료'},
+    ]
+  },
+  {
+    label:'Implicit Wait',
+    color:'blue',
+    tlColor:'#378ADD',
+    markerColor:'#0C447C',
+    totalMs:5000,
+    elementAppearAt:2200,
+    code:`driver.implicitly_wait(10)  # 전역 설정 (1회만)
+
+driver.find_element(By.CSS_SELECTOR, ".next-btn").click()
+
+posts = driver.find_elements(   # 최대 10초 자동 대기
+    By.CSS_SELECTOR, ".post-item")
+
+# 특징:
+# - 요소가 나타나면 바로 진행 (폴링 방식)
+# - driver 생성 직후 1회 설정으로 모든 find에 적용
+# - 단점: find_elements가 빈 리스트를 즉시 반환함
+# - 단점: 특정 조건(클릭가능 여부 등) 대기 불가`,
+    events:[
+      {t:0, label:'클릭', color:'#378ADD'},
+      {t:2200, label:'요소 발견', color:'#639922'},
+    ],
+    steps:[
+      {at:0,    msg:'▶ 다음 페이지 클릭'},
+      {at:300,  msg:'🔍 implicit wait 폴링 시작 (500ms 간격으로 DOM 확인)'},
+      {at:800,  msg:'🔍 폴링 중... .post-item 없음'},
+      {at:1300, msg:'🔍 폴링 중... .post-item 없음'},
+      {at:1800, msg:'🔍 폴링 중... .post-item 없음'},
+      {at:2200, msg:'✓ .post-item 발견! 즉시 반환 → 2.2초 만에 완료'},
+    ]
+  },
+  {
+    label:'Explicit Wait + EC',
+    color:'green',
+    tlColor:'#639922',
+    markerColor:'#27500A',
+    totalMs:5000,
+    elementAppearAt:2200,
+    code:`from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+wait = WebDriverWait(driver, 10)
+
+driver.find_element(By.CSS_SELECTOR, ".next-btn").click()
+
+<span class="hl-green">posts = wait.until(</span>
+<span class="hl-green">    EC.presence_of_all_elements_located(</span>
+<span class="hl-green">        (By.CSS_SELECTOR, ".post-item")))</span>
+
+# 장점:
+# - 요소가 나타나면 즉시 진행 (낭비 없음)
+# - visibility, clickable 등 다양한 조건 지원
+# - TimeoutException으로 명확한 오류 처리 가능`,
+    events:[
+      {t:0, label:'클릭', color:'#639922'},
+      {t:2200, label:'조건 충족', color:'#639922'},
+    ],
+    steps:[
+      {at:0,    msg:'▶ 다음 페이지 클릭'},
+      {at:300,  msg:'🔍 EC.presence_of_all_elements_located 조건 확인 시작'},
+      {at:800,  msg:'🔍 조건 미충족, 500ms 후 재확인'},
+      {at:1300, msg:'🔍 조건 미충족, 500ms 후 재확인'},
+      {at:1800, msg:'🔍 조건 미충족, 500ms 후 재확인'},
+      {at:2200, msg:'✓ 조건 충족! posts 리스트 즉시 반환 → 2.2초 완료, 낭비 0'},
+    ]
+  }
+];
+
+let curTab = 0, timer = null, elapsed = 0, running = false;
+let elemAppeared = false;
+
+function setTab(i){
+  curTab = i;
+  resetSim();
+  document.querySelectorAll('.tb').forEach((b,idx)=>{
+    b.classList.remove('on');
+    if(idx===i) b.classList.add('on');
+  });
+  render();
+}
+
+function render(){
+  const d = TAB_DATA[curTab];
+  document.getElementById('codeArea').innerHTML = d.code;
+
+  const evDots = d.events.map(ev=>{
+    const pct = (ev.t/d.totalMs*100).toFixed(1);
+    return `<div class="event-dot" style="left:${pct}%;background:${ev.color};" title="${ev.label}"></div>
+            <div class="tl-label" style="left:${pct}%;transform:translateX(-50%);top:36px;font-size:9px">${ev.label}</div>`;
+  }).join('');
+
+  document.getElementById('simArea').innerHTML = `
+    <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:6px">타임라인 시뮬레이션 (총 ${d.totalMs/1000}초 기준 / 요소 로드 시점: ${d.elementAppearAt/1000}초)</div>
+    <div class="timeline">
+      <div class="tl-label" style="left:0">0s</div>
+      <div class="tl-label" style="left:50%;transform:translateX(-50%)">${d.totalMs/2000}s</div>
+      <div class="tl-label" style="right:0">${d.totalMs/1000}s</div>
+      <div class="tl-track" id="tlTrack">
+        <div class="tl-fill" id="tlFill" style="background:${d.tlColor}20"></div>
+        ${evDots}
+        <div class="tl-marker" id="tlMarker" style="left:0%;background:${d.tlColor};border-color:${d.markerColor}"></div>
+      </div>
+    </div>
+    <div class="status-row">
+      <span id="elapsedLabel" style="font-family:var(--font-mono);font-size:12px;color:var(--color-text-secondary)">0.0s</span>
+      <span id="statusBadge" class="badge" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">대기 중</span>
+      <span id="elemStatus" style="font-size:11px;color:var(--color-text-secondary)">요소 미로드</span>
+    </div>
+  `;
+
+  if(curTab===2){
+    document.getElementById('ctrlExtra').innerHTML = `<div class="ec-grid">
+      <div class="ec-card active" onclick="selectEC(this,'presence')"><div class="ec-name">presence_of_element_located</div><div class="ec-desc">DOM에 존재하면 통과</div></div>
+      <div class="ec-card" onclick="selectEC(this,'visible')"><div class="ec-name">visibility_of_element_located</div><div class="ec-desc">보이는 상태여야 통과</div></div>
+      <div class="ec-card" onclick="selectEC(this,'clickable')"><div class="ec-name">element_to_be_clickable</div><div class="ec-desc">클릭 가능해야 통과</div></div>
+      <div class="ec-card" onclick="selectEC(this,'text')"><div class="ec-name">text_to_be_present_in_element</div><div class="ec-desc">특정 텍스트 포함 확인</div></div>
+    </div>`;
+  } else {
+    document.getElementById('ctrlExtra').innerHTML='';
+  }
+}
+
+function selectEC(el, key){
+  document.querySelectorAll('.ec-card').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function runSim(){
+  if(running) return;
+  resetSim(false);
+  running = true;
+  elemAppeared = false;
+  elapsed = 0;
+  const d = TAB_DATA[curTab];
+  const stepQ = [...d.steps];
+  let stepIdx=0;
+
+  document.getElementById('logBox').textContent='';
+
+  timer = setInterval(()=>{
+    elapsed += 50;
+    const pct = Math.min(elapsed/d.totalMs*100, 100);
+
+    const fill = document.getElementById('tlFill');
+    const marker = document.getElementById('tlMarker');
+    const elLabel = document.getElementById('elapsedLabel');
+    const badge = document.getElementById('statusBadge');
+    const elemSt = document.getElementById('elemStatus');
+
+    if(fill) fill.style.width = pct+'%';
+    if(marker) marker.style.left = pct+'%';
+    if(elLabel) elLabel.textContent = (elapsed/1000).toFixed(1)+'s';
+
+    if(elapsed >= d.elementAppearAt && !elemAppeared){
+      elemAppeared = true;
+      if(elemSt){
+        elemSt.textContent='✓ 요소 로드됨';
+        elemSt.style.color='var(--color-text-success)';
+      }
+    }
+
+    if(stepIdx < stepQ.length && elapsed >= stepQ[stepIdx].at){
+      const lb = document.getElementById('logBox');
+      if(lb) lb.textContent += (lb.textContent?'\n':'')+stepQ[stepIdx].msg;
+      stepIdx++;
+    }
+
+    const isWaiting = elapsed < d.elementAppearAt || (curTab===0 && elapsed < 3000);
+    if(badge){
+      if(elapsed >= (curTab===0?3200:2300)){
+        badge.textContent='완료';
+        badge.style.background='var(--color-background-success)';
+        badge.style.color='var(--color-text-success)';
+      } else if(isWaiting){
+        badge.textContent='대기 중';
+        badge.style.background='var(--color-background-warning)';
+        badge.style.color='#633806';
+      }
+    }
+
+    if(elapsed >= d.totalMs){
+      clearInterval(timer);
+      running = false;
+    }
+  }, 50);
+}
+
+function resetSim(doRender=true){
+  if(timer) clearInterval(timer);
+  running = false; elapsed = 0; elemAppeared = false;
+  if(doRender) render();
+  const lb = document.getElementById('logBox');
+  if(lb) lb.textContent='시뮬레이션을 실행하면 각 대기 전략이 어떻게 동작하는지 타임라인으로 보여드립니다.';
+}
+
+render();
+</script>

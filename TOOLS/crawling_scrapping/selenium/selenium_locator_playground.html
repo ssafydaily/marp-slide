@@ -1,0 +1,157 @@
+<style>
+  .pg-wrap { font-size: 13px; color: var(--color-text-primary); }
+  .pg-html { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 14px 16px; font-family: var(--font-mono); font-size: 12px; line-height: 1.8; margin-bottom: 14px; }
+  .pg-html .hl { background: var(--color-background-warning); border-radius: 3px; padding: 1px 3px; transition: background 0.2s; }
+  .pg-html .hl-active { background: #fbbf24; color: #1c1400; border-radius: 3px; padding: 1px 3px; }
+  .selector-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+  .sel-btn { border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); padding: 8px 10px; background: var(--color-background-primary); cursor: pointer; text-align: left; transition: all 0.15s; }
+  .sel-btn:hover { background: var(--color-background-secondary); }
+  .sel-btn.active { border-color: #185FA5; background: #E6F1FB; }
+  .sel-btn .lbl { font-size: 11px; color: var(--color-text-secondary); display: block; margin-bottom: 2px; }
+  .sel-btn .code { font-family: var(--font-mono); font-size: 11px; color: var(--color-text-primary); }
+  .result-box { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 12px 14px; background: var(--color-background-primary); margin-bottom: 14px; min-height: 60px; }
+  .result-box .r-label { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 6px; }
+  .result-box .r-code { font-family: var(--font-mono); font-size: 12px; color: var(--color-text-info); line-height: 1.7; }
+  .result-box .r-found { font-size: 12px; color: var(--color-text-success); margin-top: 6px; }
+  .result-box .r-none { font-size: 12px; color: var(--color-text-danger); margin-top: 6px; }
+  .tab-row { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+  .tab-btn { border: 0.5px solid var(--color-border-secondary); border-radius: 20px; padding: 4px 12px; font-size: 12px; background: var(--color-background-primary); cursor: pointer; color: var(--color-text-secondary); transition: all 0.15s; }
+  .tab-btn.active { background: var(--color-background-info); color: var(--color-text-info); border-color: var(--color-border-info); }
+  .note { font-size: 12px; color: var(--color-text-secondary); line-height: 1.6; padding: 10px 12px; background: var(--color-background-secondary); border-radius: var(--border-radius-md); border-left: 2px solid var(--color-border-info); }
+</style>
+
+<div class="pg-wrap">
+  <div class="tab-row" id="tabRow">
+    <button class="tab-btn active" onclick="setTab('css')">CSS 선택자</button>
+    <button class="tab-btn" onclick="setTab('xpath')">XPath</button>
+    <button class="tab-btn" onclick="setTab('basic')">기본 선택자</button>
+  </div>
+
+  <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:8px;">대상 HTML 구조 (아래 선택자 버튼 클릭 시 해당 요소가 하이라이트됩니다)</div>
+  <div class="pg-html" id="htmlPreview"></div>
+
+  <div id="selectorPanel"></div>
+
+  <div class="result-box" id="resultBox">
+    <div class="r-label">선택자를 클릭하면 결과가 여기 표시됩니다</div>
+  </div>
+
+  <div class="note" id="noteBox">위의 선택자 버튼을 눌러 각 방법의 차이를 확인해보세요.</div>
+</div>
+
+<script>
+const htmlRaw = `<div id="board">
+  <h2 class="board-title">삼성전자 토론방</h2>
+  <table class="post-list">
+    <tr class="post-row">
+      <td class="num">1024</td>
+      <td class="title">
+        <a href="/post/1024">오늘 실적 어떻게 보세요?</a>
+      </td>
+      <td class="author">홍길동</td>
+      <td class="date">2024-01-15</td>
+    </tr>
+    <tr class="post-row">
+      <td class="num">1023</td>
+      <td class="title">
+        <a href="/post/1023">매수 타이밍 질문</a>
+      </td>
+      <td class="author">이순신</td>
+      <td class="date">2024-01-14</td>
+    </tr>
+  </table>
+  <div class="pagination">
+    <a class="next-btn" href="?page=2">다음</a>
+  </div>
+</div>`;
+
+const htmlDisplay = htmlRaw
+  .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+const tabs = {
+  css: {
+    selectors: [
+      { lbl:'By.CSS_SELECTOR', code:'#board', py:`driver.find_element(By.CSS_SELECTOR, "#board")`, targets:['id="board"'], desc:'# = ID 선택. 페이지에서 유일한 요소를 빠르게 찾을 때 가장 효율적입니다.' },
+      { lbl:'By.CSS_SELECTOR', code:'.board-title', py:`driver.find_element(By.CSS_SELECTOR, ".board-title")`, targets:['class="board-title"'], desc:'. = class 선택. 같은 클래스 요소가 여러 개일 땐 첫 번째를 반환합니다.' },
+      { lbl:'By.CSS_SELECTOR', code:'table.post-list', py:`driver.find_element(By.CSS_SELECTOR, "table.post-list")`, targets:['class="post-list"'], desc:'태그명 + class 조합. table 태그이면서 post-list 클래스인 요소만 선택합니다.' },
+      { lbl:'By.CSS_SELECTOR', code:'.post-row .title a', py:`driver.find_elements(By.CSS_SELECTOR, ".post-row .title a")`, targets:['href="/post/1024"','href="/post/1023"'], desc:'자손 선택자(공백). .post-row 안의 .title 안의 a 태그 전부 선택. find_elements로 복수 반환.' },
+      { lbl:'By.CSS_SELECTOR', code:'.title > a', py:`driver.find_elements(By.CSS_SELECTOR, ".title > a")`, targets:['href="/post/1024"','href="/post/1023"'], desc:'직계 자식 선택자(>). .title 바로 아래의 a만 선택합니다.' },
+      { lbl:'By.CSS_SELECTOR', code:'.pagination .next-btn', py:`driver.find_element(By.CSS_SELECTOR, ".pagination .next-btn")`, targets:['class="next-btn"'], desc:'중첩 선택. pagination 안의 next-btn. 페이지네이션 클릭 시 자주 씁니다.' },
+    ]
+  },
+  xpath: {
+    selectors: [
+      { lbl:'By.XPATH', code:'//div[@id="board"]', py:`driver.find_element(By.XPATH, '//div[@id="board"]')`, targets:['id="board"'], desc:'// = 문서 어디서든 검색. [@id="board"] = id 속성이 board인 요소.' },
+      { lbl:'By.XPATH', code:'//a[contains(@href,"/post")]', py:`driver.find_elements(By.XPATH, '//a[contains(@href, "/post")]')`, targets:['href="/post/1024"','href="/post/1023"'], desc:'contains() = 부분 일치. href에 "/post"가 포함된 모든 a태그를 찾습니다.' },
+      { lbl:'By.XPATH', code:'//td[@class="title"]/a', py:`driver.find_elements(By.XPATH, '//td[@class="title"]/a')`, targets:['href="/post/1024"','href="/post/1023"'], desc:'/ = 직계 자식. class가 정확히 "title"인 td의 바로 아래 a태그를 선택합니다.' },
+      { lbl:'By.XPATH', code:'//a[contains(text(),"매수")]', py:`driver.find_element(By.XPATH, '//a[contains(text(), "매수")]')`, targets:['href="/post/1023"'], desc:'text() = 텍스트 내용으로 검색. "매수"가 포함된 텍스트를 가진 a 태그를 찾습니다.' },
+      { lbl:'By.XPATH', code:'//tr[@class="post-row"][1]', py:`driver.find_element(By.XPATH, '//tr[@class="post-row"][1]')`, targets:['class="post-row"'], desc:'[1] = 인덱스(1부터 시작). 같은 조건 중 첫 번째 tr만 선택합니다. CSS와 달리 1부터 시작!' },
+      { lbl:'By.XPATH', code:'//td[@class="author"]', py:`driver.find_elements(By.XPATH, '//td[@class="author"]')`, targets:['class="author"'], desc:'여러 td를 한번에 수집. 작성자 목록을 추출할 때 이런 패턴을 자주 씁니다.' },
+    ]
+  },
+  basic: {
+    selectors: [
+      { lbl:'By.ID', code:'"board"', py:`driver.find_element(By.ID, "board")`, targets:['id="board"'], desc:'가장 빠른 방법. ID는 페이지에서 유일해야 하므로 신뢰도가 높습니다. 단, ID가 없는 요소엔 못 씁니다.' },
+      { lbl:'By.CLASS_NAME', code:'"board-title"', py:`driver.find_element(By.CLASS_NAME, "board-title")`, targets:['class="board-title"'], desc:'클래스명으로 검색. 공백 포함된 복합 클래스(예: "post-row active")엔 사용 불가 → CSS_SELECTOR 사용.' },
+      { lbl:'By.TAG_NAME', code:'"table"', py:`driver.find_element(By.TAG_NAME, "table")`, targets:['class="post-list"'], desc:'태그 이름으로 검색. 페이지에 테이블이 하나뿐일 때 간편합니다. 복수면 find_elements 사용.' },
+      { lbl:'By.LINK_TEXT', code:'"다음"', py:`driver.find_element(By.LINK_TEXT, "다음")`, targets:['class="next-btn"'], desc:'a 태그의 텍스트가 정확히 일치하는 링크를 찾습니다. 페이지 이동 버튼 찾을 때 편리합니다.' },
+      { lbl:'By.PARTIAL_LINK_TEXT', code:'"오늘"', py:`driver.find_element(By.PARTIAL_LINK_TEXT, "오늘")`, targets:['href="/post/1024"'], desc:'링크 텍스트 부분 일치. "오늘 실적..."처럼 긴 제목의 일부분만으로 찾을 수 있습니다.' },
+      { lbl:'By.NAME', code:'"q"', py:`driver.find_element(By.NAME, "q")`, targets:[], desc:'form 입력 요소의 name 속성으로 검색. 검색창, 폼 필드에 주로 사용합니다. (이 HTML엔 해당 없음)' },
+    ]
+  }
+};
+
+let currentTab = 'css';
+let activeSelIdx = -1;
+
+function htmlWithHL(targets) {
+  let h = htmlDisplay;
+  targets.forEach(t => {
+    const esc = t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/&lt;/g,'&lt;').replace(/&gt;/g,'&gt;').replace(/&amp;/g,'&amp;');
+    h = h.replace(new RegExp(esc.replace(/\//g, '&#47;').replace(/\//g,'/')||esc, 'g'), m => `<span class="hl-active">${m}</span>`);
+  });
+  return h;
+}
+
+function setTab(tab) {
+  currentTab = tab;
+  activeSelIdx = -1;
+  document.querySelectorAll('.tab-btn').forEach((b,i) => {
+    b.classList.toggle('active', ['css','xpath','basic'][i] === tab);
+  });
+  renderPanel();
+  document.getElementById('htmlPreview').innerHTML = htmlDisplay;
+  document.getElementById('resultBox').innerHTML = '<div class="r-label">선택자를 클릭하면 결과가 여기 표시됩니다</div>';
+  document.getElementById('noteBox').textContent = '위의 선택자 버튼을 눌러 각 방법의 차이를 확인해보세요.';
+}
+
+function renderPanel() {
+  const sels = tabs[currentTab].selectors;
+  let html = '<div class="selector-grid">';
+  sels.forEach((s, i) => {
+    html += `<button class="sel-btn${activeSelIdx===i?' active':''}" onclick="selectSel(${i})">
+      <span class="lbl">${s.lbl}</span>
+      <span class="code">${s.code.replace(/</g,'&lt;')}</span>
+    </button>`;
+  });
+  html += '</div>';
+  document.getElementById('selectorPanel').innerHTML = html;
+}
+
+function selectSel(i) {
+  activeSelIdx = i;
+  const s = tabs[currentTab].selectors[i];
+  renderPanel();
+  document.getElementById('htmlPreview').innerHTML = s.targets.length ? htmlWithHL(s.targets) : htmlDisplay;
+  const found = s.targets.length;
+  document.getElementById('resultBox').innerHTML = `
+    <div class="r-label">Python 코드</div>
+    <div class="r-code">${s.py.replace(/</g,'&lt;')}</div>
+    ${found ? `<div class="r-found">✓ ${found}개 요소 매칭 (HTML에서 하이라이트 확인)</div>` : `<div class="r-none">이 HTML에는 해당 요소 없음 (다른 컨텍스트에서 사용)</div>`}
+  `;
+  document.getElementById('noteBox').textContent = s.desc;
+}
+
+renderPanel();
+document.getElementById('htmlPreview').innerHTML = htmlDisplay;
+</script>

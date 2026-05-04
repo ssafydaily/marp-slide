@@ -1,0 +1,243 @@
+<style>
+*{box-sizing:border-box}
+body{font-size:13px;color:var(--color-text-primary)}
+.tab-bar{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.tb{border:0.5px solid var(--color-border-secondary);border-radius:20px;padding:5px 14px;font-size:12px;background:var(--color-background-primary);cursor:pointer;color:var(--color-text-secondary);transition:all .15s}
+.tb.on{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-border-info)}
+.panel{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 16px;margin-bottom:12px}
+.field-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:10px}
+.field-card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:8px 10px;cursor:pointer;transition:all .15s;user-select:none}
+.field-card:hover{background:var(--color-background-secondary)}
+.field-card.on{border-color:var(--color-border-info);background:var(--color-background-info)}
+.field-card .fname{font-size:12px;font-weight:500;color:var(--color-text-primary)}
+.field-card.on .fname{color:var(--color-text-info)}
+.field-card .fcode{font-family:var(--font-mono);font-size:10px;color:var(--color-text-secondary);margin-top:2px}
+.btn{border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:6px 14px;font-size:12px;cursor:pointer;background:var(--color-background-primary);color:var(--color-text-primary);transition:all .15s}
+.btn:hover{background:var(--color-background-secondary)}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-border-info)}
+.output-area{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 12px;font-family:var(--font-mono);font-size:11px;line-height:1.8;min-height:80px;white-space:pre;overflow-x:auto;color:var(--color-text-primary)}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.stat{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px;text-align:center}
+.stat .sv{font-size:20px;font-weight:500;color:var(--color-text-primary)}
+.stat .sl{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
+.progress-wrap{margin:8px 0}
+.progress-bar{height:6px;background:var(--color-background-secondary);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;background:var(--color-background-info);border-radius:3px;width:0;transition:width .3s}
+.log-line{font-family:var(--font-mono);font-size:11px;line-height:1.9;color:var(--color-text-secondary)}
+.log-line.ok{color:var(--color-text-success)}
+.log-line.err{color:var(--color-text-danger)}
+.log-line.info{color:var(--color-text-info)}
+.ctrl-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
+.label{font-size:12px;color:var(--color-text-secondary)}
+</style>
+
+<div>
+<div class="tab-bar">
+  <button class="tb on" id="t0" onclick="setTab(0)">필드 선택 및 추출</button>
+  <button class="tb" id="t1" onclick="setTab(1)">저장 형식 미리보기</button>
+  <button class="tb" id="t2" onclick="setTab(2)">수집 파이프라인 시뮬레이션</button>
+</div>
+
+<div id="mainPanel"></div>
+</div>
+
+<script>
+const FIELDS = [
+  {id:'title', name:'게시글 제목', code:'td.title a → .text', on:true},
+  {id:'date',  name:'작성 날짜',  code:'td:nth-child(4) → .text', on:true},
+  {id:'author',name:'작성자',     code:'td.author → .text', on:true},
+  {id:'views', name:'조회수',     code:'td.views → .text', on:false},
+  {id:'likes', name:'추천수',     code:'td.likes → .text', on:false},
+  {id:'link',  name:'게시글 URL', code:'a → get_attribute("href")', on:true},
+  {id:'comments',name:'댓글 수', code:'td.reply_cnt → .text', on:false},
+];
+
+const SAMPLE_POSTS = [
+  {title:'오늘 실적 어떻게 보세요?', date:'2024-01-15 09:12', author:'홍길동', views:'1,204', likes:'12', link:'https://...board/1024', comments:'8'},
+  {title:'매수 타이밍 질문드립니다',  date:'2024-01-15 08:44', author:'이순신', views:'876',   likes:'5',  link:'https://...board/1023', comments:'3'},
+  {title:'외인 수급 분석 (1월)',      date:'2024-01-14 22:30', author:'강감찬', views:'2,341', likes:'34', link:'https://...board/1022', comments:'21'},
+];
+
+let curTab = 0;
+let fields = FIELDS.map(f=>({...f}));
+let simRunning = false;
+let simTimer = null;
+
+function setTab(i){
+  curTab = i;
+  document.querySelectorAll('.tb').forEach((b,idx)=>b.classList.toggle('on',idx===i));
+  render();
+}
+
+function toggleField(id){
+  const f = fields.find(x=>x.id===id);
+  if(f) f.on = !f.on;
+  render();
+}
+
+function activeFields(){ return fields.filter(f=>f.on); }
+
+function render(){
+  const p = document.getElementById('mainPanel');
+  if(curTab===0) p.innerHTML = renderFieldTab();
+  else if(curTab===1) p.innerHTML = renderFormatTab();
+  else p.innerHTML = renderSimTab();
+}
+
+function renderFieldTab(){
+  const af = activeFields();
+  let html = `<div class="panel">
+    <div class="label" style="margin-bottom:8px">수집할 필드 선택 (클릭으로 토글)</div>
+    <div class="field-row">`;
+  fields.forEach(f=>{
+    html += `<div class="field-card${f.on?' on':''}" onclick="toggleField('${f.id}')">
+      <div class="fname">${f.name}</div>
+      <div class="fcode">${f.code}</div>
+    </div>`;
+  });
+  html += `</div>
+    <div class="label" style="margin-bottom:6px">선택된 필드 ${af.length}개 → 생성될 Python 코드</div>
+    <div class="output-area" id="codeOut"></div>
+  </div>`;
+  setTimeout(()=>{
+    const el = document.getElementById('codeOut');
+    if(!el) return;
+    const fcode = af.map(f=>{
+      if(f.id==='link') return `        "link":   row.find_element(By.CSS_SELECTOR, "td.title a")\n                  .get_attribute("href"),`;
+      if(f.id==='title') return `        "title":  row.find_element(By.CSS_SELECTOR, "td.title a").text.strip(),`;
+      if(f.id==='date')  return `        "date":   row.find_element(By.CSS_SELECTOR, "td:nth-child(4)").text.strip(),`;
+      if(f.id==='author')return `        "author": row.find_element(By.CSS_SELECTOR, "td.author").text.strip(),`;
+      if(f.id==='views') return `        "views":  row.find_element(By.CSS_SELECTOR, "td.views").text.strip(),`;
+      if(f.id==='likes') return `        "likes":  row.find_element(By.CSS_SELECTOR, "td.likes").text.strip(),`;
+      if(f.id==='comments') return `        "comments": row.find_element(By.CSS_SELECTOR, "td.reply_cnt").text.strip(),`;
+      return '';
+    }).join('\n');
+    el.textContent = `rows = driver.find_elements(By.CSS_SELECTOR, ".type2 tr")\nresults = []\nfor row in rows:\n    try:\n        results.append({\n${fcode}\n        })\n    except NoSuchElementException:\n        continue`;
+  }, 0);
+  return html;
+}
+
+function renderFormatTab(){
+  const af = activeFields();
+  const csvHeader = af.map(f=>f.id).join(',');
+  const csvRows = SAMPLE_POSTS.map(p=>af.map(f=>p[f.id]||'').map(v=>v.includes(',')?`"${v}"`:v).join(',')).join('\n');
+  const jsonRows = JSON.stringify(SAMPLE_POSTS.map(p=>{const o={};af.forEach(f=>{if(p[f.id])o[f.id]=p[f.id]});return o;}), null, 2);
+  return `<div class="panel">
+    <div class="ctrl-row">
+      <span class="label">출력 형식:</span>
+      <button class="btn primary" id="fmtCSV" onclick="setFmt('csv')">CSV</button>
+      <button class="btn" id="fmtJSON" onclick="setFmt('json')">JSON</button>
+      <button class="btn" id="fmtSQLITE" onclick="setFmt('sqlite')">SQLite</button>
+    </div>
+    <div class="label" style="margin-bottom:6px">미리보기 (샘플 3건 / 선택 필드: ${af.map(f=>f.name).join(', ')})</div>
+    <div class="output-area" id="fmtOut">${csvHeader}\n${csvRows}</div>
+    <div style="margin-top:10px" class="label" id="fmtNote">✓ utf-8-sig 인코딩 사용 시 엑셀에서 한글 깨짐 없이 열림</div>
+  </div>`;
+  setTimeout(()=>setFmt('csv'),0);
+  return '';
+}
+
+let curFmt = 'csv';
+function setFmt(fmt){
+  curFmt = fmt;
+  ['CSV','JSON','SQLITE'].forEach(f=>{
+    const b = document.getElementById('fmt'+f);
+    if(b) b.className = 'btn'+(f.toLowerCase()===fmt?' primary':'');
+  });
+  const af = activeFields();
+  const el = document.getElementById('fmtOut');
+  const note = document.getElementById('fmtNote');
+  if(!el) return;
+  if(fmt==='csv'){
+    const csvHeader = af.map(f=>f.id).join(',');
+    const csvRows = SAMPLE_POSTS.map(p=>af.map(f=>p[f.id]||'').map(v=>v.includes(',')?`"${v}"`:v).join(',')).join('\n');
+    el.textContent = csvHeader+'\n'+csvRows;
+    if(note) note.textContent = '✓ utf-8-sig 인코딩 사용 시 엑셀에서 한글 깨짐 없이 열림';
+  } else if(fmt==='json'){
+    const rows = SAMPLE_POSTS.map(p=>{const o={};af.forEach(f=>{if(p[f.id])o[f.id]=p[f.id]});return o;});
+    el.textContent = JSON.stringify(rows, null, 2);
+    if(note) note.textContent = '✓ ensure_ascii=False 옵션으로 한글을 그대로 저장';
+  } else {
+    el.textContent = `-- SQLite DDL (자동 생성)\nCREATE TABLE IF NOT EXISTS posts (\n    id      INTEGER PRIMARY KEY AUTOINCREMENT,\n${af.map(f=>`    ${f.id.padEnd(10)} TEXT`).join(',\n')},\n    scraped_at DATETIME DEFAULT CURRENT_TIMESTAMP\n);\n\n-- 삽입 예시\nINSERT INTO posts (${af.map(f=>f.id).join(', ')})\nVALUES (${af.map(f=>`'${SAMPLE_POSTS[0][f.id]||''}'`).join(', ')});`;
+    if(note) note.textContent = '✓ 중복 방지: INSERT OR IGNORE를 사용해 link에 UNIQUE 제약 설정 권장';
+  }
+}
+
+function renderSimTab(){
+  return `<div class="panel">
+    <div class="stat-row">
+      <div class="stat"><div class="sv" id="statPages">0</div><div class="sl">수집 페이지</div></div>
+      <div class="stat"><div class="sv" id="statItems">0</div><div class="sl">수집 건수</div></div>
+      <div class="stat"><div class="sv" id="statErrors">0</div><div class="sl">오류 건수</div></div>
+    </div>
+    <div class="progress-wrap">
+      <div class="label" style="margin-bottom:4px">진행률 <span id="progPct">0%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="progFill"></div></div>
+    </div>
+    <div class="ctrl-row">
+      <button class="btn primary" onclick="startSim()">수집 시작</button>
+      <button class="btn" onclick="stopSim()">중단</button>
+      <button class="btn" onclick="resetSim()">초기화</button>
+      <span class="label">대상: 삼성전자 (005930) / 5페이지</span>
+    </div>
+    <div id="simLog" style="max-height:200px;overflow-y:auto;background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:8px 10px"></div>
+  </div>`;
+}
+
+function addLog(msg, cls=''){
+  const el = document.getElementById('simLog');
+  if(!el) return;
+  const d = document.createElement('div');
+  d.className = 'log-line'+(cls?' '+cls:'');
+  d.textContent = msg;
+  el.appendChild(d);
+  el.scrollTop = el.scrollHeight;
+}
+
+function setStat(id, v){ const el=document.getElementById(id); if(el) el.textContent=v; }
+function setProgress(pct){ const el=document.getElementById('progFill'); if(el) el.style.width=pct+'%'; const el2=document.getElementById('progPct'); if(el2) el2.textContent=Math.round(pct)+'%'; }
+
+const SIM_STEPS = [
+  {t:0,   fn:()=>{ addLog('▶ 브라우저 시작 및 페이지 이동', 'info'); }},
+  {t:600, fn:()=>{ addLog('🔍 쿠키 팝업 확인 중...'); }},
+  {t:1000,fn:()=>{ addLog('✓ 팝업 없음, 수집 시작', 'ok'); }},
+  {t:1400,fn:()=>{ addLog('📄 페이지 1 로드 대기 중...'); }},
+  {t:2000,fn:()=>{ setStat('statPages',1); setStat('statItems',15); setProgress(20); addLog('✓ 페이지 1 — 15건 수집 완료', 'ok'); }},
+  {t:2800,fn:()=>{ addLog('▷ 다음 버튼 클릭 → 페이지 2 이동'); }},
+  {t:3400,fn:()=>{ setStat('statPages',2); setStat('statItems',30); setProgress(40); addLog('✓ 페이지 2 — 15건 수집 완료', 'ok'); }},
+  {t:3800,fn:()=>{ addLog('! 페이지 3 로딩 지연 감지 — explicit wait 대기 중', 'err'); }},
+  {t:4600,fn:()=>{ setStat('statPages',3); setStat('statItems',44); setStat('statErrors',1); setProgress(60); addLog('✓ 페이지 3 — 14건 수집 (1건 StaleElement 스킵)', 'ok'); }},
+  {t:5200,fn:()=>{ setStat('statPages',4); setStat('statItems',59); setProgress(80); addLog('✓ 페이지 4 — 15건 수집 완료', 'ok'); }},
+  {t:6000,fn:()=>{ setStat('statPages',5); setStat('statItems',74); setProgress(100); addLog('✓ 페이지 5 — 15건 수집 완료', 'ok'); }},
+  {t:6400,fn:()=>{ addLog('💾 samsung_005930_2024.csv 저장 완료 (74건)', 'info'); addLog('💾 samsung_005930_2024.json 저장 완료', 'info'); }},
+  {t:6800,fn:()=>{ addLog('✓ 드라이버 종료 — 수집 완료', 'ok'); }},
+];
+
+let simElapsed = 0;
+
+function startSim(){
+  if(simRunning) return;
+  simRunning = true;
+  simElapsed = 0;
+  const steps = [...SIM_STEPS];
+  let si = 0;
+  simTimer = setInterval(()=>{
+    simElapsed += 100;
+    while(si < steps.length && simElapsed >= steps[si].t){
+      steps[si].fn();
+      si++;
+    }
+    if(si >= steps.length){ clearInterval(simTimer); simRunning=false; }
+  }, 100);
+}
+
+function stopSim(){ if(simTimer) clearInterval(simTimer); simRunning=false; addLog('— 수집 중단됨'); }
+function resetSim(){
+  stopSim();
+  setStat('statPages',0); setStat('statItems',0); setStat('statErrors',0); setProgress(0);
+  const el=document.getElementById('simLog'); if(el) el.innerHTML='';
+}
+
+render();
+</script>

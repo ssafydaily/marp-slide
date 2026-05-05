@@ -35,20 +35,17 @@ style: |
 
 # 간단한 예시 1
 
-- `ctrl + space` 활용
 ```python
 # Python 3.10+
-
 def get_full_name(first_name, last_name):
     full_name = first_name.title() + " " + last_name.title()
     return full_name
-
 print(get_full_name("john", "doe"))
 ```
 ![](images/type_hind01.png)
 
-- 위 프로그램을 작성할 때 `first_name.` 에서 `title()` 메소드를 자동 완성할 수 가 없다.
-- 편집기가 `first_name`이 `str` 인지 알 수 없다.
+- `ctrl + space` 활용
+- `first_name.` 에서 `title()` 메소드를 자동 완성 안됨.  `first_name`이 `str` 인지 알 수 없다.
 ---
 
 # 간단한 예시 1
@@ -71,6 +68,9 @@ def get_name_with_age(name: str, age: int):
     name_with_age = name + " is this old " + age
     return name_with_age
 ```
+
+-----------
+
 - `pylance` 확장 프로그램 설치 및 활성화
 
 - **Python > Analysis: Type Checking Mode** 항목 찾기
@@ -103,7 +103,16 @@ def get_name_with_age(name: str, age: int):
 
 - 표준 라이브러의 `typing` 모듈에서 `import` 해서 사용하는 타입들 있다.
 
-  - `Any`: 아무 타입
+## Any
+
+- `Any`: 아무 타입
+```python
+from typing import Any
+def process_item(item: Any):
+    print(item)
+```
+
+----------
 
 ## Generic 타입
 - 일부 타입은 대괄호 안에 **타입 매개변수** 를 받아 내부 타입을 정의
@@ -133,6 +142,8 @@ def process_items(items_t: tuple[int, int, str], items_s: set[bytes]):
   - `items_t`는 3개의 아이템을 가지고, 각 타입은 `int`, `int`, 그리고 `str`
   - `items_s`는 `set`이며, 각 아이템 타입은 `bytes`
 
+--------------
+
 - `dict`
 ```python
 def process_items(prices: dict[str, float]):
@@ -156,6 +167,7 @@ def process_items(prices: dict[str, float]):
 def process_item(item: int | str):
     print(item)
 ```
+------------
 
 ## None 일 수 있음
 

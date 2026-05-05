@@ -45,6 +45,7 @@ from typing import Annotated
 def say_hello(name: Annotated[str, "this is just metadata"]) -> str:
     return f"Hello {name}"
 ```
+----------
 
 - 파이썬 자체는 `Annotated` 로 아무것도 하지 않음. 
 - 애플리케이션이 어떻게 동작하길 원하는지에 대한 추가 메타데이터를 **FastAPI** 에 제공할 수 있다.

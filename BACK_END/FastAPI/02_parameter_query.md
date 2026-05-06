@@ -20,10 +20,3 @@ style: |
   }
 ---
 
-
-
-# 매개 변수
-
-## 경로 매개변수(path parameters)
-
-## 쿼리 매개변수(query parameters)

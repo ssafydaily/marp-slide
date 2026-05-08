@@ -7,16 +7,16 @@ style: |
     padding: 1.5rem; /* 원하는 여백 값으로 조절 */
   }
   h1 {
-    font-size: 2 rem;
+    font-size: 1.5rem;
     position: absolute;
     left: 50px;
     top: 50px;
   }
   h2 {
-    font-size: 1.5 rem;
+    font-size: 1.3rem;
   }
   h3 {
-    font-size: 1 rem;
+    font-size: 1rem;
   }
 ---
 

@@ -141,7 +141,27 @@ npm install chart.js
 </html>
 
 ```
+
+-------------
+
+
+- *Chart.js* 는 최소한 `<canvas>` 라는 태그가 필요하다.  
+  - 참조를 위해 `id` 속성을 포함해야 한다.
+- *Chart.js* 의 차트들은 기본적으로 반응형이고 전체 컨테이너 영역을 차지한다.
+
 ----------------
+
+<style>
+.cols-4060 {
+  display: grid;
+  grid-template-columns: 4fr 6fr;
+  gap: 1.5rem;
+}
+</style>
+
+<div class="cols-4060">
+<div>
+
 - `src/acquisitions.js` 작성
 ```js
 import Chart from 'chart.js/auto'
@@ -175,7 +195,77 @@ import Chart from 'chart.js/auto'
 })();
 
 ```
--------------
+</div>
+<div>
+
+- `chart.js/auto` 라는 특별한 경로에서 `Chart.js`의 메인 클래스를 가져오기
+- 모든 Chart.js 컴포넌트를 로드하므로 매우 편리하나, 트리 셰이킹은 지원하지 않는다.
+- `Chart`인스턴스 생성. 차트가 렌더링될 캔버스 요소와 옵션 객체 두 가지 인수를 제공
+- 차트 유형(`bar`)과 데이터(label과 dataset) 제공
 
 - 실행: `npm run dev`, `yarn dev`, `pnpm dev`
 - 브라우저에서 `localhost:1234` 열기
+
+</div>
+</div>
+
+-------------------
+
+- 결과
+![images]()
+
+-------------------
+
+<style>
+.cols-4060 {
+  display: grid;
+  grid-template-columns: 5fr 5fr;
+  gap: 1.5rem;
+}
+</style>
+
+<div class="cols-4060">
+<div>
+
+
+- 차트에 사용자 정의 적용해보기
+1. 차트가 즉시 나타나도록 애니메이 끄기
+2. 범례와 툴팁을 숨기기
+
+```js
+new Chart(
+  document.getElementById('acquisitions'),
+  {
+    type: 'bar',
+    options: {
+      animation: false,              // <---
+      plugins: {
+        legend: { display: false },  // <---
+        tooltip: { enabled: false }  // <---
+      }
+    },
+    data: {
+      labels: data.map(row => row.year),
+      datasets: [{
+          label: 'Acquisitions by year',
+          data: data.map(row => row.count)
+        }
+      ]
+    }});
+```
+</div>
+<div>
+
+
+
+- `options` 두 번째 인수에 속성을 추가
+- 이 방법으로 다양한 사용자 지정 옵션을 설정
+- 애니메이션은 `animation` 플래그를 통해 제공
+- 대부분 차트 관련 옵션(예:반응형, 장치 픽셀 비율등)은 이와 같은 방식으로 구성
+- 범례와 툴팁은 `plugins` 로 지정
+- 일부 기능은 플러그인으로 분리되어 있으며, 플러그인은 독립적인 코드 조각
+
+</div>
+</div>
+
+------------------

@@ -20,17 +20,6 @@ style: |
   }
 ---
 
-# Harness Engineering for Coding Agents Users
-> [참고]
-> - [harness enginnering](https://martinfowler.com/articles/harness-engineering.html)
+# everything is a ralph loop
 
-
------------
-
-# Itro.
-
-
-----------
-
-# 피드포워드와 피드백
-
+[참고: everything is a ralph loop](https://ghuntley.com/loop/)

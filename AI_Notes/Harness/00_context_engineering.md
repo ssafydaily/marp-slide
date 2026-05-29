@@ -23,7 +23,7 @@ style: |
 
 # Context Engineering for Coding Agents
 
-- [](https://martinfowler.com/articles/exploring-gen-ai/context-engineering-coding-agents.html)
+- [원문: Context Engineering for Coding Agents](https://martinfowler.com/articles/exploring-gen-ai/context-engineering-coding-agents.html)
 
 
 - 컨텍스트 엔지니어링은 모든 유형의 에이전트와 LLM 사용에 있어 매우 중요 

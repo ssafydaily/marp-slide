@@ -228,7 +228,9 @@ docs/
 -----------------------------
 
 # [참고] 계획
-- [Using PLANS.md for multi-hour problem solving](https://matklad.github.io/2021/02/06/ARCHITECTURE.md.html)
+- [Using PLANS.md for multi-hour problem solving](https://developers.openai.com/cookbook/articles/codex_exec_plans)
+
+
 
 
 ---------------------

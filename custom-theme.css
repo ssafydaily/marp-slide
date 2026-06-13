@@ -1,0 +1,16 @@
+/* 공통 스타일 */
+  .callout {
+    border-radius: 6px;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-left: 6px solid;
+  }
+  .callout-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  /* 개별 스타일 */
+  .tip { background-color: #e3f2fd; border-left-color: #2196f3; color: #0d47a1; }
+  .info { background-color: #e8f5e9; border-left-color: #4caf50; color: #1b5e20; }
+  .warning { background-color: #fff3e0; border-left-color: #ff9800; color: #e65100; }

@@ -4,7 +4,8 @@
 }
 
 section {
-  padding-top: 10px;
+  padding: 1rem;
+  margin: 0;
 }
 
 section h1 { 
@@ -21,6 +22,10 @@ section p, section ul, section ol {
 
 section table {
   font-size: 1.2rem;  /* ← 이 값 변경 */
+}
+
+pre {
+  font-size: 1rem; 
 }
 
 /* ------------------------------------
@@ -42,7 +47,8 @@ section table {
 }
 .callout-title {
   font-weight: bold;
-  margin-bottom: 5px;
+  margin-bottom: 5px;  
+  font-size: 16px;
 }
 
 /* 개별 스타일 */

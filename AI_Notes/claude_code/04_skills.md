@@ -16,26 +16,28 @@ style: |
 
 - Claude Code에는 설치 없이 사용 가능한 내장된 번들 스킬이 있다
 - `/code-review` - 최근 변경 파일을 3개 에이전트(재사용성, 품질, 효율성)가 병렬로 검토합니다
-```
-/code-review
 
-# effort 수준이나 특정 부분에 집중
-/code-review 에러 핸들링 위주로
-```
+  ```
+  /code-review
+
+  # effort 수준이나 특정 부분에 집중
+  /code-review 에러 핸들링 위주로
+  ```
 
 -------------
 
 - `/batch` - 대규모 변경을 병렬로 처리
 
-```
-/batch 모든 Python 파일의 print문을 logging으로 교체해줘
-```
+  ```
+  /batch 모든 Python 파일의 print문을 logging으로 교체해줘
+  ```
 - 5-30개 단위로 분해하여 각각 git worktree에서 독립적으로 처리
 
 - `/loop` - 프롬프트를 지정 간격으로 반복 실행합니다.
-```
-/loop 5m pytest를 실행하고 실패하면 알려줘
-```
+
+  ```
+  /loop 5m pytest를 실행하고 실패하면 알려줘
+  ```
 
 - `docx` : Word 문서 생성/편집 `pdf` : PDF 처리 `pptx` : 프레젠테이션 작성 `xlsx` : 스프레드시트 작업 
 - `frontend-designUI/` : 웹 디자인 가이드
@@ -65,6 +67,30 @@ style: |
 ```
 
 --------------------
+# CLI
+- **`/plugins`** 입력
+
+![](images/04_plugins1.png)
+
+-------------------
+# 앱
+- 입력창에서 `+` 클릭 -> 플러그인
+
+<div class="cols-4060">
+<div>
+
+![](images/04_plugins2.png)
+
+</div>
+<div>
+
+![](images/04_plugins3.png)
+
+</div>
+</div>
+
+
+--------------------
 ## 커뮤니티 Skills
 
 > 주요 마켓플레이스:
@@ -76,9 +102,10 @@ style: |
 | AgentSkills.to | 	프로덕션급 스킬|	agentskills.to |
 
 - GitHub 저장소를 마켓플레이스로 등록하면 해당 저장소의 스킬을 설치할 수 있다.
-```sh
-/plugin marketplace add <github-owner>/<repo>
-```
+
+  ```sh
+  /plugin marketplace add <github-owner>/<repo>
+  ```
 
 - 개발자에게 인기 있는 커뮤니티 스킬 패턴:
   - OWASP Security - OWASP Top 10 기반 보안 코드리뷰 체크리스트
@@ -89,16 +116,24 @@ style: |
 # Create Skill
 
 - 코드 리뷰 스킬 만들기
-```
-코드리뷰 스킬을 만들어줘.
-`.claude/skills/review/SKILL.md` 파일로 만들어줘.
-현재 변경사항(git diff)을 리뷰해서 버그, 보안, 성능, 컨벤션 위반을 찾고 심각도를 표시해줘.
-```
+
+  ```
+  코드리뷰 스킬을 만들어줘.
+  .claude/skills/review/SKILL.md 파일로 만들어줘.
+  현재 변경사항(git diff)을 리뷰해서 버그, 보안, 성능, 컨벤션 위반을 찾고 심각도를 표시해줘.
+  ```
 > 사용법:
 > ```
 > /review
 > /review 보안 취약점 위주로 확인해줘
 > ```
+
+----------------------
+
+##### 예시
+
+![](images/04_create_skill1.png)
+
 
 ----------------------
 

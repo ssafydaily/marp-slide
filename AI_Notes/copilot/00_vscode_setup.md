@@ -14,6 +14,9 @@ style: |
 ## VS Code에서 Copilot을 시작하기:
 
 1. 상태 표시줄의 Copilot 아이콘 위에 마우스를 올리고 **AI 기능 사용**을 선택합니다.
+
+![h:250px](images/use_ai_button.png)
+
 -----------------------------------
 
 **use ai feature**

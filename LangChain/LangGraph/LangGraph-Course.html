@@ -1,0 +1,1393 @@
+<!DOCTYPE html><html lang="en-US"><head><title>LangGraph</title><meta property="og:title" content="LangGraph"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"><meta name="apple-mobile-web-app-capable" content="yes"><meta http-equiv="X-UA-Compatible" content="ie=edge"><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><style>@media screen{body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button,body[data-bespoke-view=overview] button.bespoke-marp-overview-close,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page-area .bespoke-marp-presenter-info-page,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button{appearance:none;background-color:initial;border:0;color:inherit;cursor:pointer;font-size:inherit;opacity:.8;outline:none;padding:0;transition:opacity .2s linear;-webkit-tap-highlight-color:transparent}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button:disabled,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button:disabled,body[data-bespoke-view=overview] button.bespoke-marp-overview-close:disabled,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page-area .bespoke-marp-presenter-info-page:disabled,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button:disabled,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button:disabled{cursor:not-allowed;opacity:.15!important}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button:hover,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button:hover,body[data-bespoke-view=overview] button.bespoke-marp-overview-close:hover,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page-area .bespoke-marp-presenter-info-page:hover,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button:hover,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button:hover{opacity:1}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button:hover:active,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button:hover:active,body[data-bespoke-view=overview] button.bespoke-marp-overview-close:hover:active,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page-area .bespoke-marp-presenter-info-page:hover:active,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button:hover:active,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button:hover:active{opacity:.6}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button:hover:not(:disabled),body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button:hover:not(:disabled),body[data-bespoke-view=overview] button.bespoke-marp-overview-close:hover:not(:disabled),body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page-area .bespoke-marp-presenter-info-page:hover:not(:disabled),body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button:hover:not(:disabled),body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button:hover:not(:disabled){transition:none}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=prev],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=prev],body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button.bespoke-marp-presenter-info-page-prev{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJNNjggOTAgMjggNTBsNDAtNDAiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=next],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=next],body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button.bespoke-marp-presenter-info-page-next{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJtMzIgOTAgNDAtNDAtNDAtNDAiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=fullscreen],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=fullscreen]{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48c3R5bGU+LmF7ZmlsbDpub25lO3N0cm9rZTojZmZmO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2Utd2lkdGg6NXB4fTwvc3R5bGU+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MCIgaGVpZ2h0PSI2MCIgeD0iMTAiIHk9IjIwIiBjbGFzcz0iYSIgcng9IjUuNjciLz48cGF0aCBkPSJNNDAgNzBIMjBWNTBtMjAgMEwyMCA3MG00MC00MGgyMHYyMG0tMjAgMCAyMC0yMCIgY2xhc3M9ImEiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button.exit[data-bespoke-marp-osc=fullscreen],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button.exit[data-bespoke-marp-osc=fullscreen]{background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48c3R5bGU+LmF7ZmlsbDpub25lO3N0cm9rZTojZmZmO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2Utd2lkdGg6NXB4fTwvc3R5bGU+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MCIgaGVpZ2h0PSI2MCIgeD0iMTAiIHk9IjIwIiBjbGFzcz0iYSIgcng9IjUuNjciLz48cGF0aCBkPSJNMjAgNTBoMjB2MjBtLTIwIDAgMjAtMjBtNDAgMEg2MFYzMG0yMCAwTDYwIDUwIiBjbGFzcz0iYSIvPjwvc3ZnPg==")}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=presenter],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=presenter]{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJNODcuOCA0Ny41Qzg5IDUwIDg3LjcgNTIgODUgNTJIMzVhOC43IDguNyAwIDAgMS03LjItNC41bC0xNS42LTMxQzExIDE0IDEyLjIgMTIgMTUgMTJoNTBhOC44IDguOCAwIDAgMSA3LjIgNC41ek02MCA1MnYzNm0tMTAgMGgyME00NSA0MmgyMCIvPjwvc3ZnPg==") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body[data-bespoke-view=overview] button.bespoke-marp-overview-close,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button.bespoke-marp-presenter-note-bigger{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJNMTIgNTBoODBNNTIgOTBWMTAiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button.bespoke-marp-presenter-note-smaller{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI1IiBkPSJNMTIgNTBoODAiLz48L3N2Zz4=") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=overview],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=overview]{background:#0000 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48c3R5bGU+LmF7ZmlsbDpub25lO3N0cm9rZTojZmZmO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2Utd2lkdGg6NXB4O3J4OjVweDtyeTo1cHg7d2lkdGg6MjVweDtoZWlnaHQ6MjVweH08L3N0eWxlPjwvZGVmcz48cmVjdCB4PSIyMCIgeT0iMjAiIGNsYXNzPSJhIi8+PHJlY3QgeD0iNTUiIHk9IjIwIiBjbGFzcz0iYSIvPjxyZWN0IHg9IjIwIiB5PSI1NSIgY2xhc3M9ImEiLz48cmVjdCB4PSI1NSIgeT0iNTUiIGNsYXNzPSJhIi8+PC9zdmc+") no-repeat 50%;background-size:contain;overflow:hidden;text-indent:100%;white-space:nowrap}}@keyframes __bespoke_marp_transition_reduced_outgoing__{0%{opacity:1}to{opacity:0}}@keyframes __bespoke_marp_transition_reduced_incoming__{0%{mix-blend-mode:plus-lighter;opacity:0}to{mix-blend-mode:plus-lighter;opacity:1}}.bespoke-marp-note,.bespoke-marp-osc,.bespoke-progress-parent{display:none;transition:none}@media screen{::view-transition-group(*){animation-duration:var(--marp-bespoke-transition-animation-duration,.5s);animation-timing-function:ease}::view-transition-new(*),::view-transition-old(*){animation-delay:0s;animation-direction:var(--marp-bespoke-transition-animation-direction,normal);animation-duration:var(--marp-bespoke-transition-animation-duration,.5s);animation-fill-mode:both;animation-name:var(--marp-bespoke-transition-animation-name,var(--marp-bespoke-transition-animation-name-fallback,__bespoke_marp_transition_no_animation__));mix-blend-mode:normal}::view-transition-old(*){--marp-bespoke-transition-animation-name-fallback:__bespoke_marp_transition_reduced_outgoing__;animation-timing-function:ease}::view-transition-new(*){--marp-bespoke-transition-animation-name-fallback:__bespoke_marp_transition_reduced_incoming__;animation-timing-function:ease}::view-transition-new(root),::view-transition-old(root){animation-timing-function:linear}::view-transition-new(__bespoke_marp_transition_osc__),::view-transition-old(__bespoke_marp_transition_osc__){animation-duration:0s!important;animation-name:__bespoke_marp_transition_osc__!important}::view-transition-new(__bespoke_marp_transition_osc__){opacity:0!important}.bespoke-marp-transition-warming-up::view-transition-group(*),.bespoke-marp-transition-warming-up::view-transition-new(*),.bespoke-marp-transition-warming-up::view-transition-old(*){animation-play-state:paused!important}body,html{height:100%;margin:0}body{background:#000;overflow:hidden}svg.bespoke-marp-slide{content-visibility:hidden;interactivity:inert;opacity:0;pointer-events:none;z-index:-1}svg.bespoke-marp-slide:not(.bespoke-marp-active) *{view-transition-name:none!important}svg.bespoke-marp-slide.bespoke-marp-active{content-visibility:visible;interactivity:auto;opacity:1;pointer-events:auto;z-index:0}svg.bespoke-marp-slide.bespoke-marp-active.bespoke-marp-active-ready *{animation-name:__bespoke_marp__!important}@supports not (content-visibility:hidden){svg.bespoke-marp-slide[data-bespoke-marp-load=hideable]{display:none}svg.bespoke-marp-slide[data-bespoke-marp-load=hideable].bespoke-marp-active{display:block}}}@media screen and (prefers-reduced-motion:reduce){svg.bespoke-marp-slide *{view-transition-name:none!important}}@media screen{[data-bespoke-marp-fragment=inactive]{visibility:hidden}body[data-bespoke-view=""] .bespoke-marp-parent,body[data-bespoke-view=next] .bespoke-marp-parent{inset:0;position:absolute}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc{background:#000000a6;border-radius:7px;bottom:50px;color:#fff;contain:paint;display:block;font-family:Helvetica,Arial,sans-serif;font-size:16px;left:50%;line-height:0;opacity:1;padding:12px;position:absolute;touch-action:manipulation;transform:translateX(-50%);transition:opacity .2s linear;-webkit-user-select:none;user-select:none;view-transition-name:__bespoke_marp_transition_osc__;white-space:nowrap;will-change:transform;z-index:1}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>:where(*),body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>:where(*){margin-left:6px}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>:where(*):where(:first-child),body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>:where(*):where(:first-child){margin-left:0}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>span,body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>span{opacity:.8}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>span[data-bespoke-marp-osc=page],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>span[data-bespoke-marp-osc=page]{display:inline-block;min-width:140px;text-align:center}body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=fullscreen],body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=next],body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=overview],body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=presenter],body[data-bespoke-view=""] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=prev],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=fullscreen],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=next],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=overview],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=presenter],body[data-bespoke-view=next] .bespoke-marp-parent>.bespoke-marp-osc>button[data-bespoke-marp-osc=prev]{height:32px;line-height:32px;width:32px}body[data-bespoke-view=""] .bespoke-marp-parent.bespoke-marp-inactive,body[data-bespoke-view=next] .bespoke-marp-parent.bespoke-marp-inactive{cursor:none}body[data-bespoke-view=""] .bespoke-marp-parent.bespoke-marp-inactive>.bespoke-marp-osc,body[data-bespoke-view=next] .bespoke-marp-parent.bespoke-marp-inactive>.bespoke-marp-osc{opacity:0;pointer-events:none}body[data-bespoke-view=""] svg.bespoke-marp-slide,body[data-bespoke-view=next] svg.bespoke-marp-slide{height:100%;left:0;position:absolute;top:0;width:100%}body[data-bespoke-view=""] .bespoke-progress-parent{background:#222;display:flex;height:5px;width:100%}body[data-bespoke-view=""] .bespoke-progress-parent+:where(.bespoke-marp-parent){top:5px}body[data-bespoke-view=""] .bespoke-progress-parent .bespoke-progress-bar{background:#0288d1;flex:0 0 0;transition:flex-basis .2s cubic-bezier(0,1,1,1)}body[data-bespoke-view=next]{background:#0000}body[data-bespoke-view=presenter]{background:#161616}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container{display:grid;font-family:Helvetica,Arial,sans-serif;grid-template:"current dragbar next" minmax(140px,1fr) "current dragbar note" 2fr "info    dragbar note" 3em;grid-template-columns:minmax(3px,var(--bespoke-marp-presenter-split-ratio,66%)) 0 minmax(3px,1fr);height:100%;left:0;position:absolute;top:0;width:100%}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container :where(.bespoke-marp-parent){grid-area:current;overflow:hidden;position:relative}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container :where(.bespoke-marp-parent) :where(svg.bespoke-marp-slide){height:calc(100% - 40px);left:20px;pointer-events:none;position:absolute;top:20px;-webkit-user-select:none;user-select:none;width:calc(100% - 40px)}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container :where(.bespoke-marp-parent) :where(svg.bespoke-marp-slide).bespoke-marp-active{filter:drop-shadow(0 3px 10px rgba(0,0,0,.5))}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-dragbar-container{background:#0288d1;cursor:col-resize;grid-area:dragbar;margin-left:-3px;opacity:0;position:relative;transition:opacity .4s linear .1s;width:6px;z-index:10}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-dragbar-container:hover{opacity:1}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-dragbar-container.active{opacity:1;transition-delay:0s}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-next-container{background:#222;cursor:pointer;display:none;grid-area:next;overflow:hidden;position:relative}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-next-container.active{display:block}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-next-container iframe.bespoke-marp-presenter-next{background:#0000;border:0;display:block;filter:drop-shadow(0 3px 10px rgba(0,0,0,.5));height:calc(100% - 40px);left:20px;pointer-events:none;position:absolute;interactivity:inert;top:20px;-webkit-user-select:none;user-select:none;width:calc(100% - 40px)}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container{background:#222;color:#eee;grid-area:note;position:relative;z-index:1}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container button{height:1.5em;line-height:1.5em;width:1.5em}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-presenter-note-wrapper{display:block;inset:0;position:absolute}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-presenter-note-buttons{background:#000000a6;border-radius:4px;bottom:0;display:flex;gap:4px;margin:12px;opacity:0;padding:6px;pointer-events:none;position:absolute;right:0;transition:opacity .2s linear}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-presenter-note-buttons:focus-within,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-presenter-note-wrapper:focus-within+.bespoke-marp-presenter-note-buttons,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container:hover .bespoke-marp-presenter-note-buttons{opacity:1;pointer-events:auto}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note{box-sizing:border-box;font-size:calc(1.1em*var(--bespoke-marp-note-font-scale, 1));height:calc(100% - 40px);margin:20px;overflow:auto;padding-right:3px;white-space:pre-wrap;width:calc(100% - 40px);word-wrap:break-word;scrollbar-color:#eeeeee80 #0000;scrollbar-width:thin}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note::-webkit-scrollbar{width:6px}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note::-webkit-scrollbar-track{background:#0000}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note::-webkit-scrollbar-thumb{background:#eeeeee80;border-radius:6px}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note:empty{pointer-events:none}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note.active{display:block}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note p:first-child{margin-top:0}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-note-container .bespoke-marp-note p:last-child{margin-bottom:0}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container{align-items:center;box-sizing:border-box;color:#eee;display:flex;flex-wrap:nowrap;grid-area:info;justify-content:center;overflow:hidden;padding:0 10px}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page-area,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-time,body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-timer{box-sizing:border-box;display:block;padding:0 10px;white-space:nowrap;width:100%}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container button{height:1.5em;line-height:1.5em;width:1.5em}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page-area{order:2;text-align:center}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-page-area .bespoke-marp-presenter-info-page{display:inline-block;min-width:120px;text-align:center}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-time{color:#999;order:1;text-align:left}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-timer{color:#999;order:3;text-align:right}body[data-bespoke-view=presenter] .bespoke-marp-presenter-container .bespoke-marp-presenter-info-container .bespoke-marp-presenter-info-timer:hover{cursor:pointer}body[data-bespoke-view=overview]{background:#161616;overflow:auto}body[data-bespoke-view=overview] [data-bespoke-marp-fragment=inactive]{visibility:visible}body[data-bespoke-view=overview] .bespoke-marp-overview-header{backdrop-filter:blur(4px);background:#222222d9;box-shadow:0 3px 10px #00000080;box-sizing:border-box;display:flex;height:48px;inset:0 0 auto;justify-content:flex-end;padding:10px;position:fixed;z-index:1}body[data-bespoke-view=overview] button.bespoke-marp-overview-close{height:28px;line-height:28px;transform:rotate(45deg);width:28px}body[data-bespoke-view=overview] .bespoke-marp-parent{display:grid;gap:40px;grid-template-columns:repeat(auto-fit,minmax(0,240px));justify-content:space-around;padding:30px}body[data-bespoke-view=overview] .bespoke-marp-parent svg.bespoke-marp-slide{--bov-selected:#0000;--bov-focus:#161616;--bov-focus-outline:#0000;background-image:conic-gradient(#161616 0 0),conic-gradient(var(--bov-focus) 0 0),conic-gradient(var(--bov-focus-outline) 0 0),conic-gradient(var(--bov-selected) 0 0);background-position:5px 5px,3px 3px,2px 2px,0 0;background-repeat:no-repeat;background-size:calc(100% - 10px) calc(100% - 10px),calc(100% - 6px) calc(100% - 6px),calc(100% - 4px) calc(100% - 4px),100% 100%;content-visibility:visible;cursor:pointer;filter:drop-shadow(0 3px 10px rgba(0,0,0,.5));margin:-6px;padding:6px;interactivity:auto;opacity:1;outline:0;pointer-events:auto;scroll-margin-block:30px;width:100%;z-index:0}body[data-bespoke-view=overview] .bespoke-marp-parent svg.bespoke-marp-slide *,body[data-bespoke-view=overview] .bespoke-marp-parent svg.bespoke-marp-slide.bespoke-marp-active *{pointer-events:none;interactivity:inert}body[data-bespoke-view=overview] .bespoke-marp-parent svg.bespoke-marp-slide:active,body[data-bespoke-view=overview] .bespoke-marp-parent svg.bespoke-marp-slide:focus-visible,body[data-bespoke-view=overview] .bespoke-marp-parent svg.bespoke-marp-slide:hover{--bov-focus-outline:#161616}body[data-bespoke-view=overview] .bespoke-marp-parent svg.bespoke-marp-slide:focus-visible,body[data-bespoke-view=overview] .bespoke-marp-parent svg.bespoke-marp-slide:hover{--bov-focus:#999}body[data-bespoke-view=overview] .bespoke-marp-parent svg.bespoke-marp-slide:active{--bov-focus:#eee}body[data-bespoke-view=overview] .bespoke-marp-parent svg.bespoke-marp-slide.bespoke-marp-active{--bov-selected:#0288d1}body[data-bespoke-view=overview]:has(.bespoke-marp-overview-header) .bespoke-marp-parent{padding-top:78px}body[data-bespoke-view=overview]:has(.bespoke-marp-overview-header) .bespoke-marp-parent svg.bespoke-marp-slide{scroll-margin-top:78px}.bespoke-marp-overview{background:#000000a6;inset:0;opacity:0;pointer-events:none;position:fixed;transition:opacity .1s ease;z-index:10}.bespoke-marp-overview iframe{background:#222;border:0;display:block;height:100%;left:0;position:absolute;top:0;width:100%}.bespoke-marp-overview[data-open="1"]{opacity:1;pointer-events:auto}}@media print{.bespoke-marp-overview,.bespoke-marp-presenter-info-container,.bespoke-marp-presenter-next-container,.bespoke-marp-presenter-note-container{display:none}}</style><style>@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@1.3.9/dist/web/static/pretendard.css');@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap');div#\:\$p > svg > foreignObject > section{width:1280px;height:720px;box-sizing:border-box;overflow:hidden;position:relative;scroll-snap-align:center center;-webkit-text-size-adjust:100%;text-size-adjust:100%}div#\:\$p > svg > foreignObject > section::after{bottom:0;content:attr(data-marpit-pagination);padding:inherit;pointer-events:none;position:absolute;right:0}div#\:\$p > svg > foreignObject > section:not([data-marpit-pagination])::after{display:none}div#\:\$p > svg > foreignObject > section :is(h1, marp-h1){font-size:2em;margin-block:0.67em}div#\:\$p > svg > foreignObject > section video::-webkit-media-controls{will-change:transform}@page {size:1280px 720px;margin:0}@media print{html, body{background-color:#fff;margin:0;page-break-inside:avoid;break-inside:avoid-page}div#\:\$p > svg > foreignObject > section{page-break-before:always;break-before:page}div#\:\$p > svg > foreignObject > section, div#\:\$p > svg > foreignObject > section *{-webkit-print-color-adjust:exact!important;animation-delay:0s!important;animation-duration:0s!important;color-adjust:exact!important;print-color-adjust:exact!important;transition:none!important}div#\:\$p > svg[data-marpit-svg]{display:block;height:100vh;width:100vw}}div#\:\$p > svg > foreignObject > :where(section){container-type:size}div#\:\$p > svg > foreignObject > section img[data-marp-twemoji]{background:transparent;height:1em;margin:0 .05em 0 .1em;vertical-align:-.1em;width:1em}div#\:\$p > svg > foreignObject > :where(section):not([\20 root]){--bg: #f7f8fa;--ink: #232a33;--muted: #5d6675;--label: #8b94a3;--line: #dce1e8;--accent: #3f5fc4;--accent-ink: #2f47a8;--accent-soft: #eef1fb;--mono: 'IBM Plex Mono', ui-monospace, monospace;--sans: 'Pretendard', -apple-system, system-ui, sans-serif;}div#\:\$p > svg > foreignObject > section{width:1280px;height:720px;box-sizing:border-box;font-family:var(--sans);background-color:var(--bg);background-image:radial-gradient(var(--line) 1.4px, transparent 1.4px);background-size:30px 30px;color:var(--ink);font-size:14px;line-height:1.6;padding:36px 45px 31px;display:flex;flex-direction:column;justify-content:flex-start;letter-spacing:-0.005em}div#\:\$p > svg > foreignObject > section{--marpit-root-font-size: 14px}div#\:\$p > svg > foreignObject > section header{font-family:var(--mono);font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--label);font-weight:500;padding:0;margin-bottom:3px}div#\:\$p > svg > foreignObject > section footer{font-family:var(--mono);font-size:10px;color:var(--label);letter-spacing:0.06em}div#\:\$p > svg > foreignObject > section:after{font-family:var(--mono);font-size:11px;color:var(--label)}div#\:\$p > svg > foreignObject > section:after{--marpit-root-font-size: 11px}div#\:\$p > svg > foreignObject > section :is(h1, marp-h1){font-size:36px;font-weight:700;letter-spacing:-0.03em;line-height:1.02;margin:0 0 10px}div#\:\$p > svg > foreignObject > section :is(h2, marp-h2){font-size:25px;font-weight:700;letter-spacing:-0.02em;line-height:1.12;margin:2px 0 11px}div#\:\$p > svg > foreignObject > section :is(h3, marp-h3){font-size:16px;font-weight:600;margin:3px 0 7px;color:var(--ink)}div#\:\$p > svg > foreignObject > section :is(h4, marp-h4){font-size:13px;font-weight:600;font-family:var(--mono);color:var(--accent-ink);margin:0 0 5px;letter-spacing:0}div#\:\$p > svg > foreignObject > section p{margin:0 0 7px}div#\:\$p > svg > foreignObject > section strong{font-weight:700}div#\:\$p > svg > foreignObject > section em{color:var(--muted);font-style:normal}div#\:\$p > svg > foreignObject > section a{color:var(--accent-ink);text-decoration:none}div#\:\$p > svg > foreignObject > section ul, div#\:\$p > svg > foreignObject > section ol{margin:0 0 7px;padding-left:1.15em}div#\:\$p > svg > foreignObject > section li{margin:0 0 5px}div#\:\$p > svg > foreignObject > section li::marker{color:var(--accent)}div#\:\$p > svg > foreignObject > section li strong{color:var(--ink)}div#\:\$p > svg > foreignObject > section code{font-family:var(--mono);font-size:0.88em;background:var(--accent-soft);color:var(--accent-ink);padding:1px 5px;border-radius:4px}div#\:\$p > svg > foreignObject > section :is(pre, marp-pre){background:#ffffff;border:1px solid var(--line);border-radius:10px;box-shadow:0 6px 18px rgba(60,90,160,0.08);padding:10px 14px;margin:3px 0 7px;font-size:11px;line-height:1.5}div#\:\$p > svg > foreignObject > section :is(pre, marp-pre) code{background:none;color:#39414f;padding:0;font-size:11px}div#\:\$p > svg > foreignObject > section .hljs-comment, div#\:\$p > svg > foreignObject > section .hljs-quote{color:#9aa3b2;font-style:italic}div#\:\$p > svg > foreignObject > section .hljs-string, div#\:\$p > svg > foreignObject > section .hljs-meta-string{color:#2f7a55}div#\:\$p > svg > foreignObject > section .hljs-keyword, div#\:\$p > svg > foreignObject > section .hljs-built_in, div#\:\$p > svg > foreignObject > section .hljs-literal{color:var(--accent-ink)}div#\:\$p > svg > foreignObject > section .hljs-number{color:#b5651d}div#\:\$p > svg > foreignObject > section .hljs-title, div#\:\$p > svg > foreignObject > section .hljs-title.function_, div#\:\$p > svg > foreignObject > section .hljs-title.class_{color:#232a33;font-weight:600}div#\:\$p > svg > foreignObject > section .hljs-attr, div#\:\$p > svg > foreignObject > section .hljs-params{color:#39414f}div#\:\$p > svg > foreignObject > section .hljs-meta{color:#8b94a3}div#\:\$p > svg > foreignObject > section table{border-collapse:collapse;font-size:12px;margin:3px 0 7px}div#\:\$p > svg > foreignObject > section th, div#\:\$p > svg > foreignObject > section td{border:1px solid var(--line);padding:5px 9px;text-align:left}div#\:\$p > svg > foreignObject > section th{background:var(--accent-soft);color:var(--accent-ink);font-family:var(--mono);font-weight:600;font-size:11px;letter-spacing:0.02em}div#\:\$p > svg > foreignObject > section td code{font-size:0.82em}div#\:\$p > svg > foreignObject > section blockquote{border-left:3px solid var(--accent);background:var(--accent-soft);margin:3px 0 7px;padding:7px 13px;border-radius:0 8px 8px 0;color:var(--muted);font-size:13px}div#\:\$p > svg > foreignObject > section blockquote p{margin:0}div#\:\$p > svg > foreignObject > section blockquote strong{color:var(--accent-ink)}div#\:\$p > svg > foreignObject > section hr{border:none;border-top:1px solid var(--line);margin:10px 0}div#\:\$p > svg > foreignObject > section .kicker{font-family:var(--mono);font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--label);margin-bottom:7px}div#\:\$p > svg > foreignObject > section section.kicker{--marpit-root-font-size: 11px}div#\:\$p > svg > foreignObject > section .mermaid{display:flex;justify-content:center;align-items:center;margin:4px 0}div#\:\$p > svg > foreignObject > section .mermaid svg{max-width:100%;height:auto}div#\:\$p > svg > foreignObject > section .cols{display:flex;gap:24px;align-items:flex-start}div#\:\$p > svg > foreignObject > section .cols > *{flex:1;min-width:0}div#\:\$p > svg > foreignObject > section .cols > .narrow{flex:0.75}div#\:\$p > svg > foreignObject > section.lead{justify-content:center}div#\:\$p > svg > foreignObject > section.lead :is(h1, marp-h1){font-size:67px;letter-spacing:-0.05em;margin:6px 0 0}div#\:\$p > svg > foreignObject > section.lead .sub{display:block;font-size:20px;color:var(--muted);font-weight:500;margin-top:15px}div#\:\$p > svg > foreignObject > section.lead div#\:\$p > svg > foreignObject > section section.sub{--marpit-root-font-size: 20px}div#\:\$p > svg > foreignObject > section.lead .meta{margin-top:28px}div#\:\$p > svg > foreignObject > section.lead .meta code{background:#fff;border:1px solid var(--line);color:var(--muted);margin-right:6px}div#\:\$p > svg > foreignObject > section.lead .nodes{display:flex;align-items:center;gap:10px}div#\:\$p > svg > foreignObject > section.lead .nodes .n{width:29px;height:29px;border:3px solid var(--accent);border-radius:8px;background:#fff;box-shadow:0 4px 11px rgba(60,90,160,0.12)}div#\:\$p > svg > foreignObject > section.lead .nodes .n.fill{background:var(--accent)}div#\:\$p > svg > foreignObject > section.lead .nodes .ln{width:38px;height:3px;background:var(--accent)}div#\:\$p > svg > foreignObject > section.section{justify-content:center;background-color:var(--accent-soft)}div#\:\$p > svg > foreignObject > section.section .modnum{font-family:var(--mono);font-size:16px;color:var(--accent);letter-spacing:0.14em;margin-bottom:7px}div#\:\$p > svg > foreignObject > section.section div#\:\$p > svg > foreignObject > section section.modnum{--marpit-root-font-size: 16px}div#\:\$p > svg > foreignObject > section.section :is(h1, marp-h1){font-size:43px}div#\:\$p > svg > foreignObject > section.section .modsub{font-size:15px;color:var(--muted);font-family:var(--mono);margin-top:13px;letter-spacing:0.02em}div#\:\$p > svg > foreignObject > section.section div#\:\$p > svg > foreignObject > section section.modsub{--marpit-root-font-size: 15px}div#\:\$p > svg > foreignObject > section.section .modlist{font-size:13px;color:var(--muted);margin-top:13px;line-height:1.8}div#\:\$p > svg > foreignObject > section.section div#\:\$p > svg > foreignObject > section section.modlist{--marpit-root-font-size: 13px}div#\:\$p > svg > foreignObject > section.center{justify-content:center}div#\:\$p > svg > foreignObject > section .lab{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:0.12em;background:var(--accent);color:#fff;padding:3px 9px;border-radius:5px;margin-bottom:8px}div#\:\$p > svg > foreignObject > section section.lab{--marpit-root-font-size: 10px}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="background"]{columns:initial!important;display:block!important;padding:0!important}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="background"]::before, div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="background"]::after, div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="content"]::before, div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="content"]::after{display:none!important}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="background"] > div[data-marpit-advanced-background-container]{all:initial;display:flex;flex-direction:row;height:100%;overflow:hidden;width:100%}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="background"] > div[data-marpit-advanced-background-container][data-marpit-advanced-background-direction="vertical"]{flex-direction:column}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="background"][data-marpit-advanced-background-split] > div[data-marpit-advanced-background-container]{width:var(--marpit-advanced-background-split, 50%)}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="background"][data-marpit-advanced-background-split="right"] > div[data-marpit-advanced-background-container]{margin-left:calc(100% - var(--marpit-advanced-background-split, 50%))}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="background"] > div[data-marpit-advanced-background-container] > figure{all:initial;background-position:center;background-repeat:no-repeat;background-size:cover;flex:auto;margin:0}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="background"] > div[data-marpit-advanced-background-container] > figure > figcaption{position:absolute;border:0;clip:rect(0, 0, 0, 0);height:1px;margin:-1px;overflow:hidden;padding:0;white-space:nowrap;width:1px}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="content"], div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="pseudo"]{background:transparent!important}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background="pseudo"], div#\:\$p > svg[data-marpit-svg] > foreignObject[data-marpit-advanced-background="pseudo"]{pointer-events:none!important}div#\:\$p > svg > foreignObject > section[data-marpit-advanced-background-split]{width:100%;height:100%}
+</style></head><body><div class="bespoke-marp-osc"><button data-bespoke-marp-osc="prev" tabindex="-1" title="Previous slide">Previous slide</button><span data-bespoke-marp-osc="page"></span><button data-bespoke-marp-osc="next" tabindex="-1" title="Next slide">Next slide</button><button data-bespoke-marp-osc="fullscreen" tabindex="-1" title="Toggle fullscreen (f)">Toggle fullscreen</button><button data-bespoke-marp-osc="overview" tabindex="-1" title="Toggle overview view (o)">Toggle overview view</button><button data-bespoke-marp-osc="presenter" tabindex="-1" title="Open presenter view (p)">Open presenter view</button></div><div id=":$p"><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="1" data-class="lead" data-theme="blueprint" lang="en-US" class="lead" style="--class:lead;--theme:blueprint;"><script type="module">
+// ※ 이 스크립트는 preview.html 전용입니다.
+//    preview.html 은 이 블록을 제거한 뒤 Mermaid 를 직접 초기화합니다.
+//    HTML 내보내기는 `node build.js` 를 사용하세요 — build.js 가
+//    marp --html 실행 후 Mermaid 스크립트를 <body> 레벨에 자동 주입합니다.
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+mermaid.initialize({
+  startOnLoad: true,
+  securityLevel: 'loose',
+  theme: 'base',
+  flowchart: { curve: 'basis', htmlLabels: true },
+  themeVariables: {
+    fontFamily: 'IBM Plex Mono, monospace', fontSize: '15px',
+    primaryColor: '#ffffff', primaryBorderColor: '#3f5fc4', primaryTextColor: '#232a33',
+    lineColor: '#8b94a3', secondaryColor: '#eef1fb', tertiaryColor: '#f7f8fa',
+    clusterBkg: '#f7f8fa', clusterBorder: '#dce1e8', edgeLabelBackground: '#f7f8fa'
+  }
+});
+</script>
+<div class="nodes"><span class="n"></span><span class="ln"></span><span class="n fill"></span><span class="ln"></span><span class="n"></span></div>
+<h1 id="langgraph">LangGraph</h1>
+<p><span class="sub">상태 기반 LLM 에이전트를 그래프로 설계한다</span></p>
+<div class="meta">
+<p><code>Python 개발자를 위한 실습 중심 풀코스</code> <code>한국어 + English</code> <code>v1.x · 2026</code></p>
+</div>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="2" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="About this course" data-theme="blueprint" lang="en-US" data-marpit-pagination="2" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:About this course;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>About this course</header>
+
+<h2 id="%EC%9D%B4-%EA%B0%95%EC%9D%98%EC%97%90%EC%84%9C-%EB%B0%B0%EC%9A%B0%EB%8A%94-%EA%B2%83">이 강의에서 배우는 것</h2>
+<ul>
+<li><strong>그래프로 사고하기</strong> — 체인을 넘어 상태(state)·분기·순환이 있는 흐름 설계</li>
+<li><strong>에이전트 직접 구현</strong> — Tool calling과 ReAct 루프를 밑바닥부터</li>
+<li><strong>기억하는 시스템</strong> — Checkpointer로 대화·상태를 영속화(persist)</li>
+<li><strong>사람과 협업</strong> — Human-in-the-loop 승인 게이트</li>
+<li><strong>실전 아키텍처</strong> — RAG, 그리고 멀티 에이전트 협업 시스템</li>
+</ul>
+<blockquote>
+<p><strong>사전 지식</strong>: Python 함수 · 타입 힌트 · 딕셔너리에 익숙하면 충분합니다. LangChain 경험은 필요 없습니다.</p>
+</blockquote>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="3" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Curriculum map" data-theme="blueprint" lang="en-US" data-marpit-pagination="3" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Curriculum map;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Curriculum map</header>
+
+<h2 id="9%EA%B0%9C-%EB%AA%A8%EB%93%88--%ED%95%9C%EB%88%88%EC%97%90-%EB%B3%B4%EA%B8%B0">9개 모듈 · 한눈에 보기</h2>
+<table>
+<thead>
+<tr>
+<th>모듈</th>
+<th>주제</th>
+<th>핵심 API</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01</td>
+<td>핵심 구성요소</td>
+<td><code>StateGraph</code> <code>add_node</code> <code>add_edge</code></td>
+</tr>
+<tr>
+<td>02</td>
+<td>조건부 분기</td>
+<td><code>add_conditional_edges</code> <code>Command</code></td>
+</tr>
+<tr>
+<td>03</td>
+<td>순환과 반복</td>
+<td>conditional edge로 cycle · <code>recursion_limit</code></td>
+</tr>
+<tr>
+<td>04</td>
+<td>도구와 에이전트</td>
+<td><code>@tool</code> <code>ToolNode</code> <code>create_react_agent</code></td>
+</tr>
+<tr>
+<td>05</td>
+<td>영속성·메모리</td>
+<td><code>MemorySaver</code> <code>thread_id</code> <code>Store</code></td>
+</tr>
+<tr>
+<td>06</td>
+<td>Human-in-the-loop</td>
+<td><code>interrupt</code> <code>Command(resume=...)</code></td>
+</tr>
+<tr>
+<td>07</td>
+<td>RAG 파이프라인</td>
+<td>retrieve → grade → generate</td>
+</tr>
+<tr>
+<td>08</td>
+<td>멀티 에이전트</td>
+<td>Supervisor · Swarm · Subgraph</td>
+</tr>
+<tr>
+<td>09</td>
+<td>운영·스트리밍·배포</td>
+<td><code>stream_mode</code> · LangSmith · Platform</td>
+</tr>
+</tbody>
+</table>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="4" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Setup" data-theme="blueprint" lang="en-US" data-marpit-pagination="4" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Setup;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Setup</header>
+
+<h2 id="%EC%82%AC%EC%A0%84-%EC%A4%80%EB%B9%84--%EC%84%A4%EC%B9%98%EC%99%80-%ED%82%A4">사전 준비 — 설치와 키</h2>
+<div class="cols">
+<div>
+<h4 id="%EC%84%A4%EC%B9%98">설치</h4>
+<pre><code class="language-bash">pip install -U langgraph langchain
+pip install -U <span class="hljs-string">&quot;langchain[openai]&quot;</span>
+<span class="hljs-comment"># 선택: 영속성·멀티에이전트</span>
+pip install langgraph-checkpoint-sqlite
+pip install langgraph-supervisor langgraph-swarm
+</code></pre>
+</div>
+<div>
+<h4 id="%ED%99%98%EA%B2%BD-%EB%B3%80%EC%88%98">환경 변수</h4>
+<pre><code class="language-bash"><span class="hljs-built_in">export</span> OPENAI_API_KEY=<span class="hljs-string">&quot;sk-...&quot;</span>
+<span class="hljs-comment"># 추적/디버깅(권장)</span>
+<span class="hljs-built_in">export</span> LANGSMITH_API_KEY=<span class="hljs-string">&quot;ls-...&quot;</span>
+<span class="hljs-built_in">export</span> LANGSMITH_TRACING=<span class="hljs-literal">true</span>
+</code></pre>
+</div>
+</div>
+<blockquote>
+<p>이 강의의 코드는 <code>init_chat_model(&quot;openai:gpt-4o&quot;)</code> 기준입니다. Anthropic·Ollama 등으로 바꿔도 그래프 구조는 동일합니다.</p>
+</blockquote>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="5" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Why a graph?" data-theme="blueprint" lang="en-US" data-marpit-pagination="5" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Why a graph?;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Why a graph?</header>
+
+<h2 id="langchain-vs-langgraph">LangChain vs LangGraph</h2>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>LangChain 체인</th>
+<th>LangGraph</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>흐름</td>
+<td>대체로 <strong>일방향</strong> (A→B→C)</td>
+<td><strong>그래프</strong> — 분기·순환 가능</td>
+</tr>
+<tr>
+<td>상태</td>
+<td>단계 간 암묵적 전달</td>
+<td><strong>명시적 State</strong> 객체</td>
+</tr>
+<tr>
+<td>반복</td>
+<td>직접 루프 작성</td>
+<td>엣지로 자연스럽게 cycle</td>
+</tr>
+<tr>
+<td>제어</td>
+<td>중간 개입 어려움</td>
+<td><strong>interrupt</strong>로 일시정지·재개</td>
+</tr>
+<tr>
+<td>적합</td>
+<td>단순 파이프라인</td>
+<td><strong>에이전트 · 다단계 워크플로</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>LangGraph는 LangChain을 <strong>대체</strong>하지 않습니다. LangChain의 모델·툴·메시지를 그대로 쓰되, <strong>실행 흐름</strong>을 그래프로 다룹니다.</p>
+</blockquote>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="6" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Why a graph?" data-theme="blueprint" lang="en-US" data-marpit-pagination="6" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Why a graph?;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Why a graph?</header>
+
+<h2 id="%EC%B2%B4%EC%9D%B8%EC%9D%98-%ED%95%9C%EA%B3%84-%EA%B7%B8%EB%9E%98%ED%94%84%EC%9D%98-%EC%9E%90%EC%9C%A0">체인의 한계, 그래프의 자유</h2>
+<div class="mermaid">
+flowchart LR
+  subgraph CHAIN["체인 · 한 번 지나가면 끝"]
+    a1([입력]) --&gt; b1[LLM] --&gt; c1([출력])
+  end
+</div>
+<div class="mermaid">
+flowchart LR
+  subgraph GRAPH["그래프 · 판단하고 되돌아옴"]
+    s([START]) --&gt; ag[agent]
+    ag --&gt;|도구 필요| tl[tools]
+    tl --&gt; ag
+    ag --&gt;|완료| e([END])
+  end
+</div>
+<blockquote>
+<p>&quot;더 검색할까? 다시 시도할까? 사람에게 물어볼까?&quot; — 이런 <strong>판단과 반복</strong>이 필요한 순간이 LangGraph가 빛나는 지점입니다.</p>
+</blockquote>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="7" data-footer="LangGraph 풀코스 · v1.x" data-class="section" data-theme="blueprint" lang="en-US" class="section" style="--footer:LangGraph 풀코스 · v1.x;--class:section;--theme:blueprint;"><div class="modnum">MODULE 01</div>
+<h1 id="%ED%95%B5%EC%8B%AC-%EA%B5%AC%EC%84%B1%EC%9A%94%EC%86%8C">핵심 구성요소</h1>
+<div class="modsub">State · Node · Edge · Graph</div>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="8" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 01 · The big picture" data-theme="blueprint" lang="en-US" data-marpit-pagination="8" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 01 · The big picture;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 01 · The big picture</header>
+
+<h2 id="%EA%B7%B8%EB%9E%98%ED%94%84%EB%A5%BC-%EC%9D%B4%EB%A3%A8%EB%8A%94-%EB%84%A4-%EA%B0%80%EC%A7%80">그래프를 이루는 네 가지</h2>
+<div class="mermaid">
+flowchart LR
+  S([START]) --&gt;|State| N1[node A] --&gt;|State| N2[node B] --&gt;|State| E([END])
+</div>
+<ul>
+<li><strong>State</strong> — 그래프 전체가 공유하는 데이터(딕셔너리). 매 노드를 거치며 갱신</li>
+<li><strong>Node</strong> — State를 입력받아 <strong>갱신분(diff)</strong> 을 돌려주는 함수</li>
+<li><strong>Edge</strong> — 노드와 노드를 잇는 흐름. 고정 엣지와 조건부 엣지</li>
+<li><strong>Graph</strong> — 위를 조립해 <code>compile()</code> 한 실행 가능한 객체</li>
+</ul>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="9" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 01 · State" data-theme="blueprint" lang="en-US" data-marpit-pagination="9" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 01 · State;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 01 · State</header>
+
+<h2 id="state--%EA%B7%B8%EB%9E%98%ED%94%84%EC%9D%98-%EA%B3%B5%EC%9C%A0-%EB%A9%94%EB%AA%A8%EB%A6%AC">State — 그래프의 공유 메모리</h2>
+<pre><code class="language-python"><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> TypedDict, Annotated
+<span class="hljs-keyword">from</span> langchain_core.messages <span class="hljs-keyword">import</span> AnyMessage
+<span class="hljs-keyword">from</span> langgraph.graph.message <span class="hljs-keyword">import</span> add_messages
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">State</span>(<span class="hljs-title class_ inherited__">TypedDict</span>):
+    <span class="hljs-comment"># 일반 필드는 노드가 반환하면 &quot;덮어쓰기&quot;가 기본</span>
+    topic: <span class="hljs-built_in">str</span>
+    <span class="hljs-comment"># Annotated + reducer 를 주면 &quot;병합&quot; 규칙을 지정할 수 있다</span>
+    messages: Annotated[<span class="hljs-built_in">list</span>[AnyMessage], add_messages]
+</code></pre>
+<ul>
+<li>State는 보통 <code>TypedDict</code> (또는 Pydantic / dataclass)</li>
+<li>노드는 State 전체가 아니라 <strong>바꿀 필드만</strong> 반환한다</li>
+</ul>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="10" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 01 · Reducers" data-theme="blueprint" lang="en-US" data-marpit-pagination="10" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 01 · Reducers;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 01 · Reducers</header>
+
+<h2 id="reducer--%EC%83%81%ED%83%9C%EB%A5%BC-%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%95%A9%EC%B9%A0%EA%B9%8C">Reducer — 상태를 어떻게 합칠까</h2>
+<div class="cols">
+<div>
+<p>기본값은 <strong>덮어쓰기</strong>. reducer를 지정하면 <strong>누적/병합</strong> 규칙이 된다.</p>
+<pre><code class="language-python"><span class="hljs-keyword">from</span> operator <span class="hljs-keyword">import</span> add
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> Annotated
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">State</span>(<span class="hljs-title class_ inherited__">TypedDict</span>):
+    <span class="hljs-comment"># 리스트를 이어붙임 [a] + [b] = [a, b]</span>
+    logs: Annotated[<span class="hljs-built_in">list</span>[<span class="hljs-built_in">str</span>], add]
+</code></pre>
+</div>
+<div>
+<p><code>add_messages</code>는 메시지 전용 reducer:</p>
+<pre><code class="language-python"><span class="hljs-comment"># 같은 id 면 교체, 새 id 면 추가.</span>
+<span class="hljs-comment"># (&quot;user&quot;, &quot;..&quot;) 같은 튜플도 자동 변환</span>
+messages: Annotated[<span class="hljs-built_in">list</span>, add_messages]
+</code></pre>
+<blockquote>
+<p>대부분의 챗봇은 이 패턴 하나로 충분합니다.</p>
+</blockquote>
+</div>
+</div>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="11" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 01 · MessagesState" data-theme="blueprint" lang="en-US" data-marpit-pagination="11" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 01 · MessagesState;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 01 · MessagesState</header>
+
+<h2 id="messagesstate--%EA%B0%80%EC%9E%A5-%ED%9D%94%ED%95%9C-%EC%A7%80%EB%A6%84%EA%B8%B8">MessagesState — 가장 흔한 지름길</h2>
+<pre><code class="language-python"><span class="hljs-keyword">from</span> langgraph.graph <span class="hljs-keyword">import</span> MessagesState
+
+<span class="hljs-comment"># 아래 정의를 미리 만들어 둔 것과 동일하다:</span>
+<span class="hljs-comment">#   class MessagesState(TypedDict):</span>
+<span class="hljs-comment">#       messages: Annotated[list[AnyMessage], add_messages]</span>
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">State</span>(<span class="hljs-title class_ inherited__">MessagesState</span>):
+    <span class="hljs-comment"># 필요하면 필드를 더 얹는다</span>
+    user_id: <span class="hljs-built_in">str</span>
+</code></pre>
+<blockquote>
+<p>채팅 기반 그래프라면 <code>MessagesState</code>로 시작하세요. 직접 <code>TypedDict</code>를 쓰는 건 메시지 외 상태가 필요할 때입니다.</p>
+</blockquote>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="12" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 01 · Node" data-theme="blueprint" lang="en-US" data-marpit-pagination="12" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 01 · Node;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 01 · Node</header>
+
+<h2 id="node--%EC%83%81%ED%83%9C%EB%A5%BC-%EA%B0%B1%EC%8B%A0%ED%95%98%EB%8A%94-%ED%95%A8%EC%88%98">Node — 상태를 갱신하는 함수</h2>
+<pre><code class="language-python"><span class="hljs-keyword">from</span> langchain.chat_models <span class="hljs-keyword">import</span> init_chat_model
+
+llm = init_chat_model(<span class="hljs-string">&quot;openai:gpt-4o&quot;</span>)
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">chatbot</span>(<span class="hljs-params">state: MessagesState</span>) -&gt; <span class="hljs-built_in">dict</span>:
+    <span class="hljs-comment"># state[&quot;messages&quot;] 를 읽고</span>
+    response = llm.invoke(state[<span class="hljs-string">&quot;messages&quot;</span>])
+    <span class="hljs-comment"># 바뀐 부분만 dict 로 반환 → add_messages 가 누적해 준다</span>
+    <span class="hljs-keyword">return</span> {<span class="hljs-string">&quot;messages&quot;</span>: [response]}
+</code></pre>
+<ul>
+<li>노드는 그냥 <strong>함수</strong>다 (또는 callable). 입력 <code>state</code>, 출력 <code>dict</code></li>
+<li>반환한 dict가 State에 <strong>병합</strong>된다 (reducer 규칙대로)</li>
+</ul>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="13" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 01 · Edge &amp; build" data-theme="blueprint" lang="en-US" data-marpit-pagination="13" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 01 · Edge &amp; build;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 01 · Edge &amp; build</header>
+
+<h2 id="edge--%ED%9D%90%EB%A6%84%EC%9D%84-%EC%97%B0%EA%B2%B0%ED%95%98%EA%B3%A0-%EC%BB%B4%ED%8C%8C%EC%9D%BC">Edge — 흐름을 연결하고 컴파일</h2>
+<pre><code class="language-python"><span class="hljs-keyword">from</span> langgraph.graph <span class="hljs-keyword">import</span> StateGraph, START, END
+
+builder = StateGraph(MessagesState)
+builder.add_node(<span class="hljs-string">&quot;chatbot&quot;</span>, chatbot)
+
+builder.add_edge(START, <span class="hljs-string">&quot;chatbot&quot;</span>)   <span class="hljs-comment"># 진입점</span>
+builder.add_edge(<span class="hljs-string">&quot;chatbot&quot;</span>, END)     <span class="hljs-comment"># 종료점</span>
+
+graph = builder.<span class="hljs-built_in">compile</span>()
+</code></pre>
+<ul>
+<li><code>START</code> / <code>END</code>는 그래프의 가상 진입·종료 노드</li>
+<li><code>compile()</code> 결과는 LangChain <strong>Runnable</strong> — <code>invoke</code>, <code>stream</code> 사용 가능</li>
+</ul>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="14" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 01 · Run it" data-theme="blueprint" lang="en-US" data-marpit-pagination="14" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 01 · Run it;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 01 · Run it</header>
+
+<h2 id="%EC%8B%A4%ED%96%89--invoke-%EC%99%80-stream">실행 — invoke 와 stream</h2>
+<div class="cols">
+<div>
+<h4 id="%ED%95%9C-%EB%B2%88%EC%97%90-invoke">한 번에 (invoke)</h4>
+<pre><code class="language-python">out = graph.invoke({
+  <span class="hljs-string">&quot;messages&quot;</span>: [
+    {<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;안녕!&quot;</span>}
+  ]
+})
+<span class="hljs-built_in">print</span>(out[<span class="hljs-string">&quot;messages&quot;</span>][-<span class="hljs-number">1</span>].content)
+</code></pre>
+</div>
+<div>
+<h4 id="%ED%9D%98%EB%A0%A4%EB%B3%B4%EB%A9%B0-stream">흘려보며 (stream)</h4>
+<pre><code class="language-python"><span class="hljs-keyword">for</span> chunk <span class="hljs-keyword">in</span> graph.stream(
+    {<span class="hljs-string">&quot;messages&quot;</span>: [(<span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;안녕!&quot;</span>)]},
+    stream_mode=<span class="hljs-string">&quot;values&quot;</span>,
+):
+    chunk[<span class="hljs-string">&quot;messages&quot;</span>][-<span class="hljs-number">1</span>].pretty_print()
+</code></pre>
+</div>
+</div>
+<blockquote>
+<p><code>stream_mode</code>는 모듈 09에서 자세히 — <code>values</code> / <code>updates</code> / <code>messages</code>.</p>
+</blockquote>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="15" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 01 · Lab" data-theme="blueprint" lang="en-US" data-marpit-pagination="15" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 01 · Lab;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 01 · Lab</header>
+
+<h2 id="span-classlab%EC%8B%A4%EC%8A%B5-01span-%EC%97%90%EC%BD%94-%EC%B1%97%EB%B4%87%EC%9D%84-%EA%B7%B8%EB%9E%98%ED%94%84%EB%A1%9C"><span class="lab">실습 01</span> 에코 챗봇을 그래프로</h2>
+<div class="cols">
+<div>
+<pre><code class="language-python"><span class="hljs-keyword">from</span> langgraph.graph <span class="hljs-keyword">import</span> (
+    StateGraph, START, END, MessagesState)
+<span class="hljs-keyword">from</span> langchain.chat_models <span class="hljs-keyword">import</span> init_chat_model
+
+llm = init_chat_model(<span class="hljs-string">&quot;openai:gpt-4o&quot;</span>)
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">chatbot</span>(<span class="hljs-params">state: MessagesState</span>):
+    <span class="hljs-keyword">return</span> {<span class="hljs-string">&quot;messages&quot;</span>: [llm.invoke(state[<span class="hljs-string">&quot;messages&quot;</span>])]}
+
+g = StateGraph(MessagesState)
+g.add_node(<span class="hljs-string">&quot;chatbot&quot;</span>, chatbot)
+g.add_edge(START, <span class="hljs-string">&quot;chatbot&quot;</span>)
+g.add_edge(<span class="hljs-string">&quot;chatbot&quot;</span>, END)
+graph = g.<span class="hljs-built_in">compile</span>()
+</code></pre>
+</div>
+<div>
+<h4 id="%ED%95%B4%EB%B3%B4%EA%B8%B0">해보기</h4>
+<ol>
+<li><code>graph.invoke</code> 로 한 번 대화</li>
+<li><code>stream_mode=&quot;values&quot;</code> 로 바꿔 출력</li>
+<li>노드를 하나 더 추가해 보기 (예: 입력 전처리 노드)</li>
+</ol>
+<blockquote>
+<p>아직 <strong>기억은 못 합니다</strong>. 매 호출이 백지 — 모듈 05에서 해결합니다.</p>
+</blockquote>
+</div>
+</div>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="16" data-footer="LangGraph 풀코스 · v1.x" data-class="section" data-theme="blueprint" lang="en-US" class="section" style="--footer:LangGraph 풀코스 · v1.x;--class:section;--theme:blueprint;"><div class="modnum">MODULE 02</div>
+<h1 id="%EC%A1%B0%EA%B1%B4%EB%B6%80-%EB%B6%84%EA%B8%B0">조건부 분기</h1>
+<div class="modsub">Conditional Edges · Command</div>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="17" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 02 · Branching" data-theme="blueprint" lang="en-US" data-marpit-pagination="17" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 02 · Branching;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 02 · Branching</header>
+
+<h2 id="%ED%9D%90%EB%A6%84%EC%9D%84-%EB%82%98%EB%88%84%EB%8A%94-%EB%91%90-%EA%B0%80%EC%A7%80-%EB%B0%A9%EB%B2%95">흐름을 나누는 두 가지 방법</h2>
+<div class="mermaid">
+flowchart LR
+  C[classifier] --&gt;|order| O[order_node]
+  C --&gt;|chat| H[chat_node]
+  O --&gt; E([END])
+  H --&gt; E([END])
+</div>
+<ul>
+<li><strong>고정 엣지</strong> <code>add_edge(a, b)</code> — 항상 a 다음 b</li>
+<li><strong>조건부 엣지</strong> <code>add_conditional_edges(a, router)</code> — <strong>router 함수</strong>의 반환값으로 다음 노드를 결정</li>
+</ul>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="18" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 02 · Router function" data-theme="blueprint" lang="en-US" data-marpit-pagination="18" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 02 · Router function;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 02 · Router function</header>
+
+<h2 id="%EB%9D%BC%EC%9A%B0%ED%8C%85-%ED%95%A8%EC%88%98--%EB%8B%A4%EC%9D%8C-%EB%85%B8%EB%93%9C%EB%A5%BC-%EA%B3%A0%EB%A5%B8%EB%8B%A4">라우팅 함수 — 다음 노드를 고른다</h2>
+<pre><code class="language-python"><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Literal</span>
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">route</span>(<span class="hljs-params">state: State</span>) -&gt; <span class="hljs-type">Literal</span>[<span class="hljs-string">&quot;order&quot;</span>, <span class="hljs-string">&quot;chat&quot;</span>]:
+    text = state[<span class="hljs-string">&quot;messages&quot;</span>][-<span class="hljs-number">1</span>].content
+    <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;주문&quot;</span> <span class="hljs-keyword">in</span> text <span class="hljs-keyword">or</span> <span class="hljs-string">&quot;배송&quot;</span> <span class="hljs-keyword">in</span> text:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;order&quot;</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;chat&quot;</span>
+
+builder.add_conditional_edges(
+    <span class="hljs-string">&quot;classifier&quot;</span>,          <span class="hljs-comment"># 이 노드 다음에</span>
+    route,                 <span class="hljs-comment"># 이 함수가 반환하는 키로 분기</span>
+    {<span class="hljs-string">&quot;order&quot;</span>: <span class="hljs-string">&quot;order_node&quot;</span>, <span class="hljs-string">&quot;chat&quot;</span>: <span class="hljs-string">&quot;chat_node&quot;</span>},  <span class="hljs-comment"># 키 → 노드 매핑</span>
+)
+</code></pre>
+<blockquote>
+<p>매핑 dict를 생략하면 <strong>반환 문자열 = 노드 이름</strong>으로 간주합니다.</p>
+</blockquote>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="19" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 02 · Lab" data-theme="blueprint" lang="en-US" data-marpit-pagination="19" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 02 · Lab;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 02 · Lab</header>
+
+<h2 id="span-classlab%EC%8B%A4%EC%8A%B5-02span-%EC%9D%98%EB%8F%84-%EB%B6%84%EB%A5%98-%EB%9D%BC%EC%9A%B0%ED%84%B0"><span class="lab">실습 02</span> 의도 분류 라우터</h2>
+<div class="cols">
+<div>
+<pre><code class="language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">classify</span>(<span class="hljs-params">state: State</span>):
+    msg = state[<span class="hljs-string">&quot;messages&quot;</span>][-<span class="hljs-number">1</span>].content
+    prompt = <span class="hljs-string">f&quot;다음을 order/chat 로만 답하라: <span class="hljs-subst">{msg}</span>&quot;</span>
+    label = llm.invoke(prompt).content.strip()
+    <span class="hljs-keyword">return</span> {<span class="hljs-string">&quot;intent&quot;</span>: label}
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">route</span>(<span class="hljs-params">state</span>) -&gt; <span class="hljs-type">Literal</span>[<span class="hljs-string">&quot;order&quot;</span>, <span class="hljs-string">&quot;chat&quot;</span>]:
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;order&quot;</span> <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;order&quot;</span> <span class="hljs-keyword">in</span> state[<span class="hljs-string">&quot;intent&quot;</span>] <span class="hljs-keyword">else</span> <span class="hljs-string">&quot;chat&quot;</span>
+</code></pre>
+</div>
+<div>
+<pre><code class="language-python">g.add_node(<span class="hljs-string">&quot;classify&quot;</span>, classify)
+g.add_node(<span class="hljs-string">&quot;order_node&quot;</span>, handle_order)
+g.add_node(<span class="hljs-string">&quot;chat_node&quot;</span>, handle_chat)
+
+g.add_edge(START, <span class="hljs-string">&quot;classify&quot;</span>)
+g.add_conditional_edges(<span class="hljs-string">&quot;classify&quot;</span>, route,
+    {<span class="hljs-string">&quot;order&quot;</span>: <span class="hljs-string">&quot;order_node&quot;</span>, <span class="hljs-string">&quot;chat&quot;</span>: <span class="hljs-string">&quot;chat_node&quot;</span>})
+g.add_edge(<span class="hljs-string">&quot;order_node&quot;</span>, END)
+g.add_edge(<span class="hljs-string">&quot;chat_node&quot;</span>, END)
+</code></pre>
+</div>
+</div>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="20" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 02 · Command" data-theme="blueprint" lang="en-US" data-marpit-pagination="20" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 02 · Command;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 02 · Command</header>
+
+<h2 id="command--%EA%B0%B1%EC%8B%A0%EA%B3%BC-%EC%9D%B4%EB%8F%99%EC%9D%84-%ED%95%9C-%EB%B2%88%EC%97%90">Command — 갱신과 이동을 한 번에</h2>
+<p><code>Command</code>를 반환하면 노드가 <strong>상태 갱신</strong>과 <strong>다음 노드 지정</strong>을 동시에 할 수 있다. 라우터 노드를 따로 둘 필요가 없어진다.</p>
+<pre><code class="language-python"><span class="hljs-keyword">from</span> langgraph.types <span class="hljs-keyword">import</span> Command
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Literal</span>
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">classifier</span>(<span class="hljs-params">state: State</span>) -&gt; Command[<span class="hljs-type">Literal</span>[<span class="hljs-string">&quot;order_node&quot;</span>, <span class="hljs-string">&quot;chat_node&quot;</span>]]:
+    text = state[<span class="hljs-string">&quot;messages&quot;</span>][-<span class="hljs-number">1</span>].content
+    target = <span class="hljs-string">&quot;order_node&quot;</span> <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;주문&quot;</span> <span class="hljs-keyword">in</span> text <span class="hljs-keyword">else</span> <span class="hljs-string">&quot;chat_node&quot;</span>
+    <span class="hljs-keyword">return</span> Command(
+        update={<span class="hljs-string">&quot;intent&quot;</span>: target},   <span class="hljs-comment"># 상태 갱신</span>
+        goto=target,                 <span class="hljs-comment"># 다음 노드로 이동</span>
+    )
+</code></pre>
+<blockquote>
+<p>멀티 에이전트의 <strong>handoff</strong>(제어 넘김)가 바로 이 <code>Command(goto=...)</code> 위에 세워집니다 — 모듈 08.</p>
+</blockquote>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="21" data-footer="LangGraph 풀코스 · v1.x" data-class="section" data-theme="blueprint" lang="en-US" class="section" style="--footer:LangGraph 풀코스 · v1.x;--class:section;--theme:blueprint;"><div class="modnum">MODULE 03</div>
+<h1 id="%EC%88%9C%ED%99%98%EA%B3%BC-%EB%B0%98%EB%B3%B5">순환과 반복</h1>
+<div class="modsub">Cycles · Loops · recursion_limit</div>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="22" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 03 · Why cycles" data-theme="blueprint" lang="en-US" data-marpit-pagination="22" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 03 · Why cycles;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 03 · Why cycles</header>
+
+<h2 id="%EC%82%AC%EC%9D%B4%ED%81%B4--%EA%B7%B8%EB%9E%98%ED%94%84%EC%9D%98-%EC%A7%84%EC%A7%9C-%ED%9E%98">사이클 — 그래프의 진짜 힘</h2>
+<div class="mermaid">
+flowchart LR
+  D[draft] --&gt; CR[critic]
+  CR --&gt;|점수 낮음| RV[reviser]
+  RV --&gt; CR
+  CR --&gt;|충분함| E([END])
+</div>
+<ul>
+<li>일반 DAG와 달리 LangGraph는 <strong>노드로 되돌아오는 엣지</strong>를 허용</li>
+<li>&quot;조건을 만족할 때까지 반복&quot; — 에이전트·자기수정 루프의 토대</li>
+<li>되돌아가는 길은 보통 <strong>조건부 엣지</strong>로 만든다</li>
+</ul>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="23" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 03 · Build a loop" data-theme="blueprint" lang="en-US" data-marpit-pagination="23" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 03 · Build a loop;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 03 · Build a loop</header>
+
+<h2 id="%EB%A3%A8%ED%94%84-%EB%A7%8C%EB%93%A4%EA%B8%B0--%EB%90%98%EB%8F%8C%EB%A6%AC%EB%8A%94-%EC%97%A3%EC%A7%80">루프 만들기 — 되돌리는 엣지</h2>
+<pre><code class="language-python"><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Literal</span>
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">should_continue</span>(<span class="hljs-params">state: State</span>) -&gt; <span class="hljs-type">Literal</span>[<span class="hljs-string">&quot;reviser&quot;</span>, <span class="hljs-string">&quot;__end__&quot;</span>]:
+    <span class="hljs-keyword">if</span> state[<span class="hljs-string">&quot;score&quot;</span>] &gt;= <span class="hljs-number">0.8</span> <span class="hljs-keyword">or</span> state[<span class="hljs-string">&quot;iterations&quot;</span>] &gt;= <span class="hljs-number">3</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;__end__&quot;</span>          <span class="hljs-comment"># END 의 예약 키</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;reviser&quot;</span>
+
+builder.add_node(<span class="hljs-string">&quot;critic&quot;</span>, critic)
+builder.add_node(<span class="hljs-string">&quot;reviser&quot;</span>, reviser)
+
+builder.add_conditional_edges(<span class="hljs-string">&quot;critic&quot;</span>, should_continue)
+builder.add_edge(<span class="hljs-string">&quot;reviser&quot;</span>, <span class="hljs-string">&quot;critic&quot;</span>)   <span class="hljs-comment"># 다시 평가하러 돌아감</span>
+</code></pre>
+<blockquote>
+<p><code>&quot;__end__&quot;</code> 는 <code>END</code>를 가리키는 문자열 키. 매핑 없이 쓸 때 편리합니다.</p>
+</blockquote>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="24" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 03 · Safety" data-theme="blueprint" lang="en-US" data-marpit-pagination="24" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 03 · Safety;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 03 · Safety</header>
+
+<h2 id="%EB%AC%B4%ED%95%9C-%EB%A3%A8%ED%94%84-%EB%B0%A9%EC%96%B4--recursion_limit">무한 루프 방어 — recursion_limit</h2>
+<pre><code class="language-python"><span class="hljs-comment"># 한 번의 실행에서 거칠 수 있는 &quot;슈퍼스텝&quot; 상한</span>
+graph.invoke(inputs, config={<span class="hljs-string">&quot;recursion_limit&quot;</span>: <span class="hljs-number">10</span>})
+</code></pre>
+<ul>
+<li>기본값은 <strong>25</strong>. 넘으면 <code>GraphRecursionError</code> 발생</li>
+<li>루프에는 항상 <strong>종료 조건 두 개</strong>를 두자:
+<ul>
+<li>품질 조건 (예: <code>score &gt;= 0.8</code>)</li>
+<li>횟수 조건 (예: <code>iterations &gt;= 3</code>)</li>
+</ul>
+</li>
+<li>카운터는 State에 두고 노드에서 <code>+1</code> 갱신</li>
+</ul>
+<blockquote>
+<p>&quot;수렴하지 않으면 멈춘다&quot; — 안전한 루프의 기본기.</p>
+</blockquote>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="25" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 03 · Lab" data-theme="blueprint" lang="en-US" data-marpit-pagination="25" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 03 · Lab;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 03 · Lab</header>
+
+<h2 id="span-classlab%EC%8B%A4%EC%8A%B5-03span-%EB%B0%98%EB%B3%B5-%EC%A0%95%EC%A0%9C-%EB%A3%A8%ED%94%84"><span class="lab">실습 03</span> 반복 정제 루프</h2>
+<div class="cols">
+<div>
+<pre><code class="language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">State</span>(<span class="hljs-title class_ inherited__">TypedDict</span>):
+    task: <span class="hljs-built_in">str</span>
+    draft: <span class="hljs-built_in">str</span>
+    score: <span class="hljs-built_in">float</span>
+    iterations: <span class="hljs-built_in">int</span>
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">reviser</span>(<span class="hljs-params">state</span>):
+    new = llm.invoke(
+        <span class="hljs-string">f&quot;개선하라:\n<span class="hljs-subst">{state[<span class="hljs-string">&#x27;draft&#x27;</span>]}</span>&quot;</span>).content
+    <span class="hljs-keyword">return</span> {<span class="hljs-string">&quot;draft&quot;</span>: new,
+            <span class="hljs-string">&quot;iterations&quot;</span>: state[<span class="hljs-string">&quot;iterations&quot;</span>] + <span class="hljs-number">1</span>}
+</code></pre>
+</div>
+<div>
+<pre><code class="language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">critic</span>(<span class="hljs-params">state</span>):
+    s = grade(state[<span class="hljs-string">&quot;draft&quot;</span>])   <span class="hljs-comment"># 0~1</span>
+    <span class="hljs-keyword">return</span> {<span class="hljs-string">&quot;score&quot;</span>: s}
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">keep_going</span>(<span class="hljs-params">state</span>) -&gt; <span class="hljs-type">Literal</span>[<span class="hljs-string">&quot;reviser&quot;</span>,<span class="hljs-string">&quot;__end__&quot;</span>]:
+    <span class="hljs-keyword">if</span> state[<span class="hljs-string">&quot;score&quot;</span>] &gt;= <span class="hljs-number">0.8</span> <span class="hljs-keyword">or</span> \
+       state[<span class="hljs-string">&quot;iterations&quot;</span>] &gt;= <span class="hljs-number">3</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;__end__&quot;</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;reviser&quot;</span>
+</code></pre>
+<blockquote>
+<p>초안 → 평가 → (부족하면) 수정 → 다시 평가. 자기수정 에이전트의 축소판.</p>
+</blockquote>
+</div>
+</div>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="26" data-footer="LangGraph 풀코스 · v1.x" data-class="section" data-theme="blueprint" lang="en-US" class="section" style="--footer:LangGraph 풀코스 · v1.x;--class:section;--theme:blueprint;"><div class="modnum">MODULE 04</div>
+<h1 id="%EB%8F%84%EA%B5%AC%EC%99%80-%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8">도구와 에이전트</h1>
+<div class="modsub">Tool calling · ToolNode · ReAct</div>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="27" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 04 · Tools" data-theme="blueprint" lang="en-US" data-marpit-pagination="27" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 04 · Tools;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 04 · Tools</header>
+
+<h2 id="%EB%8F%84%EA%B5%AC-%EC%A0%95%EC%9D%98--tool">도구 정의 — @tool</h2>
+<pre><code class="language-python"><span class="hljs-keyword">from</span> langchain_core.tools <span class="hljs-keyword">import</span> tool
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">search</span>(<span class="hljs-params">query: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">&quot;&quot;&quot;웹에서 query 를 검색해 결과 요약을 반환한다.&quot;&quot;&quot;</span>  <span class="hljs-comment"># docstring = 도구 설명</span>
+    <span class="hljs-keyword">return</span> web_search(query)
+
+<span class="hljs-meta">@tool</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">calculator</span>(<span class="hljs-params">expression: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+    <span class="hljs-string">&quot;&quot;&quot;수식을 계산한다. 예: &#x27;2 * (3 + 4)&#x27;.&quot;&quot;&quot;</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">str</span>(<span class="hljs-built_in">eval</span>(expression))
+
+<span class="hljs-comment"># 모델에 도구를 &quot;바인딩&quot; — 모델이 호출 여부/인자를 결정</span>
+llm_with_tools = llm.bind_tools([search, calculator])
+</code></pre>
+<blockquote>
+<p>docstring과 타입 힌트가 곧 <strong>모델이 읽는 명세</strong>입니다. 또렷하게 쓰세요.</p>
+</blockquote>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="28" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 04 · The ReAct loop" data-theme="blueprint" lang="en-US" data-marpit-pagination="28" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 04 · The ReAct loop;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 04 · The ReAct loop</header>
+
+<h2 id="react--%EC%83%9D%EA%B0%81%ED%95%98%EA%B3%A0-%EB%8F%84%EA%B5%AC-%EC%93%B0%EA%B3%A0-%EB%B0%98%EB%B3%B5">ReAct — 생각하고, 도구 쓰고, 반복</h2>
+<div class="mermaid">
+flowchart TD
+  S([START]) --&gt; AG["agent · LLM"]
+  AG --&gt;|tool_calls 있음| TN[ToolNode]
+  TN --&gt; AG
+  AG --&gt;|tool_calls 없음| E([END])
+</div>
+<ul>
+<li>모델이 <strong>도구를 호출</strong>하면 → 도구 실행 → 결과를 다시 모델에게</li>
+<li>더 호출할 게 없으면 → 최종 답변 후 종료</li>
+<li>이 순환이 <strong>에이전트</strong>의 본질 — LangGraph의 cycle로 자연스럽게 표현</li>
+</ul>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="29" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 04 · ToolNode" data-theme="blueprint" lang="en-US" data-marpit-pagination="29" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 04 · ToolNode;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 04 · ToolNode</header>
+
+<h2 id="toolnode--tools_condition">ToolNode · tools_condition</h2>
+<p>LangGraph 내장 부품으로 ReAct 루프를 손쉽게 조립한다.</p>
+<pre><code class="language-python"><span class="hljs-keyword">from</span> langgraph.prebuilt <span class="hljs-keyword">import</span> ToolNode, tools_condition
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">agent</span>(<span class="hljs-params">state: MessagesState</span>):
+    <span class="hljs-keyword">return</span> {<span class="hljs-string">&quot;messages&quot;</span>: [llm_with_tools.invoke(state[<span class="hljs-string">&quot;messages&quot;</span>])]}
+
+builder.add_node(<span class="hljs-string">&quot;agent&quot;</span>, agent)
+builder.add_node(<span class="hljs-string">&quot;tools&quot;</span>, ToolNode([search, calculator]))  <span class="hljs-comment"># 도구 실행 노드</span>
+
+builder.add_edge(START, <span class="hljs-string">&quot;agent&quot;</span>)
+<span class="hljs-comment"># tools_condition: tool_calls 있으면 &quot;tools&quot;, 없으면 END 로 라우팅</span>
+builder.add_conditional_edges(<span class="hljs-string">&quot;agent&quot;</span>, tools_condition)
+builder.add_edge(<span class="hljs-string">&quot;tools&quot;</span>, <span class="hljs-string">&quot;agent&quot;</span>)     <span class="hljs-comment"># 도구 결과를 다시 모델로</span>
+
+graph = builder.<span class="hljs-built_in">compile</span>()
+</code></pre>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="30" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 04 · Prebuilt" data-theme="blueprint" lang="en-US" data-marpit-pagination="30" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 04 · Prebuilt;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 04 · Prebuilt</header>
+
+<h2 id="create_react_agent--%ED%95%9C-%EC%A4%84-%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8">create_react_agent — 한 줄 에이전트</h2>
+<pre><code class="language-python"><span class="hljs-keyword">from</span> langgraph.prebuilt <span class="hljs-keyword">import</span> create_react_agent
+
+agent = create_react_agent(
+    model=llm,
+    tools=[search, calculator],
+    prompt=<span class="hljs-string">&quot;너는 꼼꼼한 리서치 어시스턴트다.&quot;</span>,
+)
+
+agent.invoke({<span class="hljs-string">&quot;messages&quot;</span>: [(<span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;오늘 서울 날씨와 그 두 배 온도는?&quot;</span>)]})
+</code></pre>
+<blockquote>
+<p><strong>v1 참고</strong>: 앞으로는 <code>from langchain.agents import create_agent</code> 가 권장됩니다. 인터페이스는 거의 동일하니, 직접 조립(<code>ToolNode</code>)을 이해한 뒤 prebuilt로 넘어가세요.</p>
+</blockquote>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="31" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 04 · Lab" data-theme="blueprint" lang="en-US" data-marpit-pagination="31" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 04 · Lab;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 04 · Lab</header>
+
+<h2 id="span-classlab%EC%8B%A4%EC%8A%B5-04span-%EB%8F%84%EA%B5%AC-%EC%93%B0%EB%8A%94-%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8"><span class="lab">실습 04</span> 도구 쓰는 에이전트</h2>
+<div class="cols">
+<div>
+<pre><code class="language-python"><span class="hljs-keyword">from</span> langgraph.prebuilt <span class="hljs-keyword">import</span> (
+    ToolNode, tools_condition)
+
+tools = [search, calculator]
+llm_t = llm.bind_tools(tools)
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">agent</span>(<span class="hljs-params">state: MessagesState</span>):
+    <span class="hljs-keyword">return</span> {<span class="hljs-string">&quot;messages&quot;</span>:[llm_t.invoke(state[<span class="hljs-string">&quot;messages&quot;</span>])]}
+</code></pre>
+</div>
+<div>
+<pre><code class="language-python">g = StateGraph(MessagesState)
+g.add_node(<span class="hljs-string">&quot;agent&quot;</span>, agent)
+g.add_node(<span class="hljs-string">&quot;tools&quot;</span>, ToolNode(tools))
+g.add_edge(START, <span class="hljs-string">&quot;agent&quot;</span>)
+g.add_conditional_edges(<span class="hljs-string">&quot;agent&quot;</span>, tools_condition)
+g.add_edge(<span class="hljs-string">&quot;tools&quot;</span>, <span class="hljs-string">&quot;agent&quot;</span>)
+graph = g.<span class="hljs-built_in">compile</span>()
+</code></pre>
+<blockquote>
+<p>도구를 직접 만든 버전과 <code>create_react_agent</code> 버전의 출력을 비교해 보세요.</p>
+</blockquote>
+</div>
+</div>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="32" data-footer="LangGraph 풀코스 · v1.x" data-class="section" data-theme="blueprint" lang="en-US" class="section" style="--footer:LangGraph 풀코스 · v1.x;--class:section;--theme:blueprint;"><div class="modnum">MODULE 05</div>
+<h1 id="%EC%98%81%EC%86%8D%EC%84%B1%EA%B3%BC-%EB%A9%94%EB%AA%A8%EB%A6%AC">영속성과 메모리</h1>
+<div class="modsub">Checkpointer · thread_id · Store</div>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="33" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 05 · Checkpointer" data-theme="blueprint" lang="en-US" data-marpit-pagination="33" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 05 · Checkpointer;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 05 · Checkpointer</header>
+
+<h2 id="checkpointer--%EC%83%81%ED%83%9C%EB%A5%BC-%EC%A0%80%EC%9E%A5%ED%95%9C%EB%8B%A4">Checkpointer — 상태를 저장한다</h2>
+<ul>
+<li>그래프 실행의 <strong>매 단계 상태</strong>를 자동 저장하는 장치</li>
+<li><code>thread_id</code>로 구분된 <strong>대화 스레드</strong>별로 상태가 쌓임</li>
+<li>효과: <strong>대화 기억</strong> · 중단 후 재개 · 과거로 되감기(time travel) · Human-in-the-loop</li>
+</ul>
+<pre><code class="language-python"><span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> MemorySaver
+
+checkpointer = MemorySaver()                       <span class="hljs-comment"># 인메모리(개발용)</span>
+graph = builder.<span class="hljs-built_in">compile</span>(checkpointer=checkpointer) <span class="hljs-comment"># 컴파일 시 연결</span>
+</code></pre>
+<blockquote>
+<p><code>interrupt</code>(모듈 06)도 checkpointer가 있어야 동작합니다 — 상태를 저장해 둬야 재개가 가능하니까요.</p>
+</blockquote>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="34" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 05 · Memory in action" data-theme="blueprint" lang="en-US" data-marpit-pagination="34" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 05 · Memory in action;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 05 · Memory in action</header>
+
+<h2 id="thread_id--%EB%8C%80%ED%99%94%EB%A5%BC-%EA%B8%B0%EC%96%B5%ED%95%98%EB%8B%A4">thread_id — 대화를 기억하다</h2>
+<pre><code class="language-python">config = {<span class="hljs-string">&quot;configurable&quot;</span>: {<span class="hljs-string">&quot;thread_id&quot;</span>: <span class="hljs-string">&quot;user-42&quot;</span>}}
+
+graph.invoke({<span class="hljs-string">&quot;messages&quot;</span>: [(<span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;내 이름은 지호야&quot;</span>)]}, config)
+graph.invoke({<span class="hljs-string">&quot;messages&quot;</span>: [(<span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;내 이름이 뭐였지?&quot;</span>)]}, config)
+<span class="hljs-comment"># → &quot;지호&quot; 라고 답한다. 같은 thread_id 의 이전 상태를 이어받기 때문</span>
+</code></pre>
+<ul>
+<li>같은 <code>thread_id</code> → 이전 메시지가 State에 그대로 남아 있음</li>
+<li>다른 <code>thread_id</code> → 완전히 새 대화 (격리됨)</li>
+</ul>
+<blockquote>
+<p>멀티 유저 서비스라면 보통 <code>thread_id = 사용자/세션 ID</code>.</p>
+</blockquote>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="35" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 05 · Production stores" data-theme="blueprint" lang="en-US" data-marpit-pagination="35" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 05 · Production stores;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 05 · Production stores</header>
+
+<h2 id="%EC%A0%80%EC%9E%A5%EC%86%8C--%EA%B0%9C%EB%B0%9C%EC%97%90%EC%84%9C-%EC%9A%B4%EC%98%81%EC%9C%BC%EB%A1%9C">저장소 — 개발에서 운영으로</h2>
+<table>
+<thead>
+<tr>
+<th>체크포인터</th>
+<th>패키지</th>
+<th>용도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MemorySaver</code></td>
+<td>langgraph</td>
+<td>개발·테스트 (프로세스 종료 시 소멸)</td>
+</tr>
+<tr>
+<td><code>SqliteSaver</code></td>
+<td>langgraph-checkpoint-sqlite</td>
+<td>로컬·소규모 영속</td>
+</tr>
+<tr>
+<td><code>PostgresSaver</code></td>
+<td>langgraph-checkpoint-postgres</td>
+<td>운영 환경</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-python"><span class="hljs-keyword">from</span> langgraph.checkpoint.sqlite <span class="hljs-keyword">import</span> SqliteSaver
+
+<span class="hljs-keyword">with</span> SqliteSaver.from_conn_string(<span class="hljs-string">&quot;chat.db&quot;</span>) <span class="hljs-keyword">as</span> cp:
+    graph = builder.<span class="hljs-built_in">compile</span>(checkpointer=cp)
+    graph.invoke(inputs, config)
+</code></pre>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="36" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 05 · Time travel" data-theme="blueprint" lang="en-US" data-marpit-pagination="36" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 05 · Time travel;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 05 · Time travel</header>
+
+<h2 id="%EB%90%98%EA%B0%90%EA%B8%B0--%EA%B3%BC%EA%B1%B0-%EC%83%81%ED%83%9C%EC%97%90%EC%84%9C-%EB%8B%A4%EC%8B%9C">되감기 — 과거 상태에서 다시</h2>
+<pre><code class="language-python"><span class="hljs-comment"># 이 스레드의 모든 체크포인트 이력</span>
+history = <span class="hljs-built_in">list</span>(graph.get_state_history(config))
+
+<span class="hljs-comment"># 특정 시점(checkpoint)부터 다시 실행 (분기)</span>
+past = history[<span class="hljs-number">2</span>]
+graph.invoke(<span class="hljs-literal">None</span>, past.config)
+
+<span class="hljs-comment"># 현재 상태 들여다보기 / 직접 수정</span>
+snapshot = graph.get_state(config)
+graph.update_state(config, {<span class="hljs-string">&quot;topic&quot;</span>: <span class="hljs-string">&quot;새 주제&quot;</span>})
+</code></pre>
+<blockquote>
+<p>디버깅·what-if 분석·HITL에서 모두 쓰이는 강력한 기능.</p>
+</blockquote>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="37" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 05 · Long-term memory" data-theme="blueprint" lang="en-US" data-marpit-pagination="37" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 05 · Long-term memory;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 05 · Long-term memory</header>
+
+<h2 id="store--%EC%8A%A4%EB%A0%88%EB%93%9C%EB%A5%BC-%EB%84%98%EB%8A%94-%EC%9E%A5%EA%B8%B0-%EA%B8%B0%EC%96%B5">Store — 스레드를 넘는 장기 기억</h2>
+<p><code>Checkpointer</code>가 <strong>한 대화의 상태</strong>라면, <code>Store</code>는 <strong>대화를 넘어</strong> 사용자 선호·사실을 기억한다.</p>
+<pre><code class="language-python"><span class="hljs-keyword">from</span> langgraph.store.memory <span class="hljs-keyword">import</span> InMemoryStore
+
+store = InMemoryStore()
+graph = builder.<span class="hljs-built_in">compile</span>(checkpointer=checkpointer, store=store)
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">remember</span>(<span class="hljs-params">state, *, store</span>):   <span class="hljs-comment"># 노드에서 store 주입받기</span>
+    store.put((<span class="hljs-string">&quot;user-42&quot;</span>, <span class="hljs-string">&quot;facts&quot;</span>), <span class="hljs-string">&quot;diet&quot;</span>, {<span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;비건&quot;</span>})
+    hits = store.search((<span class="hljs-string">&quot;user-42&quot;</span>, <span class="hljs-string">&quot;facts&quot;</span>), query=<span class="hljs-string">&quot;식습관&quot;</span>)
+    <span class="hljs-keyword">return</span> {...}
+</code></pre>
+<blockquote>
+<p>운영에선 <code>PostgresStore</code> + 임베딩 검색으로 &quot;기억하는 비서&quot;를 만듭니다.</p>
+</blockquote>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="38" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 05 · Lab" data-theme="blueprint" lang="en-US" data-marpit-pagination="38" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 05 · Lab;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 05 · Lab</header>
+
+<h2 id="span-classlab%EC%8B%A4%EC%8A%B5-05span-%EA%B8%B0%EC%96%B5%ED%95%98%EB%8A%94-%EC%B1%97%EB%B4%87"><span class="lab">실습 05</span> 기억하는 챗봇</h2>
+<div class="cols">
+<div>
+<pre><code class="language-python"><span class="hljs-keyword">from</span> langgraph.checkpoint.memory <span class="hljs-keyword">import</span> MemorySaver
+
+graph = builder.<span class="hljs-built_in">compile</span>(
+    checkpointer=MemorySaver())
+
+cfg = {<span class="hljs-string">&quot;configurable&quot;</span>: {<span class="hljs-string">&quot;thread_id&quot;</span>: <span class="hljs-string">&quot;demo&quot;</span>}}
+</code></pre>
+</div>
+<div>
+<pre><code class="language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">chat</span>(<span class="hljs-params">text</span>):
+    out = graph.invoke(
+        {<span class="hljs-string">&quot;messages&quot;</span>: [(<span class="hljs-string">&quot;user&quot;</span>, text)]}, cfg)
+    <span class="hljs-built_in">print</span>(out[<span class="hljs-string">&quot;messages&quot;</span>][-<span class="hljs-number">1</span>].content)
+
+chat(<span class="hljs-string">&quot;내 취미는 등산이야&quot;</span>)
+chat(<span class="hljs-string">&quot;내 취미에 맞는 책 추천해줘&quot;</span>)  <span class="hljs-comment"># 등산 기억함</span>
+</code></pre>
+<blockquote>
+<p><code>thread_id</code>를 바꿔 호출하면 기억이 사라지는 걸 확인해 보세요.</p>
+</blockquote>
+</div>
+</div>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="39" data-footer="LangGraph 풀코스 · v1.x" data-class="section" data-theme="blueprint" lang="en-US" class="section" style="--footer:LangGraph 풀코스 · v1.x;--class:section;--theme:blueprint;"><div class="modnum">MODULE 06</div>
+<h1 id="human-in-the-loop">Human-in-the-loop</h1>
+<div class="modsub">interrupt · 승인 게이트 · resume</div>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="40" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 06 · The pattern" data-theme="blueprint" lang="en-US" data-marpit-pagination="40" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 06 · The pattern;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 06 · The pattern</header>
+
+<h2 id="%EC%82%AC%EB%9E%8C%EC%9D%84-%ED%9D%90%EB%A6%84-%EC%95%88%EC%97%90-%EB%84%A3%EA%B8%B0">사람을 흐름 안에 넣기</h2>
+<div class="mermaid">
+flowchart LR
+  P[plan] --&gt; H{{"human · interrupt"}}
+  H --&gt;|resume: yes| X[execute] --&gt; E([END])
+  H --&gt;|resume: edit| P
+</div>
+<ul>
+<li>민감한 행동(결제·삭제·발송) <strong>직전에 멈추고</strong> 사람의 승인을 받는다</li>
+<li><code>interrupt()</code>로 그래프를 <strong>일시정지</strong> → 사람이 결정 → <code>Command(resume=...)</code>로 재개</li>
+<li>상태가 checkpointer에 저장돼 있으니, 몇 분/며칠 뒤 재개해도 OK</li>
+</ul>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="41" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 06 · interrupt" data-theme="blueprint" lang="en-US" data-marpit-pagination="41" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 06 · interrupt;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 06 · interrupt</header>
+
+<h2 id="interrupt--%EB%A9%88%EC%B6%94%EA%B3%A0-%EB%AC%BC%EC%96%B4%EB%B3%B8%EB%8B%A4">interrupt() — 멈추고 물어본다</h2>
+<pre><code class="language-python"><span class="hljs-keyword">from</span> langgraph.types <span class="hljs-keyword">import</span> interrupt, Command
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">approval</span>(<span class="hljs-params">state: State</span>):
+    <span class="hljs-comment"># 실행이 여기서 멈추고, payload 가 클라이언트로 전달된다</span>
+    decision = interrupt({
+        <span class="hljs-string">&quot;action&quot;</span>: state[<span class="hljs-string">&quot;next_action&quot;</span>],
+        <span class="hljs-string">&quot;question&quot;</span>: <span class="hljs-string">&quot;이 작업을 승인하시겠습니까? (yes/no)&quot;</span>,
+    })
+    <span class="hljs-comment"># 재개되면 decision 에 resume 값이 들어온다</span>
+    <span class="hljs-keyword">return</span> {<span class="hljs-string">&quot;approved&quot;</span>: decision == <span class="hljs-string">&quot;yes&quot;</span>}
+</code></pre>
+<ul>
+<li><code>interrupt(payload)</code> — payload는 사람에게 보여줄 정보</li>
+<li><strong>checkpointer 필수</strong> (멈춘 상태를 저장해야 하므로)</li>
+</ul>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="42" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 06 · Resume" data-theme="blueprint" lang="en-US" data-marpit-pagination="42" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 06 · Resume;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 06 · Resume</header>
+
+<h2 id="%EC%9E%AC%EA%B0%9C--commandresume">재개 — Command(resume=...)</h2>
+<pre><code class="language-python">config = {<span class="hljs-string">&quot;configurable&quot;</span>: {<span class="hljs-string">&quot;thread_id&quot;</span>: <span class="hljs-string">&quot;t1&quot;</span>}}
+
+<span class="hljs-comment"># 1) 첫 실행 — approval 노드의 interrupt 에서 멈춤</span>
+graph.invoke({<span class="hljs-string">&quot;messages&quot;</span>: [(<span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;100만원 송금해줘&quot;</span>)]}, config)
+
+<span class="hljs-comment"># 2) 사람의 결정을 확인한다</span>
+state = graph.get_state(config)
+<span class="hljs-built_in">print</span>(state.<span class="hljs-built_in">next</span>)                 <span class="hljs-comment"># (&#x27;approval&#x27;,) — 멈춰 있는 위치</span>
+
+<span class="hljs-comment"># 3) 결정을 주입하며 재개</span>
+graph.invoke(Command(resume=<span class="hljs-string">&quot;yes&quot;</span>), config)
+</code></pre>
+<blockquote>
+<p><code>update_state</code>로 상태를 <strong>고친 뒤</strong> 재개할 수도 있습니다 — &quot;승인 + 금액 수정&quot; 같은 패턴.</p>
+</blockquote>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="43" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 06 · Lab" data-theme="blueprint" lang="en-US" data-marpit-pagination="43" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 06 · Lab;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 06 · Lab</header>
+
+<h2 id="span-classlab%EC%8B%A4%EC%8A%B5-06span-%EC%8A%B9%EC%9D%B8-%EA%B2%8C%EC%9D%B4%ED%8A%B8"><span class="lab">실습 06</span> 승인 게이트</h2>
+<div class="cols">
+<div>
+<pre><code class="language-python"><span class="hljs-keyword">from</span> langgraph.types <span class="hljs-keyword">import</span> interrupt, Command
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">plan</span>(<span class="hljs-params">state</span>):
+    <span class="hljs-keyword">return</span> {<span class="hljs-string">&quot;next_action&quot;</span>: <span class="hljs-string">&quot;send_email&quot;</span>}
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">gate</span>(<span class="hljs-params">state</span>):
+    ok = interrupt({<span class="hljs-string">&quot;action&quot;</span>: state[<span class="hljs-string">&quot;next_action&quot;</span>]})
+    <span class="hljs-keyword">return</span> {<span class="hljs-string">&quot;approved&quot;</span>: ok == <span class="hljs-string">&quot;yes&quot;</span>}
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">execute</span>(<span class="hljs-params">state</span>):
+    <span class="hljs-keyword">return</span> {<span class="hljs-string">&quot;messages&quot;</span>:[(<span class="hljs-string">&quot;ai&quot;</span>,<span class="hljs-string">&quot;실행 완료&quot;</span>)]}
+</code></pre>
+</div>
+<div>
+<pre><code class="language-python">g.add_edge(START, <span class="hljs-string">&quot;plan&quot;</span>)
+g.add_edge(<span class="hljs-string">&quot;plan&quot;</span>, <span class="hljs-string">&quot;gate&quot;</span>)
+g.add_edge(<span class="hljs-string">&quot;gate&quot;</span>, <span class="hljs-string">&quot;execute&quot;</span>)
+g.add_edge(<span class="hljs-string">&quot;execute&quot;</span>, END)
+graph = g.<span class="hljs-built_in">compile</span>(checkpointer=MemorySaver())
+
+graph.invoke(inputs, cfg)          <span class="hljs-comment"># gate 에서 멈춤</span>
+graph.invoke(Command(resume=<span class="hljs-string">&quot;yes&quot;</span>), cfg)  <span class="hljs-comment"># 재개</span>
+</code></pre>
+</div>
+</div>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="44" data-footer="LangGraph 풀코스 · v1.x" data-class="section" data-theme="blueprint" lang="en-US" class="section" style="--footer:LangGraph 풀코스 · v1.x;--class:section;--theme:blueprint;"><div class="modnum">MODULE 07</div>
+<h1 id="rag-with-langgraph">RAG with LangGraph</h1>
+<div class="modsub">retrieve · grade · generate · self-correct</div>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="45" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 07 · RAG as a graph" data-theme="blueprint" lang="en-US" data-marpit-pagination="45" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 07 · RAG as a graph;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 07 · RAG as a graph</header>
+
+<h2 id="rag-%ED%8C%8C%EC%9D%B4%ED%94%84%EB%9D%BC%EC%9D%B8%EC%9D%84-%EA%B7%B8%EB%9E%98%ED%94%84%EB%A1%9C">RAG 파이프라인을 그래프로</h2>
+<div class="mermaid">
+flowchart LR
+  Q([질문]) --&gt; R[retrieve]
+  R --&gt; G{관련성 평가}
+  G --&gt;|관련 있음| GEN[generate]
+  G --&gt;|관련 없음| RW[rewrite]
+  RW --&gt; R
+  GEN --&gt; A([답변])
+</div>
+<ul>
+<li>단순 RAG = retrieve → generate (직선)</li>
+<li><strong>Corrective RAG</strong> = 검색 결과를 <strong>평가</strong>하고, 부실하면 질문을 고쳐 <strong>다시 검색</strong></li>
+<li>조건부 엣지 + 사이클 = LangGraph가 RAG에 잘 맞는 이유</li>
+</ul>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="46" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 07 · Nodes" data-theme="blueprint" lang="en-US" data-marpit-pagination="46" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 07 · Nodes;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 07 · Nodes</header>
+
+<h2 id="%EB%85%B8%EB%93%9C-retrieve--grade--generate">노드: retrieve · grade · generate</h2>
+<pre><code class="language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">RAGState</span>(<span class="hljs-title class_ inherited__">TypedDict</span>):
+    question: <span class="hljs-built_in">str</span>
+    documents: <span class="hljs-built_in">list</span>
+    answer: <span class="hljs-built_in">str</span>
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">retrieve</span>(<span class="hljs-params">state: RAGState</span>):
+    docs = retriever.invoke(state[<span class="hljs-string">&quot;question&quot;</span>])      <span class="hljs-comment"># 벡터 검색</span>
+    <span class="hljs-keyword">return</span> {<span class="hljs-string">&quot;documents&quot;</span>: docs}
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">generate</span>(<span class="hljs-params">state: RAGState</span>):
+    ctx = <span class="hljs-string">&quot;\n\n&quot;</span>.join(d.page_content <span class="hljs-keyword">for</span> d <span class="hljs-keyword">in</span> state[<span class="hljs-string">&quot;documents&quot;</span>])
+    ans = llm.invoke(<span class="hljs-string">f&quot;문맥:\n<span class="hljs-subst">{ctx}</span>\n\n질문: <span class="hljs-subst">{state[<span class="hljs-string">&#x27;question&#x27;</span>]}</span>&quot;</span>)
+    <span class="hljs-keyword">return</span> {<span class="hljs-string">&quot;answer&quot;</span>: ans.content}
+</code></pre>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="47" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 07 · Self-correction" data-theme="blueprint" lang="en-US" data-marpit-pagination="47" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 07 · Self-correction;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 07 · Self-correction</header>
+
+<h2 id="%EC%9E%90%EA%B8%B0%EA%B5%90%EC%A0%95--grade--rewrite">자기교정 — grade &amp; rewrite</h2>
+<pre><code class="language-python"><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Literal</span>
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">grade</span>(<span class="hljs-params">state: RAGState</span>) -&gt; <span class="hljs-type">Literal</span>[<span class="hljs-string">&quot;generate&quot;</span>, <span class="hljs-string">&quot;rewrite&quot;</span>]:
+    ctx = format_docs(state[<span class="hljs-string">&quot;documents&quot;</span>])
+    verdict = llm.invoke(
+        <span class="hljs-string">f&quot;문서가 질문에 답하기 충분한가? yes/no\n질문:<span class="hljs-subst">{state[<span class="hljs-string">&#x27;question&#x27;</span>]}</span>\n<span class="hljs-subst">{ctx}</span>&quot;</span>
+    ).content
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;generate&quot;</span> <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;yes&quot;</span> <span class="hljs-keyword">in</span> verdict.lower() <span class="hljs-keyword">else</span> <span class="hljs-string">&quot;rewrite&quot;</span>
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">rewrite</span>(<span class="hljs-params">state: RAGState</span>):
+    better = llm.invoke(<span class="hljs-string">f&quot;검색이 잘 되도록 질문을 다시 써라: <span class="hljs-subst">{state[<span class="hljs-string">&#x27;question&#x27;</span>]}</span>&quot;</span>)
+    <span class="hljs-keyword">return</span> {<span class="hljs-string">&quot;question&quot;</span>: better.content}
+
+builder.add_conditional_edges(<span class="hljs-string">&quot;retrieve&quot;</span>, grade)
+builder.add_edge(<span class="hljs-string">&quot;rewrite&quot;</span>, <span class="hljs-string">&quot;retrieve&quot;</span>)   <span class="hljs-comment"># 고친 질문으로 재검색</span>
+</code></pre>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="48" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 07 · Lab" data-theme="blueprint" lang="en-US" data-marpit-pagination="48" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 07 · Lab;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 07 · Lab</header>
+
+<h2 id="span-classlab%EC%8B%A4%EC%8A%B5-07span-%EB%AC%B8%EC%84%9C-qa-%EA%B7%B8%EB%9E%98%ED%94%84"><span class="lab">실습 07</span> 문서 QA 그래프</h2>
+<div class="cols">
+<div>
+<pre><code class="language-python">g = StateGraph(RAGState)
+g.add_node(<span class="hljs-string">&quot;retrieve&quot;</span>, retrieve)
+g.add_node(<span class="hljs-string">&quot;rewrite&quot;</span>, rewrite)
+g.add_node(<span class="hljs-string">&quot;generate&quot;</span>, generate)
+
+g.add_edge(START, <span class="hljs-string">&quot;retrieve&quot;</span>)
+g.add_conditional_edges(<span class="hljs-string">&quot;retrieve&quot;</span>, grade)
+g.add_edge(<span class="hljs-string">&quot;rewrite&quot;</span>, <span class="hljs-string">&quot;retrieve&quot;</span>)
+g.add_edge(<span class="hljs-string">&quot;generate&quot;</span>, END)
+rag = g.<span class="hljs-built_in">compile</span>()
+</code></pre>
+</div>
+<div>
+<h4 id="%ED%99%95%EC%9E%A5-%EA%B3%BC%EC%A0%9C">확장 과제</h4>
+<ul>
+<li><code>rewrite</code> 횟수 상한 (모듈 03의 루프 방어)</li>
+<li>생성 답변의 <strong>환각 검사</strong> 노드 추가 → 실패 시 재생성</li>
+<li><code>retriever</code>를 실제 벡터스토어(FAISS·Chroma)로 교체</li>
+</ul>
+<blockquote>
+<p>평가·재시도 노드를 더할수록 &quot;Self-RAG&quot;에 가까워집니다.</p>
+</blockquote>
+</div>
+</div>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="49" data-footer="LangGraph 풀코스 · v1.x" data-class="section" data-theme="blueprint" lang="en-US" class="section" style="--footer:LangGraph 풀코스 · v1.x;--class:section;--theme:blueprint;"><div class="modnum">MODULE 08</div>
+<h1 id="%EB%A9%80%ED%8B%B0-%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8">멀티 에이전트</h1>
+<div class="modsub">Supervisor · Swarm · Subgraph</div>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="50" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 08 · When" data-theme="blueprint" lang="en-US" data-marpit-pagination="50" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 08 · When;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 08 · When</header>
+
+<h2 id="%EC%96%B8%EC%A0%9C-%EC%97%AC%EB%9F%AC-%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%EB%A1%9C-%EB%82%98%EB%88%8C%EA%B9%8C">언제 여러 에이전트로 나눌까</h2>
+<ul>
+<li>한 에이전트의 <strong>도구·프롬프트가 너무 비대</strong>해질 때</li>
+<li>역할이 뚜렷이 갈릴 때 (리서치 / 코딩 / 작문)</li>
+<li>도메인별 <strong>전문화</strong>가 품질을 높일 때</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>패턴</th>
+<th>제어 방식</th>
+<th>적합한 경우</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Supervisor</strong></td>
+<td>중앙 관리자가 위임·취합</td>
+<td>명확한 분업, 추적 용이</td>
+</tr>
+<tr>
+<td><strong>Swarm</strong></td>
+<td>에이전트끼리 직접 handoff</td>
+<td>동적 협업, 대화 이관</td>
+</tr>
+<tr>
+<td><strong>Network</strong></td>
+<td>자유로운 상호 호출</td>
+<td>복잡·비정형 (제어 어려움)</td>
+</tr>
+</tbody>
+</table>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="51" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 08 · Supervisor" data-theme="blueprint" lang="en-US" data-marpit-pagination="51" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 08 · Supervisor;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 08 · Supervisor</header>
+
+<h2 id="supervisor--%EA%B4%80%EB%A6%AC%EC%9E%90%EA%B0%80-%EC%9C%84%EC%9E%84%ED%95%9C%EB%8B%A4">Supervisor — 관리자가 위임한다</h2>
+<div class="mermaid">
+flowchart TD
+  S{{supervisor}} --&gt; R[researcher]
+  S --&gt; C[coder]
+  R --&gt; S
+  C --&gt; S
+  S --&gt; E([END])
+</div>
+<ul>
+<li>관리자 노드가 <strong>다음에 누구를 부를지</strong> 결정하고, 결과를 받아 다시 판단</li>
+<li>모듈 02의 <code>Command(goto=...)</code> 라우팅이 그대로 확장된 형태</li>
+</ul>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="52" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 08 · Supervisor" data-theme="blueprint" lang="en-US" data-marpit-pagination="52" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 08 · Supervisor;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 08 · Supervisor</header>
+
+<h2 id="langgraph-supervisor--prebuilt">langgraph-supervisor — prebuilt</h2>
+<pre><code class="language-python"><span class="hljs-keyword">from</span> langgraph_supervisor <span class="hljs-keyword">import</span> create_supervisor
+<span class="hljs-keyword">from</span> langgraph.prebuilt <span class="hljs-keyword">import</span> create_react_agent
+
+researcher = create_react_agent(llm, [web_search], name=<span class="hljs-string">&quot;researcher&quot;</span>,
+                                prompt=<span class="hljs-string">&quot;너는 리서치 전문가다.&quot;</span>)
+coder = create_react_agent(llm, [run_python], name=<span class="hljs-string">&quot;coder&quot;</span>,
+                           prompt=<span class="hljs-string">&quot;너는 파이썬 코더다.&quot;</span>)
+
+app = create_supervisor(
+    agents=[researcher, coder],
+    model=llm,
+    prompt=<span class="hljs-string">&quot;리서치는 researcher, 코드는 coder 에게 위임하라.&quot;</span>,
+).<span class="hljs-built_in">compile</span>()
+
+app.invoke({<span class="hljs-string">&quot;messages&quot;</span>: [(<span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;최근 환율을 찾아 그래프 그리는 코드를 써줘&quot;</span>)]})
+</code></pre>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="53" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 08 · Swarm" data-theme="blueprint" lang="en-US" data-marpit-pagination="53" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 08 · Swarm;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 08 · Swarm</header>
+
+<h2 id="swarm--%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%EB%81%BC%EB%A6%AC-%EB%84%98%EA%B8%B4%EB%8B%A4">Swarm — 에이전트끼리 넘긴다</h2>
+<div class="mermaid">
+flowchart LR
+  A[flight_agent] <-->|handoff| B[hotel_agent]
+  A <-->|handoff| C[refund_agent]
+  B <-->|handoff| C
+</div>
+<pre><code class="language-python"><span class="hljs-keyword">from</span> langgraph_swarm <span class="hljs-keyword">import</span> create_swarm, create_handoff_tool
+
+flight = create_react_agent(llm, [book_flight,
+    create_handoff_tool(agent_name=<span class="hljs-string">&quot;hotel&quot;</span>)], name=<span class="hljs-string">&quot;flight&quot;</span>)
+hotel  = create_react_agent(llm, [book_hotel,
+    create_handoff_tool(agent_name=<span class="hljs-string">&quot;flight&quot;</span>)], name=<span class="hljs-string">&quot;hotel&quot;</span>)
+
+app = create_swarm([flight, hotel], default_active_agent=<span class="hljs-string">&quot;flight&quot;</span>).<span class="hljs-built_in">compile</span>()
+</code></pre>
+<blockquote>
+<p>중앙 관리자 없이, <strong>현재 활성 에이전트</strong>가 필요할 때 동료에게 제어를 넘깁니다.</p>
+</blockquote>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="54" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 08 · Subgraph" data-theme="blueprint" lang="en-US" data-marpit-pagination="54" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 08 · Subgraph;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 08 · Subgraph</header>
+
+<h2 id="subgraph--%EA%B7%B8%EB%9E%98%ED%94%84%EB%A5%BC-%EB%B6%80%ED%92%88%EC%9C%BC%EB%A1%9C">Subgraph — 그래프를 부품으로</h2>
+<pre><code class="language-python"><span class="hljs-comment"># 1) 작은 그래프를 컴파일</span>
+sub = sub_builder.<span class="hljs-built_in">compile</span>()
+
+<span class="hljs-comment"># 2) 부모 그래프의 &quot;노드&quot;로 그대로 끼운다</span>
+parent.add_node(<span class="hljs-string">&quot;research_team&quot;</span>, sub)
+parent.add_edge(START, <span class="hljs-string">&quot;research_team&quot;</span>)
+</code></pre>
+<div class="mermaid">
+flowchart LR
+  P1[intake] --&gt; SUB[["research_team (subgraph)"]] --&gt; P2[report]
+</div>
+<ul>
+<li>복잡한 시스템을 <strong>모듈 단위</strong>로 쪼개 재사용·테스트</li>
+<li>부모와 자식이 State를 공유하거나, 입출력만 변환해 연결</li>
+</ul>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="55" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 08 · Lab" data-theme="blueprint" lang="en-US" data-marpit-pagination="55" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 08 · Lab;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 08 · Lab</header>
+
+<h2 id="span-classlab%EC%8B%A4%EC%8A%B5-08span-%EB%A6%AC%EC%84%9C%EC%B9%98-%ED%98%91%EC%97%85-%EC%8B%9C%EC%8A%A4%ED%85%9C"><span class="lab">실습 08</span> 리서치 협업 시스템</h2>
+<div class="cols">
+<div>
+<pre><code class="language-python">researcher = create_react_agent(
+    llm, [web_search], name=<span class="hljs-string">&quot;researcher&quot;</span>,
+    prompt=<span class="hljs-string">&quot;사실을 수집하고 출처를 남겨라.&quot;</span>)
+
+writer = create_react_agent(
+    llm, [], name=<span class="hljs-string">&quot;writer&quot;</span>,
+    prompt=<span class="hljs-string">&quot;수집된 내용을 보고서로 정리하라.&quot;</span>)
+
+team = create_supervisor(
+    agents=[researcher, writer], model=llm,
+    prompt=<span class="hljs-string">&quot;먼저 researcher, 그다음 writer.&quot;</span>,
+).<span class="hljs-built_in">compile</span>()
+</code></pre>
+</div>
+<div>
+<h4 id="%ED%95%B4%EB%B3%B4%EA%B8%B0-1">해보기</h4>
+<ol>
+<li><code>team.stream(..., stream_mode=&quot;updates&quot;)</code> 로 누가 말하는지 추적</li>
+<li><code>writer</code>에게 도구를 빼고 <strong>취합만</strong> 시키기</li>
+<li>Supervisor 버전을 <strong>Swarm</strong>으로 바꿔 차이 체감</li>
+</ol>
+<blockquote>
+<p>모듈 09의 스트리밍으로 멀티에이전트의 내부 대화를 들여다봅니다.</p>
+</blockquote>
+</div>
+</div>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="56" data-footer="LangGraph 풀코스 · v1.x" data-class="section" data-theme="blueprint" lang="en-US" class="section" style="--footer:LangGraph 풀코스 · v1.x;--class:section;--theme:blueprint;"><div class="modnum">MODULE 09</div>
+<h1 id="%EC%9A%B4%EC%98%81--%EC%8A%A4%ED%8A%B8%EB%A6%AC%EB%B0%8D--%EB%A7%88%EB%AC%B4%EB%A6%AC">운영 · 스트리밍 · 마무리</h1>
+<div class="modsub">stream_mode · 디버깅 · 배포</div>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="57" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 09 · Streaming" data-theme="blueprint" lang="en-US" data-marpit-pagination="57" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 09 · Streaming;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 09 · Streaming</header>
+
+<h2 id="%EC%8A%A4%ED%8A%B8%EB%A6%AC%EB%B0%8D--stream_mode">스트리밍 — stream_mode</h2>
+<pre><code class="language-python"><span class="hljs-keyword">for</span> chunk <span class="hljs-keyword">in</span> graph.stream(inputs, config, stream_mode=<span class="hljs-string">&quot;updates&quot;</span>):
+    <span class="hljs-built_in">print</span>(chunk)   <span class="hljs-comment"># {노드이름: 그 노드가 반환한 갱신분}</span>
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>mode</th>
+<th>무엇이 흘러오나</th>
+<th>쓰임</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>values</code></td>
+<td>매 단계 <strong>전체 State</strong></td>
+<td>최종/누적 상태 표시</td>
+</tr>
+<tr>
+<td><code>updates</code></td>
+<td>노드별 <strong>갱신분</strong></td>
+<td>진행 상황·디버깅</td>
+</tr>
+<tr>
+<td><code>messages</code></td>
+<td>LLM <strong>토큰 단위</strong></td>
+<td>챗 UI 타이핑 효과</td>
+</tr>
+<tr>
+<td><code>debug</code></td>
+<td>상세 이벤트</td>
+<td>심층 디버깅</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>리스트로 여러 모드를 동시에: <code>stream_mode=[&quot;updates&quot;, &quot;messages&quot;]</code>.</p>
+</blockquote>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="58" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 09 · Debugging" data-theme="blueprint" lang="en-US" data-marpit-pagination="58" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 09 · Debugging;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 09 · Debugging</header>
+
+<h2 id="%EB%94%94%EB%B2%84%EA%B9%85--%EA%B7%B8%EB%9E%98%ED%94%84%EB%A5%BC-%EB%93%A4%EC%97%AC%EB%8B%A4%EB%B3%B4%EA%B8%B0">디버깅 — 그래프를 들여다보기</h2>
+<div class="cols">
+<div>
+<h4 id="%EA%B5%AC%EC%A1%B0-%EC%8B%9C%EA%B0%81%ED%99%94">구조 시각화</h4>
+<pre><code class="language-python"><span class="hljs-comment"># Mermaid 텍스트로</span>
+<span class="hljs-built_in">print</span>(graph.get_graph().draw_mermaid())
+
+<span class="hljs-comment"># PNG 로</span>
+graph.get_graph().draw_mermaid_png()
+</code></pre>
+</div>
+<div>
+<h4 id="%EC%B6%94%EC%A0%81--%EC%8A%A4%ED%8A%9C%EB%94%94%EC%98%A4">추적 · 스튜디오</h4>
+<ul>
+<li><strong>LangSmith</strong> — 모든 실행/토큰/지연을 추적 (<code>LANGSMITH_TRACING=true</code>)</li>
+<li><strong>LangGraph Studio</strong> — 그래프를 시각적으로 실행·중단·되감기</li>
+</ul>
+<pre><code class="language-bash">pip install -U <span class="hljs-string">&quot;langgraph-cli[inmem]&quot;</span>
+langgraph dev   <span class="hljs-comment"># 로컬 스튜디오 실행</span>
+</code></pre>
+</div>
+</div>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="59" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Module 09 · Deploy" data-theme="blueprint" lang="en-US" data-marpit-pagination="59" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Module 09 · Deploy;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Module 09 · Deploy</header>
+
+<h2 id="%EB%B0%B0%ED%8F%AC--%EA%B7%B8%EB%9E%98%ED%94%84%EB%A5%BC-%EC%84%9C%EB%B9%84%EC%8A%A4%EB%A1%9C">배포 — 그래프를 서비스로</h2>
+<pre><code class="language-python"><span class="hljs-comment"># langgraph.json 으로 그래프를 선언</span>
+{
+  <span class="hljs-string">&quot;dependencies&quot;</span>: [<span class="hljs-string">&quot;.&quot;</span>],
+  <span class="hljs-string">&quot;graphs&quot;</span>: { <span class="hljs-string">&quot;agent&quot;</span>: <span class="hljs-string">&quot;./app.py:graph&quot;</span> }
+}
+</code></pre>
+<ul>
+<li><code>langgraph dev</code> — 로컬 개발 서버 (API + 스튜디오)</li>
+<li><strong>LangGraph Platform</strong> — 영속성·스케일링·스케줄링 포함 매니지드 배포</li>
+<li>직접 배포 시: 컴파일된 그래프는 <strong>Runnable</strong> → FastAPI 등에 그대로 탑재</li>
+</ul>
+<blockquote>
+<p>핵심은 같습니다 — <strong>상태 + 노드 + 엣지</strong>. 배포는 그 위의 얇은 껍데기일 뿐.</p>
+</blockquote>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="60" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Recap" data-theme="blueprint" lang="en-US" data-marpit-pagination="60" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Recap;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Recap</header>
+
+<h2 id="%EC%A0%84%EC%B2%B4-%EA%B7%B8%EB%A6%BC-%EB%8B%A4%EC%8B%9C-%EB%B3%B4%EA%B8%B0">전체 그림 다시 보기</h2>
+<div class="mermaid">
+flowchart LR
+  S([START]) --&gt; AG["agent (LLM + tools)"]
+  AG --&gt;|도구 호출| TN[ToolNode]
+  TN --&gt; AG
+  AG --&gt;|승인 필요| HI{{human}}
+  HI --&gt;|resume| AG
+  AG --&gt;|완료| E([END])
+  CP[(checkpointer)] -.기억·재개.- AG
+</div>
+<ul>
+<li><strong>State</strong>에 흐르고 · <strong>Node</strong>가 갱신하고 · <strong>Edge</strong>가 잇고 · <strong>Cycle</strong>로 반복</li>
+<li>도구·메모리·사람·여러 에이전트는 모두 이 위에 얹는 레이어</li>
+</ul>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="61" data-paginate="true" data-footer="LangGraph 풀코스 · v1.x" data-header="Next steps" data-theme="blueprint" lang="en-US" data-marpit-pagination="61" style="--paginate:true;--footer:LangGraph 풀코스 · v1.x;--header:Next steps;--theme:blueprint;" data-marpit-pagination-total="62">
+<header>Next steps</header>
+
+<h2 id="%EB%8B%A4%EC%9D%8C-%EB%8B%A8%EA%B3%84--%EB%A6%AC%EC%86%8C%EC%8A%A4">다음 단계 &amp; 리소스</h2>
+<div class="cols">
+<div>
+<h4 id="%EC%A7%81%EC%A0%91-%EB%A7%8C%EB%93%A4%EC%96%B4-%EB%B3%BC-%EA%B2%83">직접 만들어 볼 것</h4>
+<ul>
+<li>도구 3개짜리 ReAct 에이전트 + 메모리</li>
+<li>Corrective RAG에 환각 검사 추가</li>
+<li>Supervisor <img class="emoji" draggable="false" alt="↔" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.2/assets/svg/2194.svg" data-marp-twemoji=""/> Swarm 같은 과제로 비교</li>
+</ul>
+</div>
+<div>
+<h4 id="%EB%8D%94-%EB%B3%B4%EA%B8%B0">더 보기</h4>
+<ul>
+<li>공식 문서 · 튜토리얼 (LangGraph)</li>
+<li>LangSmith로 내 에이전트 추적</li>
+<li><code>langgraph-supervisor</code> · <code>langgraph-swarm</code> 레포 예제</li>
+</ul>
+</div>
+</div>
+<blockquote>
+<p>막히면 그래프를 그려 보세요. <strong>흐름이 그려지면, 코드는 따라옵니다.</strong></p>
+</blockquote>
+<footer>LangGraph 풀코스 · v1.x</footer>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="62" data-class="lead" data-theme="blueprint" lang="en-US" class="lead" style="--class:lead;--theme:blueprint;"><div class="nodes"><span class="n"></span><span class="ln"></span><span class="n fill"></span><span class="ln"></span><span class="n"></span></div>
+<h1 id="%EA%B0%90%EC%82%AC%ED%95%A9%EB%8B%88%EB%8B%A4">감사합니다</h1>
+<p><span class="sub">이제 당신의 아이디어를 그래프로 그릴 차례입니다.</span></p>
+<div class="meta">
+<p><code>LangGraph 풀코스</code> <code>State · Node · Edge · Graph</code></p>
+</div>
+</section>
+<script>!function(){"use strict";const t={h1:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"1"},style:"display: block; font-size: 2em; margin-block-start: 0.67em; margin-block-end: 0.67em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h2:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"2"},style:"display: block; font-size: 1.5em; margin-block-start: 0.83em; margin-block-end: 0.83em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h3:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"3"},style:"display: block; font-size: 1.17em; margin-block-start: 1em; margin-block-end: 1em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h4:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"4"},style:"display: block; margin-block-start: 1.33em; margin-block-end: 1.33em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h5:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"5"},style:"display: block; font-size: 0.83em; margin-block-start: 1.67em; margin-block-end: 1.67em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h6:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"6"},style:"display: block; font-size: 0.67em; margin-block-start: 2.33em; margin-block-end: 2.33em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},span:{proto:()=>HTMLSpanElement},pre:{proto:()=>HTMLElement,style:"display: block; font-family: monospace; white-space: pre; margin: 1em 0; --marp-auto-scaling-white-space: pre;"}},e="data-marp-auto-scaling-wrapper",i="data-marp-auto-scaling-svg",n="data-marp-auto-scaling-container";class s extends HTMLElement{container;containerSize;containerObserver;svg;svgComputedStyle;svgPreserveAspectRatio="xMinYMid meet";wrapper;wrapperSize;wrapperObserver;constructor(){super();const t=t=>([e])=>{const{width:i,height:n}=e.contentRect;this[t]={width:i,height:n},this.updateSVGRect()};this.attachShadow({mode:"open"}),this.containerObserver=new ResizeObserver(t("containerSize")),this.wrapperObserver=new ResizeObserver((...e)=>{t("wrapperSize")(...e),this.flushSvgDisplay()})}static get observedAttributes(){return["data-downscale-only"]}connectedCallback(){this.shadowRoot.innerHTML=`\n<style>\n  svg[${i}] { display: block; width: 100%; height: auto; vertical-align: top; }\n  span[${n}] { display: table; white-space: var(--marp-auto-scaling-white-space, nowrap); width: max-content; }\n</style>\n<div ${e}>\n  <svg part="svg" ${i}>\n    <foreignObject><span ${n}><slot></slot></span></foreignObject>\n  </svg>\n</div>\n    `.split(/\n\s*/).join(""),this.wrapper=this.shadowRoot.querySelector(`div[${e}]`)??void 0;const t=this.svg;this.svg=this.wrapper?.querySelector(`svg[${i}]`)??void 0,this.svg!==t&&(this.svgComputedStyle=this.svg?window.getComputedStyle(this.svg):void 0),this.container=this.svg?.querySelector(`span[${n}]`)??void 0,this.observe()}disconnectedCallback(){this.svg=void 0,this.svgComputedStyle=void 0,this.wrapper=void 0,this.container=void 0,this.observe()}attributeChangedCallback(){this.observe()}flushSvgDisplay(){const{svg:t}=this;t&&(t.style.display="inline",requestAnimationFrame(()=>{t.style.display=""}))}observe(){this.containerObserver.disconnect(),this.wrapperObserver.disconnect(),this.wrapper&&this.wrapperObserver.observe(this.wrapper),this.container&&this.containerObserver.observe(this.container),this.svgComputedStyle&&this.observeSVGStyle(this.svgComputedStyle)}observeSVGStyle(t){const e=()=>{const i=(()=>{const e=t.getPropertyValue("--preserve-aspect-ratio");if(e)return e.trim();return`x${(({textAlign:t,direction:e})=>{if(t.endsWith("left"))return"Min";if(t.endsWith("right"))return"Max";if("start"===t||"end"===t){let i="rtl"===e;return"end"===t&&(i=!i),i?"Max":"Min"}return"Mid"})(t)}YMid meet`})();i!==this.svgPreserveAspectRatio&&(this.svgPreserveAspectRatio=i,this.updateSVGRect()),t===this.svgComputedStyle&&requestAnimationFrame(e)};e()}updateSVGRect(){let t=Math.ceil(this.containerSize?.width??0);const e=Math.ceil(this.containerSize?.height??0);void 0!==this.dataset.downscaleOnly&&(t=Math.max(t,this.wrapperSize?.width??0));const i=this.svg?.querySelector(":scope > foreignObject");if(i?.setAttribute("width",`${t}`),i?.setAttribute("height",`${e}`),this.svg&&(this.svg.setAttribute("viewBox",`0 0 ${t} ${e}`),this.svg.setAttribute("preserveAspectRatio",this.svgPreserveAspectRatio),this.svg.style.height=t<=0||e<=0?"0":""),this.container){const t=this.svgPreserveAspectRatio.toLowerCase();this.container.style.marginLeft=t.startsWith("xmid")||t.startsWith("xmax")?"auto":"0",this.container.style.marginRight=t.startsWith("xmi")?"auto":"0"}}}const r=(t,{attrs:e={},style:i})=>class extends t{constructor(...t){super(...t);for(const[t,i]of Object.entries(e))this.hasAttribute(t)||this.setAttribute(t,i);this._shadow()}static get observedAttributes(){return["data-auto-scaling"]}connectedCallback(){this._update()}attributeChangedCallback(){this._update()}_shadow(){if(!this.shadowRoot)try{this.attachShadow({mode:"open"})}catch(t){if(!(t instanceof Error&&"NotSupportedError"===t.name))throw t}return this.shadowRoot}_update(){const t=this._shadow();if(t){const e=i?`<style>:host { ${i} }</style>`:"";let n="<slot></slot>";const{autoScaling:s}=this.dataset;if(void 0!==s){n=`<marp-auto-scaling exportparts="svg:auto-scaling" ${"downscale-only"===s?"data-downscale-only":""}>${n}</marp-auto-scaling>`}t.innerHTML=e+n}}};let o;const a=Symbol(),l=()=>o??(o=!!document.createElement("div",{is:"marp-auto-scaling"}).outerHTML.startsWith("<div is"),o);let c;const d="marpitSVGPolyfill:setZoomFactor,",h=Symbol(),g=Symbol();const p=()=>{const t="Apple Computer, Inc."===navigator.vendor,e=t?[v]:[],i={then:e=>(t?(async()=>{if(void 0===c){const t=document.createElement("canvas");t.width=10,t.height=10;const e=t.getContext("2d"),i=new Image(10,10),n=new Promise(t=>{i.addEventListener("load",()=>t())});i.crossOrigin="anonymous",i.src="data:image/svg+xml;charset=utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%20viewBox%3D%220%200%201%201%22%3E%3CforeignObject%20width%3D%221%22%20height%3D%221%22%20requiredExtensions%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%3E%3Cdiv%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%20style%3D%22width%3A%201px%3B%20height%3A%201px%3B%20background%3A%20red%3B%20position%3A%20relative%22%3E%3C%2Fdiv%3E%3C%2FforeignObject%3E%3C%2Fsvg%3E",await n,e.drawImage(i,0,0),c=e.getImageData(5,5,1,1).data[3]<128}return c})().then(t=>{null==e||e(t?[v]:[])}):null==e||e([]),i)};return Object.assign(e,i)};let m,u;function v(t){const e="object"==typeof t&&t.target||document,i="object"==typeof t?t.zoom:t;window[g]||(Object.defineProperty(window,g,{configurable:!0,value:!0}),document.body.style.zoom=1.0001,document.body.offsetHeight,document.body.style.zoom=1,window.addEventListener("message",({data:t,origin:e})=>{if(e===window.origin)try{if(t&&"string"==typeof t&&t.startsWith(d)){const[,e]=t.split(","),i=Number.parseFloat(e);Number.isNaN(i)||(u=i)}}catch(t){console.error(t)}}));let n=!1;Array.from(e.querySelectorAll("svg[data-marpit-svg]"),t=>{var e,s,r,o;t.style.transform||(t.style.transform="translateZ(0)");const a=i||u||t.currentScale||1;m!==a&&(m=a,n=a);const l=t.getBoundingClientRect(),{length:c}=t.children;for(let i=0;i<c;i+=1){const n=t.children[i];if(n.getScreenCTM){const t=n.getScreenCTM();if(t){const i=null!==(s=null===(e=n.x)||void 0===e?void 0:e.baseVal.value)&&void 0!==s?s:0,c=null!==(o=null===(r=n.y)||void 0===r?void 0:r.baseVal.value)&&void 0!==o?o:0,d=n.children.length;for(let e=0;e<d;e+=1){const s=n.children[e];if("SECTION"===s.tagName){const{style:e}=s;e.transformOrigin||(e.transformOrigin=`${-i}px ${-c}px`),e.transform=`scale(${a}) matrix(${t.a}, ${t.b}, ${t.c}, ${t.d}, ${t.e-l.left}, ${t.f-l.top}) translateZ(0.0001px)`;break}}}}}}),!1!==n&&Array.from(e.querySelectorAll("iframe"),({contentWindow:t})=>{null==t||t.postMessage(`${d}${n}`,"null"===window.origin?"*":window.origin)})}function w({once:t=!1,target:e=document}={}){const i=function(t=document){if(t[h])return t[h];let e=!0;const i=()=>{e=!1,delete t[h]};Object.defineProperty(t,h,{configurable:!0,value:i});let n=[],s=!1;(async()=>{try{n=await p()}finally{s=!0}})();const r=()=>{for(const e of n)e({target:t});s&&0===n.length||e&&window.requestAnimationFrame(r)};return r(),i}(e);return t?(i(),()=>{}):i}m=1,u=void 0;const b=Symbol(),y=(e=document)=>{if("undefined"==typeof window)throw new Error("Marp Core's browser script is valid only in browser context.");if(((e=document)=>{const i=window[a];i||customElements.define("marp-auto-scaling",s);for(const n of Object.keys(t)){const s=`marp-${n}`,o=t[n].proto();l()&&o!==HTMLElement?i||customElements.define(s,r(o,{style:t[n].style}),{extends:n}):(i||customElements.define(s,r(HTMLElement,t[n])),e.querySelectorAll(`${n}[is="${s}"]`).forEach(t=>{t.outerHTML=t.outerHTML.replace(new RegExp(`^<${n}`,"i"),`<${s}`).replace(new RegExp(`</${n}>$`,"i"),`</${s}>`)}))}window[a]=!0})(e),e[b])return e[b];const i=w({target:e}),n=()=>{i(),delete e[b]},o=Object.assign(n,{cleanup:n,update:()=>y(e)});return Object.defineProperty(e,b,{configurable:!0,value:o}),o},f=document.currentScript;y(f?f.getRootNode():document)}();
+</script></foreignObject></svg></div><script>/*!! License: https://unpkg.com/@marp-team/marp-cli@4.4.0/lib/bespoke.js.LICENSE.txt */
+!function(){"use strict";function e(e){return e&&e.__esModule&&Object.prototype.hasOwnProperty.call(e,"default")?e.default:e}var t,n,r=(n||(n=1,t={from:function(e,t){var n,r=1===(e.parent||e).nodeType?e.parent||e:document.querySelector(e.parent||e),o=[].filter.call("string"==typeof e.slides?r.querySelectorAll(e.slides):e.slides||r.children,function(e){return"SCRIPT"!==e.nodeName}),i={},a=function(e,t){return(t=t||{}).index=o.indexOf(e),t.slide=e,t},s=function(e,t){i[e]=(i[e]||[]).filter(function(e){return e!==t})},l=function(e,t){return(i[e]||[]).reduce(function(e,n){return e&&!1!==n(t)},!0)},c=function(e,t){o[e]&&(n&&l("deactivate",a(n,t)),n=o[e],l("activate",a(n,t)))},d=function(e,t){var r=o.indexOf(n)+e;l(e>0?"next":"prev",a(n,t))&&c(r,t)},u={off:s,on:function(e,t){return(i[e]||(i[e]=[])).push(t),s.bind(null,e,t)},fire:l,slide:function(e,t){if(!arguments.length)return o.indexOf(n);l("slide",a(o[e],t))&&c(e,t)},next:d.bind(null,1),prev:d.bind(null,-1),parent:r,slides:o,destroy:function(e){l("destroy",a(n,e)),i={}}};return(t||[]).forEach(function(e){e(u)}),n||c(0),u}}),t),o=e(r);const i=document.body,a=(...e)=>history.replaceState(...e),s="",l="presenter",c="next",d="overview",u=["",l,d,c],f="bespoke-marp-",m=`data-${f}`,g=(e,{protocol:t,host:n,pathname:r,hash:o}=location)=>{const i=e.toString();return`${t}//${n}${r}${i?"?":""}${i}${o}`},p=()=>i.dataset.bespokeView,v=e=>new URLSearchParams(location.search).get(e),h=(e,t={})=>{const n={location,setter:a,...t},r=new URLSearchParams(n.location.search);for(const t of Object.keys(e)){const n=e[t];"string"==typeof n?r.set(t,n):r.delete(t)}try{n.setter({...window.history.state??{}},"",g(r,n.location))}catch(e){console.error(e)}},w=(()=>{const e="bespoke-marp";try{return localStorage.setItem(e,e),localStorage.removeItem(e),!0}catch{return!1}})(),y=e=>{try{return localStorage.getItem(e)}catch{return null}},b=(e,t)=>{try{return localStorage.setItem(e,t),!0}catch{return!1}},k=e=>{try{return localStorage.removeItem(e),!0}catch{return!1}},x=(e,t)=>{const n="aria-hidden";t?e.setAttribute(n,"true"):e.removeAttribute(n)},E=e=>{e.parent.classList.add(`${f}parent`),e.slides.forEach(e=>e.classList.add(`${f}slide`)),e.on("activate",t=>{const n=`${f}active`,r=t.slide,o=r.classList,i=!o.contains(n);if(e.slides.forEach(e=>{e.classList.remove(n),x(e,!0)}),o.add(n),x(r,!1),i){const e=`${n}-ready`;o.add(e),document.body.clientHeight,o.remove(e)}})},$=e=>{let t=0,n=0;Object.defineProperty(e,"fragments",{enumerable:!0,value:e.slides.map(e=>[null,...e.querySelectorAll("[data-marpit-fragment]")])});const r=r=>void 0!==e.fragments[t][n+r],o=(r,o)=>{t=r,n=o,e.fragments.forEach((e,t)=>{e.forEach((e,n)=>{if(null==e)return;const i=t<r||t===r&&n<=o;e.setAttribute(`${m}fragment`,(i?"":"in")+"active");const a=`${m}current-fragment`;t===r&&n===o?e.setAttribute(a,"current"):e.removeAttribute(a)})}),e.fragmentIndex=o;const i={slide:e.slides[r],index:r,fragments:e.fragments[r],fragmentIndex:o};e.fire("fragment",i)};e.on("next",({fragment:i=!0})=>{if(i){if(r(1))return o(t,n+1),!1;const i=t+1;e.fragments[i]&&o(i,0)}else{const r=e.fragments[t].length;if(n+1<r)return o(t,r-1),!1;const i=e.fragments[t+1];i&&o(t+1,i.length-1)}}),e.on("prev",({fragment:i=!0})=>{if(r(-1)&&i)return o(t,n-1),!1;const a=t-1;e.fragments[a]&&o(a,e.fragments[a].length-1)}),e.on("slide",({index:t,fragment:n})=>{let r=0;if(void 0!==n){const o=e.fragments[t];if(o){const{length:e}=o;r=-1===n?e-1:Math.min(Math.max(n,0),e-1)}}o(t,r)}),o(0,0)},L=document,S=()=>!(!L.fullscreenEnabled&&!L.webkitFullscreenEnabled),P=()=>!(!L.fullscreenElement&&!L.webkitFullscreenElement),_=e=>{e.fullscreen=()=>{S()&&(async()=>{P()?(L.exitFullscreen||L.webkitExitFullscreen)?.call(L):((e=L.body)=>{(e.requestFullscreen||e.webkitRequestFullscreen)?.call(e)})()})()},document.addEventListener("keydown",t=>{"f"!==t.key&&"F11"!==t.key||t.altKey||t.ctrlKey||t.metaKey||!S()||(e.fullscreen(),t.preventDefault())})},O=`${f}inactive`,T=(e=2e3)=>({parent:t,fire:n})=>{const r=t.classList,o=e=>n(`marp-${e?"":"in"}active`);let i;const a=()=>{i&&clearTimeout(i),i=setTimeout(()=>{r.add(O),o()},e),r.contains(O)&&(r.remove(O),o(!0))};for(const e of["mousedown","mousemove","touchend"])document.addEventListener(e,a);setTimeout(a,0)},I=["AUDIO","BUTTON","INPUT","SELECT","TEXTAREA","VIDEO"],M=e=>{e.parent.addEventListener("keydown",e=>{if(!e.target)return;const t=e.target;(I.includes(t.nodeName)||"true"===t.contentEditable)&&e.stopPropagation()})},A=e=>{window.addEventListener("load",()=>{for(const t of e.slides){const e=t.querySelector("marp-auto-scaling, [data-auto-scaling], [data-marp-fitting]");t.setAttribute(`${m}load`,e?"":"hideable")}})},C=({interval:e=250}={})=>t=>{document.addEventListener("keydown",e=>{if(" "===e.key&&e.shiftKey)t.prev();else if("ArrowLeft"===e.key||"ArrowUp"===e.key||"PageUp"===e.key)t.prev({fragment:!e.shiftKey});else if(" "!==e.key||e.shiftKey)if("ArrowRight"===e.key||"ArrowDown"===e.key||"PageDown"===e.key)t.next({fragment:!e.shiftKey});else if("End"===e.key)t.slide(t.slides.length-1,{fragment:-1});else{if("Home"!==e.key)return;t.slide(0)}else t.next();e.preventDefault()});let n,r,o=0;t.parent.addEventListener("wheel",i=>{let a=!1;const s=(e,t)=>{e&&(a=a||((e,t)=>((e,t)=>{const n="X"===t?"Width":"Height";return e[`client${n}`]<e[`scroll${n}`]})(e,t)&&((e,t)=>{const{overflow:n}=e,r=e[`overflow${t}`];return"auto"===n||"scroll"===n||"auto"===r||"scroll"===r})(getComputedStyle(e),t))(e,t)),e?.parentElement&&s(e.parentElement,t)};if(0!==i.deltaX&&s(i.target,"X"),0!==i.deltaY&&s(i.target,"Y"),a)return;i.preventDefault();const l=Math.sqrt(i.deltaX**2+i.deltaY**2);if(void 0!==i.wheelDelta){if(void 0===i.webkitForce&&Math.abs(i.wheelDelta)<40)return;if(i.deltaMode===i.DOM_DELTA_PIXEL&&l<4)return}else if(i.deltaMode===i.DOM_DELTA_PIXEL&&l<12)return;r&&clearTimeout(r),r=setTimeout(()=>{n=0},e);const c=Date.now()-o<e,d=l<=n;if(n=l,c||d)return;let u;(i.deltaX>0||i.deltaY>0)&&(u="next"),(i.deltaX<0||i.deltaY<0)&&(u="prev"),u&&(t[u](),o=Date.now())})},D=(e=`.${f}osc`)=>{const t=document.querySelector(e);if(!t)return()=>{};const n=(e,n)=>{t.querySelectorAll(`[${m}osc=${JSON.stringify(e)}]`).forEach(n)};if(S()||n("fullscreen",e=>e.style.display="none"),!w){const e=(e,t)=>{e.disabled=!0,e.title=`${t} is disabled due to restricted localStorage.`};n("presenter",t=>e(t,"Presenter view")),n("overview",t=>e(t,"Overview view"))}return e=>{t.addEventListener("click",t=>{if(t.target instanceof HTMLElement){const{bespokeMarpOsc:n}=t.target.dataset;n&&t.target.blur();const r={fragment:!t.shiftKey};"next"===n?e.next(r):"prev"===n?e.prev(r):"fullscreen"===n?e?.fullscreen():"presenter"===n?e.openPresenterView():"overview"===n&&e.toggleOverviewView()}}),e.parent.appendChild(t),e.on("activate",({index:t})=>{n("page",n=>n.textContent=`Page ${t+1} of ${e.slides.length}`)}),e.on("fragment",({index:t,fragments:r,fragmentIndex:o})=>{n("prev",e=>e.disabled=0===t&&0===o),n("next",n=>n.disabled=t===e.slides.length-1&&o===r.length-1)}),e.on("marp-active",()=>x(t,!1)),e.on("marp-inactive",()=>x(t,!0)),S()&&(e=>{for(const t of["","webkit"])L.addEventListener(t+"fullscreenchange",e)})(()=>n("fullscreen",e=>e.classList.toggle("exit",S()&&P())))}},N=e=>{if(e.syncKey&&"string"==typeof e.syncKey)return!0;throw new Error("The current instance of Bespoke.js is incompatible with Marp bespoke sync plugin.")},B=(e={})=>{const t=e.key||window.history.state?.marpBespokeSyncKey||Math.random().toString(36).slice(2),n=`bespoke-marp-sync-${t}`;var r;r={marpBespokeSyncKey:t},h({},{setter:(e,...t)=>a({...e,...r},...t)});const o=()=>{const e=y(n);return e?JSON.parse(e):Object.create(null)},i=e=>{const t=o(),r={...t,...e(t)};return b(n,JSON.stringify(r)),r},s=()=>{window.removeEventListener("pageshow",s),i(e=>({reference:(e.reference||0)+1}))};return e=>{s(),Object.defineProperty(e,"syncKey",{value:t,enumerable:!0});let r=!0;setTimeout(()=>{e.on("fragment",e=>{r&&i(()=>({index:e.index,fragmentIndex:e.fragmentIndex}))})},0),window.addEventListener("storage",t=>{if(t.key===n&&t.oldValue&&t.newValue){const n=JSON.parse(t.oldValue),o=JSON.parse(t.newValue);if(n.index!==o.index||n.fragmentIndex!==o.fragmentIndex)try{r=!1,e.slide(o.index,{fragment:o.fragmentIndex,forSync:!0})}finally{r=!0}}});const a=()=>{const{reference:e}=o();void 0===e||e<=1?k(n):i(()=>({reference:e-1}))};window.addEventListener("pagehide",e=>{e.persisted&&window.addEventListener("pageshow",s),a()}),e.on("destroy",a)}},K=e=>{w&&document.addEventListener("keydown",t=>{("o"!==t.key||t.altKey||t.ctrlKey||t.metaKey)&&"Escape"!==t.key||(t.preventDefault(),e())})};let q=null;const V=({closeOnSelect:e=!0}={})=>t=>{N(t);const n=n=>{const r=(()=>{if(!q||!q.isConnected){q=document.createElement("div"),q.className=`${f}overview`,q.inert=!0;const n=document.createElement("iframe");n.src=(()=>{const n=new URLSearchParams(location.search);return n.set("view","overview"),n.set("sync",t.syncKey),e&&n.set("closeOnSelect","1"),g(n)})(),q.append(n),document.body.append(q)}return q})(),o=n??!r.dataset.open;setTimeout(()=>{if(r.dataset.open=o?"1":"",r.inert=!o,t.skipTransition=o,o){const e=r.querySelector("iframe");try{e?.contentWindow?.focus()}catch{e?.focus()}}else window.focus()},0)};Object.defineProperties(t,{toggleOverviewView:{enumerable:!0,value:n}}),window.addEventListener("message",e=>{e.origin===window.origin&&"closeOverview"===e.data&&n(!1)}),K(n)},j=e=>{const{title:t}=document;document.title="[Overview]"+(t?` - ${t}`:"");const n=!!v("closeOnSelect"),r=()=>{window.parent.postMessage("closeOverview","null"===window.origin?"*":window.origin)};if(e.slides.forEach((t,o)=>{t.tabIndex=0;const i=()=>{e.slide(o,{fragment:-1}),n&&r()};t.addEventListener("click",i),t.addEventListener("keydown",e=>{"Enter"!==e.key&&" "!==e.key||(e.preventDefault(),i())})}),window.addEventListener("keydown",t=>{const n=e.slide(),r=t=>{const r=t=>{const n=e.slides[t].getBoundingClientRect();return[Math.round((n.left+n.right)/2),Math.round((n.top+n.bottom)/2)]};let o=null,i=n;do{const e=r(i);if(o){if(Math.abs(e[0]-o[0])<2)return i}else o=e;i+=t}while(i>=0&&i<e.slides.length);return n};if("ArrowLeft"===t.key)e.slide(Math.max(n-1,0),{fragment:-1});else if("ArrowRight"===t.key)e.slide(Math.min(n+1,e.slides.length-1),{fragment:-1});else if("ArrowUp"===t.key)e.slide(r(-1),{fragment:-1});else if("ArrowDown"===t.key)e.slide(r(1),{fragment:-1});else if("End"===t.key)e.slide(e.slides.length-1,{fragment:-1});else{if("Home"!==t.key)return;e.slide(0,{fragment:-1})}t.preventDefault();const o=e.slide();e.slides[o]?.focus?.(),e.slides[o]?.scrollIntoView?.({behavior:"smooth",block:"nearest"})}),e.on("slide",({index:t})=>{e.slides[t]?.scrollIntoView?.({behavior:"smooth",block:"nearest"})}),window.parent!==window){K(r);const e=document.createElement("header");e.className=`${f}overview-header`;const t=document.createElement("button");t.className=`${f}overview-close`,t.type="button",t.title="Close overview",t.textContent=t.title,t.addEventListener("click",r),e.append(t),document.body.prepend(e)}},F=()=>{const e=p();return{[s]:V(),[l]:V({closeOnSelect:!1}),[d]:j}[e]},U=e=>{window.addEventListener("message",t=>{if(t.origin!==window.origin)return;const[n,r]=t.data.split(":");if("navigate"===n){const[t,n]=r.split(",");let o=Number.parseInt(t,10),i=Number.parseInt(n,10)+1;i>=e.fragments[o].length&&(o+=1,i=0),e.slide(o,{fragment:i})}})};var R,X,H,W,J,Y,z,G={exports:{}},Q=(R||(R=1,G.exports=(X=["area","base","br","col","command","embed","hr","img","input","keygen","link","meta","param","source","track","wbr"],H=function(e){return String(e).replace(/[&<>"']/g,function(e){return"&"+W[e]+";"})},W={"&":"amp","<":"lt",">":"gt",'"':"quot","'":"apos"},J="dangerouslySetInnerHTML",Y={className:"class",htmlFor:"for"},z={},function(e,t){var n=[],r="";t=t||{};for(var o=arguments.length;o-- >2;)n.push(arguments[o]);if("function"==typeof e)return t.children=n.reverse(),e(t);if(e){if(r+="<"+e,t)for(var i in t)!1!==t[i]&&null!=t[i]&&i!==J&&(r+=" "+(Y[i]?Y[i]:H(i))+'="'+H(t[i])+'"');r+=">"}if(-1===X.indexOf(e)){if(t[J])r+=t[J].__html;else for(;n.length;){var a=n.pop();if(a)if(a.pop)for(var s=a.length;s--;)n.push(a[s]);else r+=!0===z[a]?a:H(a)}r+=e?"</"+e+">":""}return z[r]=!0,r})),G.exports),Z=e(Q);const ee=({children:e})=>Z(null,null,...e),te=`${f}presenter-`,ne={container:`${te}container`,dragbar:`${te}dragbar-container`,next:`${te}next`,nextContainer:`${te}next-container`,noteContainer:`${te}note-container`,noteWrapper:`${te}note-wrapper`,noteButtons:`${te}note-buttons`,infoContainer:`${te}info-container`,infoPageArea:`${te}info-page-area`,infoPage:`${te}info-page`,infoPagePrev:`${te}info-page-prev`,infoPageNext:`${te}info-page-next`,noteButtonsBigger:`${te}note-bigger`,noteButtonsSmaller:`${te}note-smaller`,infoTime:`${te}info-time`,infoTimer:`${te}info-timer`},re=e=>{const{title:t}=document;document.title="[Presenter view]"+(t?` - ${t}`:"");const n={},r=e=>(n[e]=n[e]||document.querySelector(`.${e}`),n[e]);document.body.appendChild((e=>{const t=document.createElement("div");return t.className=ne.container,t.appendChild(e),t.insertAdjacentHTML("beforeend",Z(ee,null,Z("div",{class:ne.nextContainer},Z("iframe",{class:ne.next,src:"?view=next"})),Z("div",{class:ne.dragbar}),Z("div",{class:ne.noteContainer},Z("div",{class:ne.noteWrapper}),Z("div",{class:ne.noteButtons},Z("button",{class:ne.noteButtonsSmaller,tabindex:"-1",title:"Smaller notes font size"},"Smaller notes font size"),Z("button",{class:ne.noteButtonsBigger,tabindex:"-1",title:"Bigger notes font size"},"Bigger notes font size"))),Z("div",{class:ne.infoContainer},Z("div",{class:ne.infoPageArea},Z("button",{class:ne.infoPagePrev,tabindex:"-1",title:"Previous"},"Previous"),Z("button",{class:ne.infoPage}),Z("button",{class:ne.infoPageNext,tabindex:"-1",title:"Next"},"Next")),Z("time",{class:ne.infoTime,title:"Current time"}),Z("time",{class:ne.infoTimer,title:"Timer"})))),t})(e.parent)),(e=>{let t=!1;r(ne.dragbar).addEventListener("mousedown",()=>{t=!0,r(ne.dragbar).classList.add("active")}),window.addEventListener("mouseup",()=>{t=!1,r(ne.dragbar).classList.remove("active")}),window.addEventListener("mousemove",e=>{if(!t)return;const n=e.clientX/document.documentElement.clientWidth*100;r(ne.container).style.setProperty("--bespoke-marp-presenter-split-ratio",`${Math.max(0,Math.min(100,n))}%`)}),r(ne.nextContainer).addEventListener("click",()=>e.next());const n=r(ne.next),o=(i=n,(e,t)=>i.contentWindow?.postMessage(`navigate:${e},${t}`,"null"===window.origin?"*":window.origin));var i;n.addEventListener("load",()=>{r(ne.nextContainer).classList.add("active"),o(e.slide(),e.fragmentIndex),e.on("fragment",({index:e,fragmentIndex:t})=>o(e,t))});const a=document.querySelectorAll(".bespoke-marp-note");a.forEach(e=>{e.addEventListener("keydown",e=>e.stopPropagation()),r(ne.noteWrapper).appendChild(e)}),e.on("activate",()=>a.forEach(t=>t.classList.toggle("active",t.dataset.index==e.slide())));let s=0;const l=e=>{s=Math.max(-5,s+e),r(ne.noteContainer).style.setProperty("--bespoke-marp-note-font-scale",(1.2**s).toFixed(4))},c=()=>l(1),d=()=>l(-1),u=r(ne.noteButtonsBigger),f=r(ne.noteButtonsSmaller);u.addEventListener("click",()=>{u.blur(),c()}),f.addEventListener("click",()=>{f.blur(),d()}),document.addEventListener("keydown",e=>{"+"===e.key&&c(),"-"===e.key&&d()},!0);const m=r(ne.infoPage);e.on("activate",({index:t})=>{m.textContent=`${t+1} / ${e.slides.length}`}),m.addEventListener("click",()=>{m.blur(),e.toggleOverviewView()});const g=r(ne.infoPagePrev),p=r(ne.infoPageNext);g.addEventListener("click",t=>{g.blur(),e.prev({fragment:!t.shiftKey})}),p.addEventListener("click",t=>{p.blur(),e.next({fragment:!t.shiftKey})}),e.on("fragment",({index:t,fragments:n,fragmentIndex:r})=>{g.disabled=0===t&&0===r,p.disabled=t===e.slides.length-1&&r===n.length-1});let v=new Date;const h=()=>{const e=new Date,t=e=>`${Math.floor(e)}`.padStart(2,"0"),n=e.getTime()-v.getTime(),o=t(n/1e3%60),i=t(n/1e3/60%60),a=t(n/36e5%24);r(ne.infoTime).textContent=e.toLocaleTimeString(),r(ne.infoTimer).textContent=`${a}:${i}:${o}`};h(),setInterval(h,250),r(ne.infoTimer).addEventListener("click",()=>{v=new Date})})(e)},oe=e=>{N(e),Object.defineProperties(e,{openPresenterView:{enumerable:!0,value:ie},presenterUrl:{enumerable:!0,get:ae}}),w&&document.addEventListener("keydown",t=>{"p"!==t.key||t.altKey||t.ctrlKey||t.metaKey||(t.preventDefault(),e.openPresenterView())})};function ie(){const{max:e,floor:t}=Math,n=e(t(.85*window.innerWidth),640),r=e(t(.85*window.innerHeight),360);return window.open(this.presenterUrl,te+this.syncKey,`width=${n},height=${r},menubar=no,toolbar=no`)}function ae(){const e=new URLSearchParams(location.search);return e.set("view","presenter"),e.set("sync",this.syncKey),g(e)}const se=e=>{const t=p();return t===c&&e.appendChild(document.createElement("span")),{[s]:oe,[l]:re,[c]:U}[t]},le=e=>{e.on("activate",t=>{document.querySelectorAll(".bespoke-progress-parent > .bespoke-progress-bar").forEach(n=>{n.style.flexBasis=100*t.index/(e.slides.length-1)+"%"})})},ce=e=>{const t=Number.parseInt(e,10);return Number.isNaN(t)?null:t},de=(e={})=>{const t={history:!0,...e};return e=>{let n=!0;const r=e=>{const t=n;try{return n=!0,e()}finally{n=t}},o=(t={fragment:!0})=>{let n=t.fragment?ce(v("f")||""):null;((t,n)=>{const{min:r,max:o}=Math,{fragments:i,slides:a}=e,s=o(0,r(t,a.length-1)),l=o(0,r(n||0,i[s].length-1));s===e.slide()&&l===e.fragmentIndex||e.slide(s,{fragment:l})})((()=>{if(location.hash){const[t]=location.hash.slice(1).split(":~:");if(/^\d+$/.test(t))return(ce(t)??1)-1;const r=document.getElementById(t)||document.querySelector(`a[name="${CSS.escape(t)}"]`);if(r){const{length:t}=e.slides;for(let o=0;o<t;o+=1)if(e.slides[o].contains(r)){const t=e.fragments?.[o],i=r.closest("[data-marpit-fragment]");if(t&&i){const e=t.indexOf(i);e>=0&&(n=e)}return o}}}return 0})(),n)};e.on("fragment",({index:e,fragmentIndex:r})=>{n||h({f:0===r||r.toString()},{location:{...location,hash:`#${e+1}`},setter:(...e)=>t.history?history.pushState(...e):history.replaceState(...e)})}),setTimeout(()=>{o(),window.addEventListener("hashchange",()=>r(()=>{o({fragment:!1}),h({f:void 0})})),window.addEventListener("popstate",()=>{n||r(()=>o())}),n=!1},0)}},{PI:ue,abs:fe,sqrt:me,atan2:ge}=Math,pe={passive:!0},ve=({slope:e=-.7,swipeThreshold:t=30}={})=>n=>{let r;const o=n.parent,i=e=>{const t=o.getBoundingClientRect();return{x:e.pageX-(t.left+t.right)/2,y:e.pageY-(t.top+t.bottom)/2}};o.addEventListener("touchstart",({touches:e})=>{r=1===e.length?i(e[0]):void 0},pe),o.addEventListener("touchmove",e=>{if(r)if(1===e.touches.length){e.preventDefault();const t=i(e.touches[0]),n=t.x-r.x,o=t.y-r.y;r.delta=me(fe(n)**2+fe(o)**2),r.radian=ge(n,o)}else r=void 0}),o.addEventListener("touchend",o=>{if(r){if(r.delta&&r.delta>=t&&r.radian){const t=(r.radian-e+ue)%(2*ue)-ue;n[t<0?"next":"prev"](),o.stopPropagation()}r=void 0}},pe)},he=new Map;he.clear(),he.set("none",{backward:{both:void 0,incoming:void 0,outgoing:void 0},forward:{both:void 0,incoming:void 0,outgoing:void 0}});const we={both:"",outgoing:"outgoing-",incoming:"incoming-"},ye={forward:"",backward:"-backward"},be=e=>`--marp-bespoke-transition-animation-${e}`,ke=e=>`--marp-transition-${e}`,xe=be("name"),Ee=be("duration"),$e=e=>new Promise(t=>{const n={},r=document.createElement("div"),o=e=>{r.remove(),t(e)};r.addEventListener("animationstart",()=>o(n)),Object.assign(r.style,{animationName:e,animationDuration:"1s",animationFillMode:"both",animationPlayState:"paused",position:"absolute",pointerEvents:"none"}),document.body.appendChild(r);const i=getComputedStyle(r).getPropertyValue(ke("duration"));i&&Number.parseFloat(i)>=0&&(n.defaultDuration=i),((e,t)=>{requestAnimationFrame(()=>{e.style.animationPlayState="running",requestAnimationFrame(()=>t(void 0))})})(r,o)}),Le=async e=>he.has(e)?he.get(e):(e=>{const t={},n=[];for(const[r,o]of Object.entries(we))for(const[i,a]of Object.entries(ye)){const s=`marp-${o}transition${a}-${e}`;n.push($e(s).then(e=>{t[i]=t[i]||{},t[i][r]=e?{...e,name:s}:void 0}))}return Promise.all(n).then(()=>t)})(e).then(t=>(he.set(e,t),t)),Se=e=>Object.values(e).flatMap(Object.values).every(e=>!e),Pe=(e,{type:t,backward:n})=>{const r=e[n?"backward":"forward"],o=(()=>{const e=r[t],n=e=>({[xe]:e.name});if(e)return n(e);if(r.both){const e=n(r.both);return"incoming"===t&&(e[be("direction")]="reverse"),e}})();return!o&&n?Pe(e,{type:t,backward:!1}):o||{[xe]:"__bespoke_marp_transition_no_animation__"}},_e=e=>{if(e)try{const t=JSON.parse(e);if((e=>{if("object"!=typeof e)return!1;const t=e;return"string"==typeof t.name&&(void 0===t.duration||"string"==typeof t.duration)})(t))return t}catch{}},Oe="_tSId",Te="_tA",Ie="bespoke-marp-transition-warming-up",Me=window.matchMedia("(prefers-reduced-motion: reduce)"),Ae="__bespoke_marp_transition_reduced_outgoing__",Ce="__bespoke_marp_transition_reduced_incoming__",De={forward:{both:void 0,incoming:{name:Ce},outgoing:{name:Ae}},backward:{both:void 0,incoming:{name:Ce},outgoing:{name:Ae}}},Ne=e=>{if(!document.startViewTransition)return;const t=t=>(void 0!==t&&(e._tD=t),e._tD);let n;t(!1),((...e)=>{CSS.registerProperty({name:ke("duration"),syntax:"<time>",inherits:!0,initialValue:"-1s"});const t=[...new Set(e).values()];return Promise.all(t.map(e=>Le(e))).then()})(...Array.from(document.querySelectorAll("section[data-transition], section[data-transition-back]")).flatMap(e=>[e.dataset.transition,e.dataset.transitionBack].flatMap(e=>{const t=_e(e);return[t?.name,t?.builtinFallback?`__builtin__${t.name}`:void 0]}).filter(e=>!!e))).then(()=>{document.querySelectorAll("style").forEach(e=>{e.innerHTML=e.innerHTML.replace(/--marp-transition-duration:[^;}]*[;}]/g,e=>e.slice(0,-1)+"!important"+e.slice(-1))})});const r=(n,{back:r,cond:o})=>i=>{const a=t();if(a)return!!i[Te]||!("object"!=typeof a||(a.skipTransition(),!i.forSync));if(e.skipTransition)return!0;if(!o(i))return!0;const s=e.slides[e.slide()],l=()=>i.back??r,c="data-transition"+(l()?"-back":""),d=s.querySelector(`section[${c}]`);if(!d)return!0;const u=_e(d.getAttribute(c)??void 0);return!u||((async(e,{builtinFallback:t=!0}={})=>{let n=await Le(e);if(Se(n)){if(!t)return;return n=await Le(`__builtin__${e}`),Se(n)?void 0:n}return n})(u.name,{builtinFallback:u.builtinFallback}).then(e=>{if(!e){t(!0);try{n(i)}finally{t(!1)}return}let r=e;Me.matches&&(console.warn("Use a constant animation to transition because preferring reduced motion by viewer has detected."),r=De);const o=document.getElementById(Oe);o&&o.remove();const a=document.createElement("style");a.id=Oe,document.head.appendChild(a),((e,t)=>{const n=[`:root{${ke("direction")}:${t.backward?-1:1};}`,":root:has(.bespoke-marp-inactive){cursor:none;}"],r=t=>{const n=e[t].both?.defaultDuration||e[t].outgoing?.defaultDuration||e[t].incoming?.defaultDuration;return"forward"===t?n:n||r("forward")},o=t.duration||r(t.backward?"backward":"forward");void 0!==o&&n.push(`::view-transition-group(*){${Ee}:${o};}`);const i=e=>Object.entries(e).map(([e,t])=>`${e}:${t};`).join("");return n.push(`::view-transition-old(root){${i(Pe(e,{...t,type:"outgoing"}))}}`,`::view-transition-new(root){${i(Pe(e,{...t,type:"incoming"}))}}`),n})(r,{backward:l(),duration:u.duration}).forEach(e=>a.sheet?.insertRule(e));const s=document.documentElement.classList;s.add(Ie);let c=!1;const d=()=>{c||(n(i),c=!0,s.remove(Ie))},f=()=>{t(!1),a.remove(),s.remove(Ie)};try{t(!0);const e=document.startViewTransition(d);t(e),e.finished.finally(f)}catch(e){console.error(e),d(),f()}}),!1)};e.on("prev",r(t=>e.prev({...t,[Te]:!0}),{back:!0,cond:e=>e.index>0&&!((e.fragment??1)&&n.fragmentIndex>0)})),e.on("next",r(t=>e.next({...t,[Te]:!0}),{cond:t=>t.index+1<e.slides.length&&!(n.fragmentIndex+1<n.fragments.length)})),setTimeout(()=>{e.on("slide",r(t=>e.slide(t.index,{...t,[Te]:!0}),{cond:t=>{const n=e.slide();return t.index!==n&&(t.back=t.index<n,!0)}}))},0),e.on("fragment",e=>{n=e})};let Be;const Ke=()=>(void 0===Be&&(Be="wakeLock"in navigator&&navigator.wakeLock),Be),qe=async()=>{const e=Ke();if(e)try{return await e.request("screen")}catch(e){console.warn(e)}return null},Ve=async()=>{if(!Ke())return;let e;const t=()=>{e&&"visible"===document.visibilityState&&qe()};for(const e of["visibilitychange","fullscreenchange"])document.addEventListener(e,t);return e=await qe(),e};((e=document.getElementById(":$p"))=>{(()=>{const e=v("view");i.dataset.bespokeView=u.some(t=>t&&t===e)?e:""})();const t=(e=>{const t=v(e);return h({[e]:void 0}),t})("sync")||void 0;o.from(e,((...e)=>{const t=u.findIndex(e=>p()===e);return e.map(([e,n])=>e[t]&&n).filter(e=>e)})([[1,1,1,0],B({key:t})],[[1,1,0,1],se(e)],[[1,1,0,0],M],[[1,1,1,1],E],[[1,0,0,0],T()],[[1,1,1,1],A],[[1,1,1,1],de({history:!1})],[[1,1,0,0],C()],[[1,1,1,0],_],[[1,0,0,0],le],[[1,1,0,0],ve()],[[1,0,0,0],D()],[[1,1,1,0],F()],[[1,0,0,0],Ne],[[1,1,1,1],$],[[1,1,1,0],Ve]))})()}();</script>
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+mermaid.initialize({
+  startOnLoad: true,
+  securityLevel: 'loose',
+  theme: 'base',
+  flowchart: { curve: 'basis', htmlLabels: true },
+  themeVariables: {
+    fontFamily: 'IBM Plex Mono, monospace', fontSize: '15px',
+    primaryColor: '#ffffff', primaryBorderColor: '#3f5fc4', primaryTextColor: '#232a33',
+    lineColor: '#8b94a3', secondaryColor: '#eef1fb', tertiaryColor: '#f7f8fa',
+    clusterBkg: '#f7f8fa', clusterBorder: '#dce1e8', edgeLabelBackground: '#f7f8fa'
+  }
+});
+</script>
+</body></html>

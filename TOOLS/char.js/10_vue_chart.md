@@ -1,9 +1,9 @@
 ---
 marp: true
-theme: default
+theme: dark-plus-code
 paginate: true
 style: |
-  @import "../../custom-theme.css"
+  # @import "../../custom-theme.css"
 ---
 
 # Vue-chartjs
@@ -84,6 +84,7 @@ const chartData = computed(() => ({
 ------------
 
 ```js
+<script>
 // 4. 차트 옵션 설정
 const chartOptions = ref({
   responsive: true,
@@ -99,7 +100,10 @@ const chartOptions = ref({
   }
 })
 </script>
+```
+-------------
 
+```html
 <style scoped>
 .chart-container {
   position: relative;

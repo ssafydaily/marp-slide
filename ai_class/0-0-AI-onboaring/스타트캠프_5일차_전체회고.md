@@ -1,9 +1,9 @@
 ---
 marp: true
-theme: default
+theme: dark-plus-code
 paginate: true
 style: |
-  @import url("../../custom-theme.css")
+  # @import url("../../custom-theme.css")
 
 ---
 

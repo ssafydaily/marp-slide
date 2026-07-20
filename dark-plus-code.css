@@ -1,0 +1,266 @@
+/* @theme dark-plus-code */
+
+/* 
+-- build
+
+marp python_type_conversion_slides.md --theme-set dark-plus-code.css        # HTML
+marp python_type_conversion_slides.md --theme-set dark-plus-code.css --pdf  # PDF 
+
+*/
+
+/*
+ * Marp 커스텀 테마: dark-plus-code
+ * - 기본 default 테마를 상속
+ * - 코드 블럭에 VS Code Dark+ 색상 적용
+ */
+
+@import 'default';
+
+/* ===== 슬라이드 공통 ===== */
+section {
+  font-size: 24px;
+}
+
+h1 {
+  color: #0c2a42;
+}
+
+h2 {
+  color: #0f0f0d;
+  background-color: #cbdbe7;
+  padding: 8px 16px;
+  border-radius: 6px;
+}
+
+/* ===== 코드 블럭 — VS Code Dark+ 배경 ===== */
+pre {
+  background-color: #1e1e1e; /* Dark+ 에디터 배경 (순수 검정 원하면 #000000) */
+  color: #d4d4d4;            /* 기본 텍스트 색 */
+  border-radius: 8px;
+  padding: 0.8em 1em;
+  line-height: 1.5;
+}
+
+/* pre 내부 code는 배경 투명 (이중 배경 방지) */
+pre code {
+  background-color: transparent;
+  color: inherit;
+}
+
+/* 본문 인라인 코드는 블럭과 구분되는 진회색 */
+section p code,
+section li code,
+section td code {
+  background-color: #2d2d2d;
+  color: #d4d4d4;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+/* ===== VS Code Dark+ 문법 하이라이팅 ===== */
+
+/* 제어 키워드: if, else, for, while, return, and, or, not, in, is */
+pre .hljs-keyword {
+  color: #c586c0; /* 보라-핑크 */
+}
+
+/* 선언 키워드: def, class, import, from, lambda */
+pre .hljs-function .hljs-keyword,
+pre .hljs-class .hljs-keyword {
+  color: #569cd6; /* 파랑 */
+}
+
+/* 리터럴: True, False, None */
+pre .hljs-literal {
+  color: #569cd6; /* 파랑 */
+}
+
+/* 문자열 */
+pre .hljs-string {
+  color: #ce9178; /* 주황-갈색 */
+}
+
+/* f-string 내 표현식 { } 부분 */
+pre .hljs-subst {
+  color: #d4d4d4;
+}
+
+/* 숫자 */
+pre .hljs-number {
+  color: #b5cea8; /* 연한 녹색 */
+}
+
+/* 주석 */
+pre .hljs-comment {
+  color: #6a9955; /* 녹색 */
+  font-style: italic;
+}
+
+/* 함수/메서드 이름 */
+pre .hljs-title,
+pre .hljs-title.function_ {
+  color: #dcdcaa; /* 노랑 */
+}
+
+/* 클래스명, 타입: int, str, list */
+pre .hljs-title.class_,
+pre .hljs-type {
+  color: #4ec9b0; /* 청록 */
+}
+
+/* 내장 함수: print, len, range */
+pre .hljs-built_in {
+  color: #dcdcaa; /* 노랑 */
+}
+
+/* 함수 매개변수 */
+pre .hljs-params {
+  color: #9cdcfe; /* 하늘색 */
+}
+
+/* 데코레이터: @property 등 */
+pre .hljs-meta {
+  color: #dcdcaa;
+}
+
+/* 연산자, 구두점 */
+pre .hljs-operator,
+pre .hljs-punctuation {
+  color: #d4d4d4;
+}
+
+/* 객체 리터럴 키: { name: "kim" } 의 name */
+pre .hljs-attr {
+  color: #9cdcfe;   /* 하늘색 */
+}
+
+/* 프로퍼티 접근: arr.length 의 length */
+pre .hljs-property {
+  color: #9cdcfe;
+}
+
+/* this, super */
+pre .hljs-variable.language_ {
+  color: #569cd6;   /* 파랑 */
+}
+
+/* 템플릿 리터럴의 ${ } 내부 */
+pre .hljs-subst {
+  color: #d4d4d4;
+}
+
+/* 정규식 */
+pre .hljs-regexp {
+  color: #d16969;   /* 빨강-갈색 */
+}
+
+/* ===== CSS 코드 블럭 보정 (VS Code Dark+) ===== */
+
+/* 요소 셀렉터: div, p, pre */
+pre .hljs-selector-tag {
+  color: #d7ba7d; /* 골드 */
+}
+
+/* 클래스/ID 셀렉터: .foo, #bar */
+pre .hljs-selector-class,
+pre .hljs-selector-id {
+  color: #d7ba7d; /* 골드 */
+}
+
+/* 의사 클래스/요소: :hover, ::before */
+pre .hljs-selector-pseudo {
+  color: #d7ba7d;
+}
+
+/* 속성 셀렉터: [type="text"] */
+pre .hljs-selector-attr {
+  color: #9cdcfe;
+}
+
+/* 속성명: color, margin, background-color */
+pre .hljs-attribute {
+  color: #9cdcfe; /* 하늘색 */
+}
+
+/* at-rule: @media, @import, @keyframes */
+pre .hljs-keyword.hljs-at_rule,
+pre .hljs-css .hljs-keyword {
+  color: #c586c0; /* 보라-핑크 */
+}
+
+/* !important 등 강조 메타 */
+pre .hljs-meta.hljs-important_,
+pre .hljs-important {
+  color: #569cd6;
+}
+
+/* CSS 변수: --main-color, var() 인자 */
+pre .hljs-variable {
+  color: #9cdcfe;
+}
+
+
+
+/* ------------------------------------
+
+<div class="callout tip">
+<div class="callout-title">
+  TIP
+</div>
+이곳에 팁 내용을 작성하세요.
+</div>
+
+*/
+
+.callout {
+border-radius: 6px;
+padding: 15px 20px;
+margin: 20px 0;
+border-left: 6px solid;
+}
+.callout-title {
+font-weight: bold;
+margin-bottom: 5px;  
+font-size: 16px;
+}
+
+/* 개별 스타일 */
+.tip { background-color: #e3f2fd; border-left-color: #2196f3; color: #0d47a1; }
+.info { background-color: #e8f5e9; border-left-color: #4caf50; color: #1b5e20; }
+.warning { background-color: #fff3e0; border-left-color: #ff9800; color: #e65100; }
+
+.tip, .info, .warning {
+font-size: 18px;  /* ← 이 값 변경 */
+}
+
+
+/* ------------------------------------
+=> 2개 컬럼 작성
+
+<div class="cols">
+<div>
+
+</div>
+<div>
+
+</div>
+</div>
+
+*/
+
+/* 2 columns */
+.cols-4060 {
+display: grid;
+grid-template-columns: 4fr 6fr;
+gap: 1rem;
+}
+.cols-6040 {
+display: grid;
+grid-template-columns: 6fr 4fr;
+gap: 1rem;
+}
+.cols {
+display: grid;
+grid-template-columns: 5fr 5fr;
+gap: 1rem;
+}

@@ -1,6 +1,6 @@
 ---
 marp: true
-theme: default
+theme: dark-plus-code
 paginate: true
 ---
 

@@ -31,24 +31,24 @@ pre {
 /* ------------------------------------
 
 <div class="callout tip">
-  <div class="callout-title">
-    TIP
-  </div>
-  이곳에 팁 내용을 작성하세요.
+<div class="callout-title">
+  TIP
+</div>
+이곳에 팁 내용을 작성하세요.
 </div>
 
 */
 
 .callout {
-  border-radius: 6px;
-  padding: 15px 20px;
-  margin: 20px 0;
-  border-left: 6px solid;
+border-radius: 6px;
+padding: 15px 20px;
+margin: 20px 0;
+border-left: 6px solid;
 }
 .callout-title {
-  font-weight: bold;
-  margin-bottom: 5px;  
-  font-size: 16px;
+font-weight: bold;
+margin-bottom: 5px;  
+font-size: 16px;
 }
 
 /* 개별 스타일 */
@@ -57,7 +57,7 @@ pre {
 .warning { background-color: #fff3e0; border-left-color: #ff9800; color: #e65100; }
 
 .tip, .info, .warning {
-  font-size: 18px;  /* ← 이 값 변경 */
+font-size: 18px;  /* ← 이 값 변경 */
 }
 
 
@@ -77,18 +77,106 @@ pre {
 
 /* 2 columns */
 .cols-4060 {
-  display: grid;
-  grid-template-columns: 4fr 6fr;
-  gap: 1rem;
+display: grid;
+grid-template-columns: 4fr 6fr;
+gap: 1rem;
 }
 .cols-6040 {
-  display: grid;
-  grid-template-columns: 6fr 4fr;
-  gap: 1rem;
+display: grid;
+grid-template-columns: 6fr 4fr;
+gap: 1rem;
 }
 .cols {
-  display: grid;
-  grid-template-columns: 5fr 5fr;
-  gap: 1rem;
+display: grid;
+grid-template-columns: 5fr 5fr;
+gap: 1rem;
 }
 
+/* ===== 코드 블럭 — VS Code Dark+ 배경 ===== */
+pre {
+  background-color: #1e1e1e;   /* Dark+ 에디터 배경 (완전 검정 원하면 #000000) */
+  color: #d4d4d4;              /* 기본 텍스트 색 */
+  border-radius: 8px;
+  padding: 0.8em 1em;
+  line-height: 1.5;
+}
+
+/* 인라인 코드 구분 */
+section p code, section li code, section td code {
+  background-color: #2d2d2d;
+  color: #d4d4d4;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+/* ===== VS Code Dark+ 문법 하이라이팅 ===== */
+
+/* 제어 키워드: if, else, for, while, return, and, or, not, in, is */
+pre .hljs-keyword {
+  color: #c586c0;              /* 보라-핑크 */
+}
+
+/* 선언 키워드: def, class, import, from, lambda */
+pre .hljs-function .hljs-keyword,
+pre .hljs-class .hljs-keyword {
+  color: #569cd6;              /* 파랑 */
+}
+
+/* 리터럴: True, False, None */
+pre .hljs-literal {
+  color: #569cd6;              /* 파랑 */
+}
+
+/* 문자열 */
+pre .hljs-string {
+  color: #ce9178;              /* 주황-갈색 */
+}
+
+/* f-string 내 표현식 중괄호 부분 */
+pre .hljs-subst {
+  color: #d4d4d4;
+}
+
+/* 숫자 */
+pre .hljs-number {
+  color: #b5cea8;              /* 연한 녹색 */
+}
+
+/* 주석 */
+pre .hljs-comment {
+  color: #6a9955;              /* 녹색 */
+  font-style: italic;
+}
+
+/* 함수/메서드 이름 */
+pre .hljs-title,
+pre .hljs-title.function_ {
+  color: #dcdcaa;              /* 노랑 */
+}
+
+/* 클래스명, 타입: int, str, list */
+pre .hljs-title.class_,
+pre .hljs-type {
+  color: #4ec9b0;              /* 청록 */
+}
+
+/* 내장 함수: print, len, range */
+pre .hljs-built_in {
+  color: #dcdcaa;              /* 노랑 (Dark+에서 호출되는 함수 색) */
+}
+
+/* 함수 매개변수, 변수 */
+pre .hljs-params {
+  color: #9cdcfe;              /* 하늘색 */
+}
+
+/* 데코레이터: @property 등 */
+pre .hljs-meta {
+  color: #dcdcaa;
+}
+
+/* 연산자, 구두점 */
+pre .hljs-operator,
+pre .hljs-punctuation {
+  color: #d4d4d4;
+}

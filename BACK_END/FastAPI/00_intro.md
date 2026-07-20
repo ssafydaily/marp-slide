@@ -1,23 +1,9 @@
 ---
 marp: true
-theme: default
+theme: dark-plus-code
 paginate: true
 style: |
-  section {
-    padding: 1.5rem; /* 원하는 여백 값으로 조절 */
-  }
-  h1 {
-    font-size: 1.5rem;
-    position: absolute;
-    left: 50px;
-    top: 50px;
-  }
-  h2 {
-    font-size: 1.3rem;
-  }
-  h3 {
-    font-size: 1rem;
-  }
+  
 ---
 
 # FastAPI
@@ -119,7 +105,7 @@ fastapi dev
 ![bg right:60% w:100%](./images/run_app.png)
 
 - 브라우저로 다음 JSON 내용을 확인
-- `http://127.0.0.1:8000/items/5?q=somequery`
+- http://127.0.0.1:8000/items/5?q=somequery
 
 ```json
 {"item_id": 5, "q": "somequery"}

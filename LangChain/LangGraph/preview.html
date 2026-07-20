@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LangGraph 풀코스 — Marp 미리보기</title>
+<style>
+  html, body { margin: 0; background: #2b2f35; }
+  #bar {
+    position: sticky; top: 0; z-index: 10;
+    background: #1f2329; color: #c7ccd4;
+    font: 13px/1 'IBM Plex Mono', ui-monospace, monospace;
+    letter-spacing: 0.04em;
+    padding: 12px 20px; border-bottom: 1px solid #3a4049;
+    display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+  }
+  #bar b { color: #fff; letter-spacing: -0.01em; }
+  #bar .muted { color: #7b828c; }
+  #app { max-width: 980px; margin: 0 auto; padding: 28px 16px 80px; }
+  #app .marpit { display: flex; flex-direction: column; gap: 26px; }
+  #app .marpit > svg, #app .marpit > section {
+    width: 100%; height: auto; display: block;
+    box-shadow: 0 18px 50px rgba(0,0,0,0.4); border-radius: 6px;
+  }
+  #err { color: #ff9a9a; font-family: 'IBM Plex Mono', monospace; padding: 24px; white-space: pre-wrap; }
+  #loading { color: #9aa3b2; font-family: 'IBM Plex Mono', monospace; padding: 40px; text-align: center; }
+</style>
+</head>
+<body>
+<div id="bar">
+  <b>LangGraph 풀코스</b>
+  <span class="muted">Marp 미리보기 · Blueprint theme</span>
+  <span class="muted" id="count"></span>
+</div>
+<div id="app"><div id="loading">렌더링 중… (Marp + Mermaid 로드)</div></div>
+
+<script type="module">
+import { Marp } from 'https://esm.sh/@marp-team/marp-core@4';
+import mermaid from 'https://esm.sh/mermaid@11';
+
+const MERMAID_VARS = {
+  fontFamily: 'IBM Plex Mono, monospace',
+  fontSize: '15px',
+  primaryColor: '#ffffff',
+  primaryBorderColor: '#3f5fc4',
+  primaryTextColor: '#232a33',
+  lineColor: '#8b94a3',
+  secondaryColor: '#eef1fb',
+  secondaryBorderColor: '#b9c2d0',
+  secondaryTextColor: '#232a33',
+  tertiaryColor: '#f7f8fa',
+  tertiaryBorderColor: '#dce1e8',
+  clusterBkg: '#f7f8fa',
+  clusterBorder: '#dce1e8',
+  edgeLabelBackground: '#f7f8fa'
+};
+
+const app = document.getElementById('app');
+try {
+  const themeCss = await (await fetch('./theme/blueprint.css')).text();
+  let md = await (await fetch('./LangGraph-Course.md')).text();
+  // 미리보기에서는 우리가 직접 mermaid 를 실행하므로 .md 안의 로더 스크립트는 제거
+  md = md.replace(/<script[\s\S]*?<\/script>/gi, '');
+
+  const marp = new Marp({ html: true, math: false });
+  marp.themeSet.add(themeCss);
+  const { html, css } = marp.render(md);
+
+  const style = document.createElement('style');
+  style.textContent = css;
+  document.head.appendChild(style);
+  app.innerHTML = html;
+
+  mermaid.initialize({ startOnLoad: false, securityLevel: 'loose', theme: 'base', themeVariables: MERMAID_VARS, flowchart: { curve: 'basis', htmlLabels: true } });
+  await mermaid.run({ querySelector: '.mermaid' });
+
+  const n = app.querySelectorAll('section').length;
+  document.getElementById('count').textContent = '· ' + n + ' slides';
+} catch (e) {
+  app.innerHTML = '<pre id="err">미리보기 렌더 실패:\n' + (e && e.stack || e) + '</pre>';
+  console.error(e);
+}
+</script>
+</body>
+</html>

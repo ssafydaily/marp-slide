@@ -10,6 +10,26 @@ style: |
 
 # shallow copy
 
+- list의 메모리 표현에 대해 이해
+
+```python
+# 객체의 비교 연산
+src = [1, 2, 3]
+print(id(src))
+print(id(src[0], src[1]))
+```
+
+- 출력
+```
+2349783374336
+140709937443624 140709937443656
+```
+
+![bg right w:90%](images/copy00.png)
+
+---------------------------------
+# shallow copy
+
 ![bg right h:80%](images/copy01.png)
 
 ```python
@@ -104,6 +124,16 @@ False
 
 # shallow copy
 
+![bg right w:90%](images/copy05_one.png)
+
+- 중첩 리스트의 메모리 표현
+```python
+src = [[1, 2], [3, 4]]
+```
+
+---------------------------------
+# shallow copy
+
 ![bg right w:90% h:80%](images/copy05.png)
 
 ```python
@@ -142,7 +172,7 @@ False
 ```
 ---------------------------------
 
-# shallow copy
+# Deep copy
 
 ![bg right w:90% h:80%](images/copy07.png)
 
@@ -164,7 +194,7 @@ False
 ```
 ---------------------------------
 
-# shallow copy
+# Deep copy
 
 ![bg right w:90% h:80%](images/copy08.png)
 
@@ -194,12 +224,10 @@ False
 ```python
 lst1 = [0] * 3
 lst2 = [0 for _ in range(3)]
-print()
 ```
 
 - 아래 경우에 주의
 ```python
 lst1 = [[1, 2]] * 3
 lst2 = [[1, 2] for _ in range(3)]
-print()
 ```

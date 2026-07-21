@@ -16,6 +16,8 @@ marp python_type_conversion_slides.md --theme-set dark-plus-code.css --pdf  # PD
 
 @import 'default';
 
+
+
 /* ===== 슬라이드 공통 ===== */
 section {
   font-size: 24px;
@@ -31,6 +33,28 @@ h2 {
   padding: 8px 16px;
   border-radius: 6px;
 }
+
+/* 제목 페이지 _class:lead */
+section.lead {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;   /* 세로 중앙 정렬 */
+  align-items: center;       /* 가로 중앙 정렬 */
+  text-align: center;
+  background: linear-gradient(135deg, #2b2b40, #1a1a2e);
+}
+
+section.lead h1 {
+  font-size: 3em;
+  margin-bottom: 0.2em;
+}
+
+section.lead h2,
+section.lead p {
+  opacity: 0.8;
+  font-weight: 300;
+}
+
 
 /* ===== 코드 블럭 — VS Code Dark+ 배경 ===== */
 pre {

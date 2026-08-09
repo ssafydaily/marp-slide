@@ -122,6 +122,8 @@ jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --NotebookApp.token='mytoken'
 | 컨테이너 안의 라이브러리로 자동완성/디버깅까지 완벽하게 받고 싶다 | 방법 1 (Attach) |
 | 그냥 지금처럼 편하게 커널만 컨테이너 걸로 쓰고 싶다, 설정 최소화 | 방법 2 (Remote Jupyter Server) |
 
+-----------------
+
 ## 추가 팁: devcontainer.json으로 자동화
 
 방법 1을 자주 쓸 거라면 프로젝트에 `.devcontainer/devcontainer.json`을 만들어두면, 확장 자동 설치·포트 포워딩·볼륨 마운트가 매번 자동으로 됩니다.
@@ -142,8 +144,7 @@ jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --NotebookApp.token='mytoken'
   }
 }
 ```
+
 이후 `F1 → Dev Containers: Reopen in Container`만 누르면 됩니다.
+---------------
 
----
-
-지금 쓰고 계신 Dockerfile이나 docker run 명령어를 알려주시면, 그대로 devcontainer.json으로 변환해드릴 수도 있어요. 원하시나요?

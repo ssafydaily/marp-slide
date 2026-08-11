@@ -1,5 +1,5 @@
 네. **같은 `nn.RNN`을 생성하지만 Encoder와 Decoder에서 사용하는 방식은 상당히 다릅니다.**
-첨부 파일의 Step 2 코드를 보면 두 클래스 모두 다음과 같이 동일한 형태의 RNN을 생성합니다.  
+첨부 파일의 Step 2 코드를 보면 두 클래스 모두 다음과 같이 동일한 형태의 RNN을 생성합니다.
 
 ```python
 self.rnn = nn.RNN(
@@ -16,14 +16,14 @@ self.rnn = nn.RNN(
 
 # 1. 핵심 차이부터
 
-|              | Encoder                                   | Decoder                     |
-| ------------ | ----------------------------------------- | --------------------------- |
-| RNN 입력       | **전체 시퀀스**                                | **한 토큰씩**                   |
-| 입력 형태        | `(sequence_length, batch, embedding_dim)` | `(1, batch, embedding_dim)` |
-| hidden state | RNN이 초기값을 생성                              | **Encoder의 `h_n`을 전달**      |
-| RNN 호출       | `self.rnn(input_embeds)`                  | `self.rnn(embedded, h_n)`   |
-| 출력 사용        | `hidden_states`, `h_n` 모두                 | `h_n`만 사용                   |
-| 목적           | 입력 문장 전체를 읽음                              | 다음 토큰을 하나씩 생성               |
+|              | Encoder                                     | Decoder                            |
+| ------------ | ------------------------------------------- | ---------------------------------- |
+| RNN 입력     | **전체 시퀀스**                       | **한 토큰씩**                |
+| 입력 형태    | `(sequence_length, batch, embedding_dim)` | `(1, batch, embedding_dim)`      |
+| hidden state | RNN이 초기값을 생성                         | **Encoder의 `h_n`을 전달** |
+| RNN 호출     | `self.rnn(input_embeds)`                  | `self.rnn(embedded, h_n)`        |
+| 출력 사용    | `hidden_states`, `h_n` 모두             | `h_n`만 사용                     |
+| 목적         | 입력 문장 전체를 읽음                       | 다음 토큰을 하나씩 생성            |
 
 파일의 Encoder는 실제로
 
@@ -31,7 +31,7 @@ self.rnn = nn.RNN(
 hidden_states, h_n = self.rnn(input_embeds)
 ```
 
-를 수행합니다. 
+를 수행합니다.
 
 반면 Decoder는
 
@@ -39,7 +39,7 @@ hidden_states, h_n = self.rnn(input_embeds)
 _, h_n = self.rnn(embedded, h_n)
 ```
 
-를 반복합니다. 
+를 반복합니다.
 
 ---
 
@@ -198,8 +198,6 @@ embedded = self.word_embeddings(input_token)
 _, h_n = self.rnn(embedded, h_n)
 ```
 
-
-
 ---
 
 # 5. Decoder의 핵심은 `h_n`을 계속 전달한다는 것
@@ -274,8 +272,6 @@ for _ in range(max_len):
 
     logit = self.fully_connected_layer(h_n)
 ```
-
-
 
 이것을 그림으로 바꾸면:
 
@@ -441,7 +437,7 @@ nn.RNN(
 )
 ```
 
-입니다.  
+입니다.
 
 차이는 **RNN 객체의 사용 방법**입니다.
 
@@ -481,4 +477,4 @@ vs.
 _, h_n = self.rnn(embedded, h_n)
 ```
 
-이 두 줄의 차이를 이해하면 **Seq2Seq에서 Encoder와 Decoder의 역할 차이**가 거의 완전히 이해됩니다.  
+이 두 줄의 차이를 이해하면 **Seq2Seq에서 Encoder와 Decoder의 역할 차이**가 거의 완전히 이해됩니다.

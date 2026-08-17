@@ -218,7 +218,7 @@ lagngraph dev
 -----------------
 
 #### [참고] docker의 jupyter lab에서 숨김 파일 다루기
-> - docker-compose.yml 파일에 다음 내용 추가
+> - `docker-compose.yml` 파일에 다음 내용 추가
 ```
 command: > 
       jupyter lab --ip=0.0.0.0 --allow-root --ContentsManager.allow_hidden=True
@@ -237,4 +237,3 @@ command: >
 taskkill /F /IM python.exe
 ```
 
------------------

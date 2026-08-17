@@ -3,6 +3,7 @@ marp: true
 theme: default
 paginate: true
 style: |
+  @import url('../custom-theme.css')
   section {
     padding: 1.5rem; /* 원하는 여백 값으로 조절 */
   }

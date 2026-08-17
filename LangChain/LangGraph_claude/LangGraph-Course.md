@@ -1,6 +1,5 @@
 ---
 marp: true
-# theme: blueprint
 theme: blueprint
 paginate: true
 footer: 'LangGraph 풀코스 · v1.x'

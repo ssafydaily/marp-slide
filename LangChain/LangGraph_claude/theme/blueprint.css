@@ -1,0 +1,184 @@
+/* @theme blueprint */
+/* LangGraph 풀코스 — Blueprint 테마 (차분한 쿨 뉴트럴 + 모노스페이스 강조) */
+
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@1.3.9/dist/web/static/pretendard.css');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --bg: #f7f8fa;
+  --ink: #232a33;
+  --muted: #5d6675;
+  --label: #8b94a3;
+  --line: #dce1e8;
+  --accent: #3f5fc4;
+  --accent-ink: #2f47a8;
+  --accent-soft: #eef1fb;
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --sans: 'Pretendard', -apple-system, system-ui, sans-serif;
+}
+
+section {
+  width: 1280px;
+  height: 720px;
+  box-sizing: border-box;
+  font-family: var(--sans);
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--line) 1.4px, transparent 1.4px);
+  background-size: 30px 30px;
+  color: var(--ink);
+  font-size: 24px;
+  line-height: 1.6;
+  padding: 36px 45px 31px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  letter-spacing: -0.005em;
+}
+
+/* header = kicker label */
+section header {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--label);
+  font-weight: 500;
+  padding: 0;
+  margin-bottom: 3px;
+}
+section footer {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--label);
+  letter-spacing: 0.06em;
+}
+section:after { /* pagination */
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--label);
+}
+
+h1 { font-size: 38px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.02; margin: 0 0 10px; }
+h2 { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.12; margin: 2px 0 11px; }
+h3 { font-size: 27px; font-weight: 600; margin: 3px 0 7px; color: var(--ink); }
+h4 { font-size: 22px; font-weight: 600; font-family: var(--mono); color: var(--accent-ink); margin: 0 0 5px; letter-spacing: 0; }
+p  { margin: 0 0 7px; }
+strong { font-weight: 700; }
+em { color: var(--muted); font-style: normal; }
+a { color: var(--accent-ink); text-decoration: none; }
+
+ul, ol { margin: 0 0 7px; padding-left: 1.15em; }
+li { margin: 0 0 5px; }
+li::marker { color: var(--accent); }
+li strong { color: var(--ink); }
+
+/* inline code */
+code {
+  font-family: var(--mono);
+  font-size: 22px;
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+/* code block card */
+pre {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(60,90,160,0.08);
+  padding: 10px 14px;
+  margin: 3px 0 7px;
+  font-size: 18px;
+  line-height: 1.5;
+}
+pre code { background: none; color: #39414f; padding: 0; font-size: 18px; }
+
+/* subtle syntax highlighting */
+.hljs-comment, .hljs-quote { color: #9aa3b2; font-style: italic; }
+.hljs-string, .hljs-meta-string { color: #2f7a55; }
+.hljs-keyword, .hljs-built_in, .hljs-literal { color: var(--accent-ink); }
+.hljs-number { color: #b5651d; }
+.hljs-title, .hljs-title.function_, .hljs-title.class_ { color: #232a33; font-weight: 600; }
+.hljs-attr, .hljs-params { color: #39414f; }
+.hljs-meta { color: #8b94a3; }
+
+table { border-collapse: collapse; font-size: 20px; margin: 3px 0 7px; }
+th, td { border: 1px solid var(--line); padding: 5px 9px; text-align: left; }
+th {
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: 0.02em;
+}
+td code { font-size: 0.85em; }
+
+blockquote {
+  border-left: 3px solid var(--accent);
+  background: var(--accent-soft);
+  margin: 3px 0 7px;
+  padding: 7px 13px;
+  border-radius: 0 8px 8px 0;
+  color: var(--muted);
+  font-size: 22px;
+}
+blockquote p { margin: 0; }
+blockquote strong { color: var(--accent-ink); }
+
+hr { border: none; border-top: 1px solid var(--line); margin: 10px 0; }
+
+/* helper: kicker (when not using _header) */
+.kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--label);
+  margin-bottom: 7px;
+}
+
+/* mermaid container */
+.mermaid { display: flex; justify-content: center; align-items: center; margin: 4px 0; }
+.mermaid svg { max-width: 100%; height: auto; }
+
+/* two columns */
+.cols { display: flex; gap: 24px; align-items: flex-start; }
+.cols > * { flex: 1; min-width: 0; }
+.cols > .narrow { flex: 0.75; }
+
+/* ===== COVER (lead) ===== */
+section.lead { justify-content: center; }
+section.lead h1 { font-size: 67px; letter-spacing: -0.05em; margin: 6px 0 0; }
+section.lead .sub { display: block; font-size: 20px; color: var(--muted); font-weight: 500; margin-top: 15px; }
+section.lead .meta { margin-top: 28px; }
+section.lead .meta code { background: #fff; border: 1px solid var(--line); color: var(--muted); margin-right: 6px; }
+section.lead .nodes { display: flex; align-items: center; gap: 10px; }
+section.lead .nodes .n { width: 29px; height: 29px; border: 3px solid var(--accent); border-radius: 8px; background: #fff; box-shadow: 0 4px 11px rgba(60,90,160,0.12); }
+section.lead .nodes .n.fill { background: var(--accent); }
+section.lead .nodes .ln { width: 38px; height: 3px; background: var(--accent); }
+
+/* ===== SECTION DIVIDER ===== */
+section.section { justify-content: center; background-color: var(--accent-soft); }
+section.section .modnum { font-family: var(--mono); font-size: 16px; color: var(--accent); letter-spacing: 0.14em; margin-bottom: 7px; }
+section.section h1 { font-size: 43px; }
+section.section .modsub { font-size: 15px; color: var(--muted); font-family: var(--mono); margin-top: 13px; letter-spacing: 0.02em; }
+section.section .modlist { font-size: 13px; color: var(--muted); margin-top: 13px; line-height: 1.8; }
+
+/* vertically centered content slide */
+section.center { justify-content: center; }
+
+/* a "practice" badge */
+.lab {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  background: var(--accent);
+  color: #fff;
+  padding: 3px 9px;
+  border-radius: 5px;
+  margin-bottom: 8px;
+}

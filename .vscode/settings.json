@@ -1,3 +1,6 @@
 {
-  "markdown.marp.themes": ["./dark-plus-code.css"]
+  "markdown.marp.themes": [
+    "./dark-plus-code.css",
+    "./blueprint.css"
+  ]
 }

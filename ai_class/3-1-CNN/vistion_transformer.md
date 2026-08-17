@@ -1,4 +1,4 @@
-업로드해 주신 실습 자료를 기준으로 보면, **마지막 섹션의 Vision Transformer(ViT) 실습은 “ViT를 직접 학습시키는 실습”이라기보다, Hugging Face에서 CIFAR-10에 맞게 사전 학습된 ViT를 가져와 전처리 → 추론 → 결과 시각화까지 경험하는 실습**으로 구성되어 있습니다. 
+업로드해 주신 실습 자료를 기준으로 보면, **마지막 섹션의 Vision Transformer(ViT) 실습은 “ViT를 직접 학습시키는 실습”이라기보다, Hugging Face에서 CIFAR-10에 맞게 사전 학습된 ViT를 가져와 전처리 → 추론 → 결과 시각화까지 경험하는 실습**으로 구성되어 있습니다.
 
 특히 이 부분은 **ResNet 전이학습과 ViT 전이학습의 차이를 보여주는 실습**으로 설명하면 입문자에게 좋습니다.
 
@@ -34,7 +34,7 @@ CIFAR-10 클래스
 model_name = "nateraw/vit-base-patch16-224-cifar10"
 ```
 
-즉, **일반적인 ImageNet ViT를 가져와서 CIFAR-10에 새로 학습하는 것이 아니라, 이미 CIFAR-10에 맞게 Fine-tuning된 ViT 모델을 가져와 추론**합니다. 자료에서도 이 모델이 ImageNet-21k 사전학습 후 CIFAR-10에 Fine-tuning된 모델이라고 설명하고 있습니다. 
+즉, **일반적인 ImageNet ViT를 가져와서 CIFAR-10에 새로 학습하는 것이 아니라, 이미 CIFAR-10에 맞게 Fine-tuning된 ViT 모델을 가져와 추론**합니다. 자료에서도 이 모델이 ImageNet-21k 사전학습 후 CIFAR-10에 Fine-tuning된 모델이라고 설명하고 있습니다.
 
 ---
 
@@ -66,7 +66,7 @@ Classification Head
 10개 클래스
 ```
 
-자료에서도 224×224 이미지를 16×16 패치로 나누면 **196개의 패치**가 만들어진다고 설명합니다. 
+자료에서도 224×224 이미지를 16×16 패치로 나누면 **196개의 패치**가 만들어진다고 설명합니다.
 
 ---
 
@@ -74,17 +74,17 @@ Classification Head
 
 실습에서는 ResNet과 ViT를 비교해서 이해하면 좋습니다.
 
-|         | ResNet                   | ViT                 |
-| ------- | ------------------------ | ------------------- |
-| 핵심      | Convolution              | Self-Attention      |
-| 입력 처리   | 이미지 전체를 Feature Map으로 처리 | 이미지를 Patch로 분할      |
-| 기본 단위   | Pixel/Feature Map        | Patch Token         |
-| 특징 관계   | 주로 지역적인 특징부터 학습          | Patch 간 전역 관계 학습    |
-| 구조      | CNN                      | Transformer Encoder |
-| 대표적인 장점 | 상대적으로 적은 데이터에서도 강함       | 대규모 데이터에서 강력        |
-| 대표적인 단점 | 전역적인 관계 학습에 한계           | 많은 데이터와 계산량 필요      |
+|               | ResNet                             | ViT                       |
+| ------------- | ---------------------------------- | ------------------------- |
+| 핵심          | Convolution                        | Self-Attention            |
+| 입력 처리     | 이미지 전체를 Feature Map으로 처리 | 이미지를 Patch로 분할     |
+| 기본 단위     | Pixel/Feature Map                  | Patch Token               |
+| 특징 관계     | 주로 지역적인 특징부터 학습        | Patch 간 전역 관계 학습   |
+| 구조          | CNN                                | Transformer Encoder       |
+| 대표적인 장점 | 상대적으로 적은 데이터에서도 강함  | 대규모 데이터에서 강력    |
+| 대표적인 단점 | 전역적인 관계 학습에 한계          | 많은 데이터와 계산량 필요 |
 
-자료에서도 CNN은 **지역적 패턴**, ViT는 **Self-Attention을 통한 전역적 관계**를 학습하는 구조로 비교하고 있습니다. 
+자료에서도 CNN은 **지역적 패턴**, ViT는 **Self-Attention을 통한 전역적 관계**를 학습하는 구조로 비교하고 있습니다.
 
 ---
 
@@ -120,7 +120,7 @@ dataset = load_dataset(
 )
 ```
 
-를 사용합니다. 
+를 사용합니다.
 
 ### `load_dataset()`
 
@@ -148,7 +148,7 @@ Dataset
 
 형태가 됩니다.
 
-자료에서는 10,000개의 테스트 이미지와 `img`, `label` 두 개의 feature가 존재하는 것으로 나타납니다. 
+자료에서는 10,000개의 테스트 이미지와 `img`, `label` 두 개의 feature가 존재하는 것으로 나타납니다.
 
 ---
 
@@ -160,7 +160,7 @@ Dataset
 labels = dataset.features['label'].names
 ```
 
-자료에서도 이 방법으로 CIFAR-10의 클래스 이름을 가져옵니다. 
+자료에서도 이 방법으로 CIFAR-10의 클래스 이름을 가져옵니다.
 
 결과:
 
@@ -233,7 +233,7 @@ from transformers import ViTImageProcessor
 image_processor = ViTImageProcessor.from_pretrained(model_name)
 ```
 
-을 사용합니다. 
+을 사용합니다.
 
 ### 역할
 
@@ -285,7 +285,7 @@ ViTForImageClassification.from_pretrained(model_name)
 
 입니다.
 
-자료에서도 Hugging Face의 주요 기능으로 `from_pretrained()`를 소개하고 있습니다. 
+자료에서도 Hugging Face의 주요 기능으로 `from_pretrained()`를 소개하고 있습니다.
 
 ---
 
@@ -305,7 +305,7 @@ vit_model = ViTForImageClassification.from_pretrained(
 )
 ```
 
-합니다. 
+합니다.
 
 이 클래스는 단순한 ViT Encoder만 제공하는 것이 아니라:
 
@@ -333,7 +333,7 @@ ViTForImageClassification
       └── Linear(768 → 10)
 ```
 
-입니다. 
+입니다.
 
 즉 이 모델은 최종적으로 **10개의 CIFAR-10 클래스를 분류**하도록 되어 있습니다.
 
@@ -365,8 +365,6 @@ Conv2d(
     stride=(16,16)
 )
 ```
-
-
 
 여기서 convolution이 **일반적인 CNN의 특징 추출용 convolution과는 목적이 다릅니다.**
 
@@ -402,8 +400,6 @@ inputs = image_processor(
     return_tensors="pt"
 )
 ```
-
-
 
 여기서 매우 중요한 것은:
 
@@ -491,7 +487,7 @@ inputs = {
 }
 ```
 
-를 통해 Tensor들을 GPU로 이동시킵니다. 
+를 통해 Tensor들을 GPU로 이동시킵니다.
 
 ---
 
@@ -580,7 +576,7 @@ predicted_class_idxs = (
 )
 ```
 
-를 사용합니다. 
+를 사용합니다.
 
 예를 들어:
 
@@ -695,7 +691,7 @@ Tensor
 
 이 점이 중요합니다.
 
-실습 자료에서도 CIFAR-10이 32×32의 저해상도 데이터이므로 실제 적용에서는 더 높은 해상도의 데이터를 사용하는 것이 좋다고 명시하고 있습니다. 
+실습 자료에서도 CIFAR-10이 32×32의 저해상도 데이터이므로 실제 적용에서는 더 높은 해상도의 데이터를 사용하는 것이 좋다고 명시하고 있습니다.
 
 ---
 
@@ -818,18 +814,18 @@ image_processor = ViTImageProcessor.from_pretrained(model_name)
 
 이번 자료에서는 앞부분의 ResNet 실습과 마지막 ViT 실습을 이렇게 비교하면 좋습니다.
 
-|       | ResNet                        | ViT                       |
-| ----- | ----------------------------- | ------------------------- |
-| 라이브러리 | torchvision                   | Hugging Face Transformers |
-| 모델    | ResNet18                      | ViT                       |
-| 학습    | 직접 Linear Probing/Fine-tuning | 이미 Fine-tuning된 모델 사용     |
-| 데이터   | torchvision CIFAR10           | HF datasets CIFAR10       |
-| 전처리   | torchvision.transforms        | ViTImageProcessor         |
-| 입력    | Tensor                        | Processor가 Tensor로 변환     |
-| 출력    | Tensor                        | ModelOutput의 `logits`     |
-| 목적    | 전이학습 과정 학습                    | pretrained ViT 추론 경험      |
+|            | ResNet                          | ViT                          |
+| ---------- | ------------------------------- | ---------------------------- |
+| 라이브러리 | torchvision                     | Hugging Face Transformers    |
+| 모델       | ResNet18                        | ViT                          |
+| 학습       | 직접 Linear Probing/Fine-tuning | 이미 Fine-tuning된 모델 사용 |
+| 데이터     | torchvision CIFAR10             | HF datasets CIFAR10          |
+| 전처리     | torchvision.transforms          | ViTImageProcessor            |
+| 입력       | Tensor                          | Processor가 Tensor로 변환    |
+| 출력       | Tensor                          | ModelOutput의`logits`      |
+| 목적       | 전이학습 과정 학습              | pretrained ViT 추론 경험     |
 
-실습 자료 자체도 Step 1·2에서는 ResNet-18을 학습하고, Step 3에서는 Hugging Face ViT를 **Inference**하는 구성입니다. 
+실습 자료 자체도 Step 1·2에서는 ResNet-18을 학습하고, Step 3에서는 Hugging Face ViT를 **Inference**하는 구성입니다.
 
 ---
 
@@ -856,7 +852,7 @@ Resize
 
 테스트 데이터에는 RandomCrop, RandomFlip 같은 랜덤 증강을 적용하면 안 됩니다.
 
-자료에서도 테스트 데이터에는 증강을 적용하지 않는다고 명시하고 있습니다. 
+자료에서도 테스트 데이터에는 증강을 적용하지 않는다고 명시하고 있습니다.
 
 ---
 
@@ -884,7 +880,7 @@ automobile
 labels = dataset.features['label'].names
 ```
 
-을 사용합니다. 
+을 사용합니다.
 
 ---
 
@@ -933,7 +929,7 @@ with torch.no_grad():
 
 `no_grad()`는 추론에 필요 없는 gradient 계산을 하지 않게 해서 메모리와 계산량을 줄입니다.
 
-현재 실습 코드에는 `no_grad()`가 적용되어 있습니다. 
+현재 실습 코드에는 `no_grad()`가 적용되어 있습니다.
 
 ---
 
@@ -959,7 +955,7 @@ with torch.no_grad():
 ViTForImageClassification.from_pretrained(model_name)
 ```
 
-으로 이미 학습된 모델을 가져오고 별도의 `loss.backward()`나 `optimizer.step()`이 없습니다. 
+으로 이미 학습된 모델을 가져오고 별도의 `loss.backward()`나 `optimizer.step()`이 없습니다.
 
 ---
 
@@ -967,18 +963,18 @@ ViTForImageClassification.from_pretrained(model_name)
 
 교육용으로는 다음 정도를 별도 박스로 넣으면 좋겠습니다.
 
-| 확인 항목      | 확인 내용                       |
-| ---------- | --------------------------- |
-| 이미지 크기     | 모델이 요구하는 Image Size 확인      |
-| Patch Size | 모델의 Patch Size 확인           |
-| Channel    | RGB 3채널인지 확인                |
-| Resize     | Processor 또는 모델 요구사항에 맞게 변환 |
-| Normalize  | pretrained 모델의 mean/std 사용  |
-| Image Type | PIL Image / Tensor 확인       |
-| Batch      | 여러 이미지를 Batch로 구성           |
-| Label      | label index ↔ class name 확인 |
-| Device     | model과 input의 device 일치     |
-| Evaluation | `eval()` + `no_grad()` 사용   |
+| 확인 항목   | 확인 내용                                |
+| ----------- | ---------------------------------------- |
+| 이미지 크기 | 모델이 요구하는 Image Size 확인          |
+| Patch Size  | 모델의 Patch Size 확인                   |
+| Channel     | RGB 3채널인지 확인                       |
+| Resize      | Processor 또는 모델 요구사항에 맞게 변환 |
+| Normalize   | pretrained 모델의 mean/std 사용          |
+| Image Type  | PIL Image / Tensor 확인                  |
+| Batch       | 여러 이미지를 Batch로 구성               |
+| Label       | label index ↔ class name 확인           |
+| Device      | model과 input의 device 일치              |
+| Evaluation  | `eval()` + `no_grad()` 사용          |
 
 ---
 
@@ -1028,6 +1024,6 @@ predicted = outputs.logits.argmax(dim=1)
 
 이 코드에서 학습자가 반드시 이해해야 하는 핵심은 **`load_dataset → ViTImageProcessor → ViTForImageClassification → logits → argmax`**의 흐름입니다.
 
-참고로 현재 실습 자료에서는 `transformers==4.57.1`을 고정하고 있는데, 이는 자료 작성 당시 `ViTImageProcessor` 사용을 기준으로 한 버전 조건입니다. 
+참고로 현재 실습 자료에서는 `transformers==4.57.1`을 고정하고 있는데, 이는 자료 작성 당시 `ViTImageProcessor` 사용을 기준으로 한 버전 조건입니다.
 
 또 하나 중요한 점은, **ViT에서는 "모델 구조" 못지않게 "pretrained 모델이 기대하는 전처리"를 맞추는 것이 중요**하다는 것입니다. 이 부분을 ResNet 실습의 `transforms`와 비교해서 설명하면 교육 효과가 상당히 좋습니다.

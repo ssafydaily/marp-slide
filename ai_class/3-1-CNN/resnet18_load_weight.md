@@ -3,6 +3,7 @@
 ## 무슨 상황인가
 
 노트북에서 쓴 코드:
+
 ```python
 model = torchvision.models.resnet18(pretrained=True)
 ```
@@ -13,6 +14,7 @@ torchvision 0.13 버전부터 사전 학습 모델을 불러오는 API가 바뀌
 - **새로운 방식**: `weights=...`라는 파라미터에 **어떤 가중치 세트**를 쓸지 명시적으로 지정
 
 경고 메시지 두 번째 줄이 알려주는 정보가 핵심입니다:
+
 > 현재 `pretrained=True`는 내부적으로 `weights=ResNet18_Weights.IMAGENET1K_V1`을 쓴 것과 똑같이 동작한다고 안내하고 있습니다.
 
 즉 **결과는 지금까지와 동일**합니다 — ImageNet-1K로 학습된 V1 가중치를 그대로 불러옵니다.
@@ -39,12 +41,12 @@ model = torchvision.models.resnet18(weights=ResNet18_Weights.DEFAULT)
 
 ## 정리
 
-| 항목 | 내용 |
-|---|---|
-| 경고 심각도 | 낮음 — 코드 동작에는 영향 없음 |
-| 지금 당장 고쳐야 하나 | 아니요, 실습 진행에는 지장 없습니다 |
-| 왜 뜨나 | `pretrained=True/False` API가 deprecated되고 `weights=` API로 대체됨(0.13~) |
-| 실제 불러오는 가중치 | 이전과 동일하게 `IMAGENET1K_V1` |
-| 미래 대비 | `weights=` 방식으로 바꿔두면 향후 torchvision 버전에서 `pretrained` 인자가 완전히 제거돼도 코드가 깨지지 않음 |
+| 항목                  | 내용                                                                                                              |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| 경고 심각도           | 낮음 — 코드 동작에는 영향 없음                                                                                   |
+| 지금 당장 고쳐야 하나 | 아니요, 실습 진행에는 지장 없습니다                                                                               |
+| 왜 뜨나               | `pretrained=True/False` API가 deprecated되고 `weights=` API로 대체됨(0.13~)                                   |
+| 실제 불러오는 가중치  | 이전과 동일하게`IMAGENET1K_V1`                                                                                  |
+| 미래 대비             | `weights=` 방식으로 바꿔두면 향후 torchvision 버전에서 `pretrained` 인자가 완전히 제거돼도 코드가 깨지지 않음 |
 
 지금 실습 목적(전이학습 개념 이해)에는 전혀 문제가 되지 않으니, 무시하고 진행하셔도 됩니다. 다만 나중에 실무 코드를 작성할 때는 `weights=` 방식을 쓰는 습관을 들이시는 게 좋습니다.

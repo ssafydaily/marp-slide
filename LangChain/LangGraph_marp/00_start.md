@@ -43,14 +43,17 @@ pip install jupyter ipykernel ipywidgets
 ```bash
 pip install -U "langgraph-cli[inmem]"
 pip install -qU langgraph langchain langsmith langchain-openai python-dotenv
+# 설치 패키지 버전 확인
+pip list | grep -E "langgraph |langchain |langchain-openai |langchain-upstage |langsmith"
 ```
-
 -----------------
 
 ## `jupyter` 서버 실행하기
 
 ```bash
 python -m jupyter lab --ContentsManager.allow_hidden=True
+# git-bash 터미널 설정 시 다음 추가
+--ServerApp.terminado_settings="shell_command=['C:\Program Files\Git\bin\bash.exe','-i']"
 ```
 > 숨김 파일 설정
 - **settings > Settings Editor** 메뉴 선택하고, **hidden** 검색
@@ -104,11 +107,11 @@ python -m jupyter lab --ContentsManager.allow_hidden=True
 GMS_KEY="your-key"
 OPENAI_BASE_URL=https://gms.ssafy.io/gmsapi/api.openai.com/v1
 
-# 필수
+# required
 LANGSMITH_TRACING=true
 LANGSMITH_API_KEY="your-key"
 
-# 선택 - 리전이 US가 아니면 필수
+# optional
 LANGSMITH_ENDPOINT="https://api.smith.langchain.com"
 LANGSMITH_PROJECT="my-first-project"
 ```
@@ -231,6 +234,25 @@ result = graph.invoke({"input": "hello"})
 
 - 실행 후 [smith.langchain.com](https://smith.langchain.com) 에 들어가서 설정한 프로젝트를 클릭
   - 노드별 실행 경로, 입출력, 지연시간, 토큰 사용량 등을 시각적으로 확인
+----------------------
+## [참고] jupyter notebook 설정 유지하기
+
+- **compose 파일이 있는 위치 기준 상대 경로**로 `./jupyter_config` 설정
+
+```yaml
+services:
+  jupyter:
+    image: your-image
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./jupyter_config:/root/.jupyter   # <-----------
+      - ./notebooks:/home/notebooks
+```
+
+- `docker-compose up` 실행 시 `docker-compose.yml`이 있는 폴더에 `jupyter_config` 폴더가 없으면 Docker가 자동으로 생성 
+
+> ⚠️ 주의: Windows에서 바인드 마운트 시 파일 공유(File Sharing) 설정이 안 되어 있으면 오류가 날 수 있습니다. Docker Desktop → Settings → Resources → File Sharing에서 해당 드라이브가 공유되어 있는지 확인하세요.
 
 --------------------
 

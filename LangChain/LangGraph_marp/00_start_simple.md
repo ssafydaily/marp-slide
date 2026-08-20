@@ -13,16 +13,38 @@ style: |
 - 가상 환경 생성
 
 ```bash
-python -m venv baseline
+python -m venv .venv
 ```
 - 가상 환경 활성화
 ```bash
-source baseline/Scripts/activate
+source .venv/Scripts/activate
 ```
 
-- 가상환경 생성후 터미널에 `(baseline)` 표시 확인하기
+- 가상환경 생성후 터미널에 `(.venv)` 표시 확인하기
 
+------------------
+
+## requirements.txt 설치하기
+```
+pip install -r requirements.txt
+```
+[requirements.txt 가져오기](https://gist.github.com/ssafydaily/d32ead48b13cb3ec31738775ae1570d9)
+
+## Easy 교안 4-2와 충돌 문제 해결
+- langgraph cli와 chroma db 동시 설치시 의존성 문제 발생
+- `opentelemetry` 강제 설치
+
+```
+pip install --upgrade --force-reinstall \
+"opentelemetry-api==1.37.0" \
+"opentelemetry-sdk==1.37.0" \
+"opentelemetry-proto==1.37.0" \
+"opentelemetry-exporter-otlp-proto-common==1.37.0" \
+"opentelemetry-exporter-otlp-proto-grpc==1.37.0" \
+"opentelemetry-exporter-otlp-proto-http==1.37.0"
+```
 -----------------
+
 ## 패키지 설치
 
 ### `pip` 업데이트
@@ -52,8 +74,6 @@ pip list | grep -E "langgraph |langchain |langchain-openai |langchain-upstage |l
 
 ```bash
 python -m jupyter lab --ContentsManager.allow_hidden=True
-# git-bash 터미널 설정 시 다음 추가
---ServerApp.terminado_settings="shell_command=['C:\Program Files\Git\bin\bash.exe','-i']"
 ```
 > 숨김 파일 설정
 - **settings > Settings Editor** 메뉴 선택하고, **hidden** 검색
@@ -140,84 +160,6 @@ LANGSMITH_PROJECT="my-first-project"
 
 </div>
 
-------------------------
-## 코드 작성하기
-- `app.py` 이름으로 코드 작성하기
-
-<div class="cols">
-<div>
-
-```python
-# llm.py
-import os
-from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
-# graph.py
-from typing import TypedDict
-from langgraph.graph import StateGraph, START, END
-
-load_dotenv()
-
-llm = ChatOpenAI(
-    model="gpt-4o-mini",  # 사용 가능한 모델명은 SSAFY 문서 확인
-    api_key=os.getenv("GMS_KEY"),
-    base_url=os.getenv("OPENAI_BASE_URL"),
-)
-```
-</div>
-<div>
-
-```python
-# 1) 상태(State) 정의
-class GraphState(TypedDict):
-    question: str
-    answer: str
-
-# 2) 노드 함수 정의
-def call_model(state: GraphState) -> GraphState:
-    response = llm.invoke(state["question"])
-    return {"question": state["question"], "answer": response.content}
-
-# 3) 그래프 빌드
-builder = StateGraph(GraphState)
-builder.add_node("call_model", call_model)
-builder.add_edge(START, "call_model")
-builder.add_edge("call_model", END)
-
-graph = builder.compile()
-
-result = graph.invoke({"question": "LangGraph가 뭐야?", "answer": ""})
-print(result["answer"])
-```
-
-</div>
-</div>
-
-
-
-
------------------
-
-#### [참고] docker의 jupyter lab에서 숨김 파일 다루기
-> - `docker-compose.yml` 파일에 다음 내용 추가
-```
-command: > 
-      jupyter lab --ip=0.0.0.0 --allow-root --ContentsManager.allow_hidden=True
-```
-
-- 이미지 첨부>
-
-![](images/docker_hidden_file.png){width=500px}
-
-
-#### 
-
-> - 무한루프가 돌거나, 이전 실행결과만 나오는 경우
-
-```
-taskkill /F /IM python.exe
-```
-
 -----------------
 
 ## Jupyter Notebook 셀에서 실행하기
@@ -234,6 +176,7 @@ result = graph.invoke({"input": "hello"})
 
 - 실행 후 [smith.langchain.com](https://smith.langchain.com) 에 들어가서 설정한 프로젝트를 클릭
   - 노드별 실행 경로, 입출력, 지연시간, 토큰 사용량 등을 시각적으로 확인
+
 ----------------------
 ## [참고] jupyter notebook 설정 유지하기
 
@@ -256,28 +199,6 @@ services:
 
 --------------------
 
-## 특정 실행에 메타데이터/태그 추가하고 싶을 때
-
-```python
-result = graph.invoke(
-    {"input": "hello"},
-    config={"tags": ["experiment-1"], "metadata": {"user": "test"}}
-)
-```
-
-## 트레이스를 코드로 직접 조회하고 싶을 때
-
-```python
-from langsmith import Client
-
-client = Client()
-runs = client.list_runs(project_name="my-project-name", limit=10)
-for run in runs:
-    print(run.name, run.status)
-```
-
----------------------
-
 # 코드에서 프로젝트 이름 설정하기
 ## 방법 1: `tracing_v2_enabled` 컨텍스트 매니저 (가장 많이 사용)
 
@@ -290,26 +211,51 @@ with tracing_v2_enabled(project_name="my-other-project"):
 
 - 블록 안에서 실행된 트레이스만 `my-other-project`로 기록되고, 블록 밖에서는 다시 `LANGCHAIN_PROJECT` 환경변수 값(또는 `default`)을 따른다.
 
-----------------------------
+----------------------
 
-## 방법 2: 노트북 셀 단위로 환경변수를 즉석에서 바꾸기
+## 방법 2: `langsmith.trace`
+- 특정 호출에만 다른 프로젝트 지정하기
 
 ```python
-import os
-os.environ["LANGCHAIN_PROJECT"] = "experiment-A"
-result_a = graph.invoke({"input": "test A"})
+import langsmith
 
-os.environ["LANGCHAIN_PROJECT"] = "experiment-B"
-result_b = graph.invoke({"input": "test B"})
+with langsmith.trace(
+    name="KFC 메뉴 추천",                 # run_name 역할
+    project_name="food-recommendation",
+    tags=["food"],
+    metadata={"user_id": "user_42"},
+) as run:
+    response = llm.responses.create(model=model, input=prompt)
+    print(response.output_text)
 ```
 
-- 간단하지만 전역 상태를 바꾸는 방식이라 노트북에서 실행 순서를 헷갈리면 실수할 여지가 있다. 
-- 실험을 나눠서 돌릴 때는 방법 1(컨텍스트 매니저)이 더 안전합니다.
+----------------------
+
+## 참고: 두 방식을 섞어 쓰는 경우
+
+- **LangGraph** 안에서 `ChatOpenAI`가 아니라 raw `openai` 클라이언트를 노드 함수 내부에서 직접 호출한다면, 그 부분만 wrapper가 필요
+
+```python
+from openai import OpenAI
+from langsmith.wrappers import wrap_openai
+
+client = wrap_openai(OpenAI())  # 이 노드 함수 내부 호출을 위해 필요
+
+def my_node(state):
+    response = client.chat.completions.create(...)  # raw 호출 → wrapper 필요
+    return {"result": response}
+
+# 반면 다른 노드에서 ChatOpenAI를 쓰면 그쪽은 wrapper 불필요
+def other_node(state):
+    llm = ChatOpenAI(model="gpt-5-nano")
+    return {"result": llm.invoke(state["input"])}
+```
 
 
 ----------------------------
 
-## 참고: `config`의 `run_name`과는 다름
+
+## 참고: 프로젝트 이름은 `config`의 `run_name`과는 다름
 
 ```python
 result = graph.invoke(
@@ -339,43 +285,6 @@ result = graph.invoke(
 
 --------------------------------
 
-
-## Wrapper(`wrap_openai`)가 필요 없는 경우 vs 필요한 경우
-
-- 기준: **"OpenAI(또는 Anthropic) SDK를 직접(raw) 호출하는가, 아니면 LangChain/LangGraph 컴포넌트를 통해 호출하는가"** 
-
-
-## ❌ Wrapper 필요 없는 경우
-
-**LangChain / LangGraph의 모델 클래스를 쓰는 경우**
-
-- 자체적으로 트레이싱이 내장되어 있어서 환경변수만 켜면 자동 기록
-
-```python
-import os
-os.environ["LANGSMITH_TRACING"] = "true"
-os.environ["LANGSMITH_API_KEY"] = "ls__..."
-
-from langchain_openai import ChatOpenAI
-
-llm = ChatOpenAI(model="gpt-5-nano")
-response = llm.invoke("안녕")  # 자동 추적됨, wrapper 불필요
-```
--------------------------
-
-```python
-# LangGraph도 동일
-graph = builder.compile()
-result = graph.invoke({"input": "hello"})  # 자동 추적됨
-```
-
-| 사용 중인 것 | Wrapper 필요? |
-|---|---|
-| `langchain_openai.ChatOpenAI` | ❌ 불필요 |
-| `langchain_anthropic.ChatAnthropic` | ❌ 불필요 |
-| `LangGraph`의 `StateGraph.invoke()` | ❌ 불필요 |
-
----------------------------
 
 ## ✅ Wrapper 필요한 경우
 
@@ -422,49 +331,6 @@ client = wrap_anthropic(Anthropic())  # Anthropic도 동일
 </div>
 
 --------------------
-
-## 특정 호출에만 다른 프로젝트 지정하기
-
-- `langsmith.trace` 사용
-
-```python
-import langsmith
-
-with langsmith.trace(
-    name="KFC 메뉴 추천",                 # run_name 역할
-    project_name="food-recommendation",
-    tags=["food"],
-    metadata={"user_id": "user_42"},
-) as run:
-    response = llm.responses.create(model=model, input=prompt)
-    print(response.output_text)
-```
-
-----------------------
-
-## 참고: 두 방식을 섞어 쓰는 경우
-
-- **LangGraph** 안에서 `ChatOpenAI`가 아니라 raw `openai` 클라이언트를 노드 함수 내부에서 직접 호출한다면, 그 부분만 wrapper가 필요
-
-```python
-from openai import OpenAI
-from langsmith.wrappers import wrap_openai
-
-client = wrap_openai(OpenAI())  # 이 노드 함수 내부 호출을 위해 필요
-
-def my_node(state):
-    response = client.chat.completions.create(...)  # raw 호출 → wrapper 필요
-    return {"result": response}
-
-# 반면 다른 노드에서 ChatOpenAI를 쓰면 그쪽은 wrapper 불필요
-def other_node(state):
-    llm = ChatOpenAI(model="gpt-5-nano")
-    return {"result": llm.invoke(state["input"])}
-```
-
-
-
------------------
 
 #  LangGraph Studio 활용
 
@@ -593,5 +459,3 @@ lagngraph dev
 | 실행 위치 | 어디서 실행하든 (노트북 포함) 자동 기록 | `langgraph dev`로 로컬 서버를 띄워야 함 |
 | 노트북에서 바로? | ✅ 가능 (환경변수만 설정) | ❌ 불가, `.py` + `langgraph.json` 필요 |
 
-
--------------------

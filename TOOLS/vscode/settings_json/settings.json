@@ -1,0 +1,13 @@
+{
+  "java.jdt.ls.java.home": "C:\\Program Files\\Zulu\\zulu-8",
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "C_Cpp.default.compilerPath": "C:\\mingw64\\bin\\g++.exe",
+  "C_Cpp.default.cppStandard": "c++17",
+  "C_Cpp.default.cStandard": "c11",
+  "C_Cpp.intelliSenseEngine": "default",
+  "files.exclude": {
+    "**/.git": true,
+    "**/bin": false,
+    "**/output": false
+  }
+}

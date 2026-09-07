@@ -1,0 +1,71 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "compile-cpp",
+      "type": "shell",
+      "command": "g++",
+      "args": [
+        "-g",
+        "-o",
+        "${workspaceFolder}/cpp/output/${fileBasenameNoExtension}.exe",
+        "${file}"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "run-cpp",
+      "type": "shell",
+      "command": "${workspaceFolder}/cpp/output/${fileBasenameNoExtension}.exe",
+      "dependsOn": ["compile-cpp"],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      }
+    },
+    {
+      "label": "compile-java",
+      "type": "shell",
+      "command": "javac",
+      "args": [
+        "-d",
+        "${workspaceFolder}/java/bin",
+        "${file}"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "problemMatcher": {
+        "owner": "java",
+        "fileLocation": ["relative", "${workspaceFolder}"],
+        "pattern": {
+          "regexp": "^(.*):(\\d+):\\s+(error|warning):\\s+(.*)$",
+          "file": 1,
+          "line": 2,
+          "severity": 3,
+          "message": 4
+        }
+      }
+    },
+    {
+      "label": "run-java",
+      "type": "shell",
+      "command": "java",
+      "args": [
+        "-cp",
+        "${workspaceFolder}/java/bin",
+        "${fileBasenameNoExtension}"
+      ],
+      "dependsOn": ["compile-java"],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      }
+    }
+  ]
+}

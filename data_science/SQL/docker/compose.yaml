@@ -1,0 +1,35 @@
+# 정보처리기사 실기 SQL 실습용 MySQL 서버
+# 로컬 학습 전용 구성이다. 비밀번호가 평문이므로 외부에 공개되는 서버에는 쓰지 않는다.
+name: sql-study
+
+services:
+  mysql:
+    # conf.d/my.cnf 를 포함한 이미지를 빌드한다 (Dockerfile 참고).
+    # my.cnf 를 고친 뒤에는 `docker compose up -d --build` 로 다시 빌드한다.
+    build: .
+    image: sql-study-mysql:8.4
+    container_name: sql-study-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root1234
+      MYSQL_DATABASE: study
+      MYSQL_USER: student
+      MYSQL_PASSWORD: student1234
+      TZ: Asia/Seoul
+      # mysql 클라이언트에서 한글을 입력할 수 있도록 로캘을 UTF-8 로 지정한다.
+      LANG: C.UTF-8
+    ports:
+      # 호스트 3306은 로컬에 설치된 MySQL과 충돌하기 쉬워 3307을 쓴다.
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      # 데이터 볼륨이 비어 있을 때(최초 기동) 한 번만 실행된다.
+      - ./init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  mysql-data:

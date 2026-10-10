@@ -219,3 +219,7 @@ pip-selfcheck.json
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/python,venv,jupyternotebooks,visualstudiocode
+
+# SQL 실습 산출물
+data_science/SQL/**/study.sql
+data_science/SQL/labs/*.sql

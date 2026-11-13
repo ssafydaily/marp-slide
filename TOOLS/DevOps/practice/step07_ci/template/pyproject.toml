@@ -1,0 +1,23 @@
+[project]
+name = "todo-api"
+version = "0.1.0"
+requires-python = ">=3.11"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["**/migrations/**"]
+
+[tool.ruff.lint]
+# E/W: 스타일, F: 버그 가능성, I: import 정렬, B: 흔한 실수, UP: 최신 문법, DJ: Django 규칙
+select = ["E", "W", "F", "I", "B", "UP", "DJ"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["config", "todos"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.coverage.run]
+source = ["config", "todos"]
+omit = ["*/migrations/*", "config/asgi.py", "config/wsgi.py", "manage.py"]

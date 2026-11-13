@@ -1,0 +1,2 @@
+# 루트 .gitignore 의 [Ss]cripts (가상환경용) 규칙 예외: 실습 코드의 scripts/ 폴더는 포함
+!scripts/

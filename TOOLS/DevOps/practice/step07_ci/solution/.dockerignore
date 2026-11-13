@@ -1,0 +1,20 @@
+# 이미지에 넣지 않을 파일 (빌드 속도 ↑, 비밀정보 유출 방지)
+.git
+.github
+.venv
+venv
+**/__pycache__
+**/*.pyc
+.env
+.env.*
+!.env.example
+.pytest_cache
+.ruff_cache
+.coverage
+coverage.xml
+htmlcov
+staticfiles
+deploy
+Dockerfile
+docker-compose*.yml
+compose*.yml

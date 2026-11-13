@@ -1,0 +1,69 @@
+# 로컬 Docker 실행 환경
+#   전체 실행 : docker compose up -d --build
+#   테스트    : docker compose --profile test run --rm test
+#   로그      : docker compose logs -f web
+#   종료      : docker compose down        (데이터 유지)
+#   초기화    : docker compose down -v     (DB 데이터 삭제)
+name: todo-api
+
+x-db-env: &db-env
+  POSTGRES_DB: ${POSTGRES_DB:-todo_db}
+  POSTGRES_USER: ${POSTGRES_USER:-todo_user}
+  POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-todo_password}
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      <<: *db-env
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  web:
+    build:
+      context: .
+      target: runtime
+    image: todo-api:local
+    environment:
+      <<: *db-env
+      # 컨테이너끼리는 서비스 이름(db)과 내부 포트(5432)로 통신한다
+      POSTGRES_HOST: db
+      POSTGRES_PORT: "5432"
+      DJANGO_SETTINGS_MODULE: config.settings.prod
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:-local-docker-secret-key}
+      DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health/')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  test:
+    build:
+      context: .
+      target: test
+    profiles: ["test"]
+    environment:
+      <<: *db-env
+      POSTGRES_HOST: db
+      POSTGRES_PORT: "5432"
+      RUN_MIGRATIONS: "false"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:

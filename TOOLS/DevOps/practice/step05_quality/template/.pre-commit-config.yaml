@@ -1,0 +1,15 @@
+# 설치: pre-commit install   (git commit 시 자동 실행)
+# 수동 실행: pre-commit run --all-files
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: detect-private-key
+
+  # TODO 6: ruff 훅을 추가하세요.
+  #   repo: https://github.com/astral-sh/ruff-pre-commit  (rev: v0.8.4)
+  #   hooks: ruff (args: [--fix]), ruff-format

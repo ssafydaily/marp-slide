@@ -1,0 +1,21 @@
+[project]
+name = "todo-api"
+version = "0.1.0"
+requires-python = ">=3.11"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["**/migrations/**"]
+
+[tool.ruff.lint]
+# TODO 5: 검사할 규칙을 선택하세요.
+#   E/W: 스타일, F: 버그 가능성, I: import 정렬, B: 흔한 실수, UP: 최신 문법, DJ: Django
+select = []
+
+[tool.ruff.lint.isort]
+known-first-party = ["config", "todos"]
+
+[tool.coverage.run]
+source = ["config", "todos"]
+omit = ["*/migrations/*", "config/asgi.py", "config/wsgi.py", "manage.py"]

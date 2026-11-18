@@ -1,0 +1,7 @@
+# 개발/테스트에만 필요한 패키지
+-r requirements.txt
+pytest>=8.3,<9
+pytest-django>=4.9,<5
+pytest-cov>=6.0,<7
+ruff>=0.8
+pre-commit>=4.0,<5

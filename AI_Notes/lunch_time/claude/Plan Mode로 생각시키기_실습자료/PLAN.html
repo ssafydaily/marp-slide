@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Todo 리스트 앱 진행 계획</title>
+<style>
+  :root{
+    --navy:#1f3a5f;
+    --navy-dark:#16283f;
+    --accent:#2f6fed;
+    --accent-soft:#e8f0fe;
+    --ink:#1f2937;
+    --ink-soft:#4b5563;
+    --line:#e2e5ea;
+    --bg:#f5f6f8;
+    --card:#ffffff;
+    --ok:#2f9e6e;
+    --ok-soft:#e6f6ee;
+    --warn:#c9862b;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Malgun Gothic','Apple SD Gothic Neo','Noto Sans KR',-apple-system,sans-serif;
+    line-height:1.65;
+  }
+  .wrap{max-width:900px;margin:0 auto;padding:0 24px 80px;}
+
+  /* Cover */
+  .cover{
+    background:linear-gradient(135deg,var(--navy) 0%,var(--navy-dark) 100%);
+    color:#fff;
+    padding:56px 24px 40px;
+    margin-bottom:32px;
+  }
+  .cover-inner{max-width:900px;margin:0 auto;}
+  .cover-label{
+    display:inline-block;
+    font-size:13px;
+    letter-spacing:.08em;
+    background:rgba(255,255,255,.15);
+    padding:4px 12px;
+    border-radius:999px;
+    margin-bottom:16px;
+  }
+  .cover h1{
+    font-size:32px;
+    margin:0 0 20px;
+    line-height:1.4;
+  }
+  .cover-meta{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+    border-top:1px solid rgba(255,255,255,.25);
+    padding-top:18px;
+    font-size:14px;
+  }
+  .cover-meta dt{opacity:.7;margin-bottom:4px;font-size:12px;}
+  .cover-meta dd{margin:0;font-weight:600;}
+
+  section{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:28px 28px 30px;
+    margin-bottom:20px;
+  }
+  section h2{
+    font-size:19px;
+    margin:0 0 6px;
+    color:var(--navy);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  section h2 .num{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:26px;height:26px;
+    border-radius:6px;
+    background:var(--accent);
+    color:#fff;
+    font-size:13px;
+    flex:none;
+  }
+  section .lead{
+    color:var(--ink-soft);
+    font-size:14px;
+    margin:0 0 18px;
+  }
+  section .ref{
+    color:var(--ink-soft);
+    font-size:13px;
+    margin:-6px 0 22px;
+  }
+  section .ref code{
+    background:#f1f4f9;
+    padding:2px 6px;
+    border-radius:4px;
+    font-size:12px;
+  }
+
+  .progress-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size:13px;
+    font-weight:600;
+    padding:6px 14px;
+    border-radius:999px;
+    background:var(--ok-soft);
+    color:var(--ok);
+    margin-bottom:18px;
+  }
+
+  /* Checklist */
+  .checklist{list-style:none;margin:0;padding:0;}
+  .checklist li{
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    padding:11px 0;
+    border-bottom:1px solid var(--line);
+    font-size:14px;
+    color:var(--ink);
+  }
+  .checklist li:last-child{border-bottom:none;}
+  .checklist .box{
+    flex:none;
+    width:20px;height:20px;
+    margin-top:1px;
+    border-radius:5px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .checklist .box.done{
+    background:var(--ok);
+    color:#fff;
+    font-size:13px;
+    font-weight:700;
+  }
+  .checklist .box.done::after{content:"\2713";}
+  .checklist .box.todo{
+    border:2px solid var(--line);
+    background:#fff;
+  }
+  .checklist li.done-text .step-label{
+    color:var(--ink-soft);
+  }
+  .step-num{
+    font-weight:600;
+    color:var(--navy);
+    margin-right:4px;
+  }
+  .step-desc{
+    color:var(--ink-soft);
+  }
+
+  .note{
+    margin-top:18px;
+    padding:14px 18px;
+    background:var(--accent-soft);
+    border-left:4px solid var(--accent);
+    border-radius:6px;
+    color:var(--navy-dark);
+    font-size:14px;
+  }
+
+  footer{
+    text-align:center;
+    color:#9aa2ad;
+    font-size:12px;
+    margin-top:40px;
+  }
+
+  @media (max-width:640px){
+    .cover-meta{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-inner">
+    <span class="cover-label">진행 계획 · Progress Plan</span>
+    <h1>Todo 리스트 앱 진행 계획</h1>
+    <dl class="cover-meta">
+      <div><dt>프로젝트</dt><dd>Vue3 + Vite 기반 Todo 리스트 앱</dd></div>
+      <div><dt>마지막 업데이트</dt><dd>2026-09-03</dd></div>
+      <div><dt>기준 문서</dt><dd>Todo 리스트 앱 개발 계획서</dd></div>
+    </dl>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section id="s1">
+    <h2><span class="num">1</span>개발 진행 단계</h2>
+    <p class="ref">원본 계획서: <code>../resource/001_계획 요청/004-2_Todo_리스트_앱_개발_계획서.md</code></p>
+    <span class="progress-badge">6 / 6 단계 완료</span>
+    <ul class="checklist">
+      <li class="done-text"><span class="box done"></span><span class="step-label"><span class="step-num">1.</span>프로젝트 환경 준비 — <span class="step-desc">Vite로 Vue3 프로젝트 생성, 기본 폴더 구조 잡기</span></span></li>
+      <li class="done-text"><span class="box done"></span><span class="step-label"><span class="step-num">2.</span>기본 화면 뼈대 구성 — <span class="step-desc">입력창 + 목록 영역 배치</span></span></li>
+      <li class="done-text"><span class="box done"></span><span class="step-label"><span class="step-num">3.</span>핵심 기능 구현 — <span class="step-desc">추가 / 삭제 / 완료 체크 / 수정</span></span></li>
+      <li class="done-text"><span class="box done"></span><span class="step-label"><span class="step-num">4.</span>자동 저장 기능 연결 — <span class="step-desc">localStorage와 연동해 새로고침해도 데이터 유지</span></span></li>
+      <li class="done-text"><span class="box done"></span><span class="step-label"><span class="step-num">5.</span>화면 다듬기 — <span class="step-desc">기본 스타일 정리(입력창·버튼·완료 표시·hover 등)</span></span></li>
+      <li class="done-text"><span class="box done"></span><span class="step-label"><span class="step-num">6.</span>전체 점검 및 마무리 확인 — <span class="step-desc">브라우저에서 추가/완료/수정/삭제/새로고침 유지까지 직접 확인 완료</span></span></li>
+    </ul>
+  </section>
+
+  <section id="s2">
+    <h2><span class="num">2</span>완료 기준 체크</h2>
+    <ul class="checklist">
+      <li class="done-text"><span class="box done"></span><span class="step-label">할 일을 입력하고 등록하면 목록에 바로 보인다</span></li>
+      <li class="done-text"><span class="box done"></span><span class="step-label">체크박스를 누르면 완료 표시(취소선)가 되고, 다시 누르면 취소된다</span></li>
+      <li class="done-text"><span class="box done"></span><span class="step-label">목록에서 특정 할 일의 내용을 수정할 수 있다</span></li>
+      <li class="done-text"><span class="box done"></span><span class="step-label">목록에서 특정 할 일을 삭제할 수 있다</span></li>
+      <li class="done-text"><span class="box done"></span><span class="step-label">화면 어딘가에 "남은 할 일 개수"가 표시된다</span></li>
+      <li class="done-text"><span class="box done"></span><span class="step-label">새로고침하거나 브라우저를 껐다 켜도 목록이 그대로 남아 있다</span></li>
+    </ul>
+    <div class="note">기본 버전(계획서 범위)은 위 항목이 모두 충족되어 완료된 상태입니다.</div>
+  </section>
+
+  <section id="s3">
+    <h2><span class="num">3</span>추후에 진행할 수 있는 기능</h2>
+    <p class="lead">계획서에서 이번 범위에는 제외했던 항목과, 자연스럽게 이어질 수 있는 개선 항목입니다.</p>
+    <ul class="checklist">
+      <li><span class="box todo"></span><span class="step-label">로그인/회원가입 — <span class="step-desc">사용자별로 할 일 목록을 구분</span></span></li>
+      <li><span class="box todo"></span><span class="step-label">여러 기기 간 동기화 — <span class="step-desc">서버 없이 로컬 저장소만으로는 불가능, 백엔드 연동 필요</span></span></li>
+      <li><span class="box todo"></span><span class="step-label">서버/데이터베이스 저장 — <span class="step-desc">브라우저를 바꾸거나 초기화해도 데이터 유지</span></span></li>
+      <li><span class="box todo"></span><span class="step-label">카테고리 분류 — <span class="step-desc">할 일을 업무/개인 등으로 태그 구분</span></span></li>
+      <li><span class="box todo"></span><span class="step-label">우선순위 설정 — <span class="step-desc">중요도에 따라 정렬 또는 강조 표시</span></span></li>
+      <li><span class="box todo"></span><span class="step-label">마감일 설정 — <span class="step-desc">날짜 지정 및 임박한 항목 알림</span></span></li>
+      <li><span class="box todo"></span><span class="step-label">필터/보기 전환 — <span class="step-desc">전체 / 진행 중 / 완료된 항목만 보기</span></span></li>
+      <li><span class="box todo"></span><span class="step-label">검색 기능 — <span class="step-desc">목록이 길어졌을 때 키워드로 찾기</span></span></li>
+      <li><span class="box todo"></span><span class="step-label">드래그로 순서 변경 — <span class="step-desc">할 일 우선순위를 직접 끌어서 재정렬</span></span></li>
+    </ul>
+  </section>
+
+  <footer>Todo 리스트 앱 진행 계획 · 2026-09-03</footer>
+</div>
+
+</body>
+</html>

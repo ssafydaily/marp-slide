@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# 환경변수 (비밀정보)
+.env
+
+# Django
+staticfiles/
+media/
+*.sqlite3
+
+# Test / Coverage
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Tools
+.ruff_cache/
+.idea/
+.vscode/

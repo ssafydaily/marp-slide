@@ -1,0 +1,100 @@
+# CD: CI 가 main 에서 성공하면 → 이미지 빌드 & GHCR push → EC2 에 SSH 배포
+name: CD
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch: # Actions 탭에서 수동 실행 가능
+
+# 배포가 동시에 두 번 실행되지 않도록 (진행 중인 배포는 끝까지 진행)
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+env:
+  # CI 를 통과한 바로 그 커밋으로 배포한다
+  DEPLOY_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+jobs:
+  build-and-push:
+    name: Build & Push image
+    # CI 가 실패했다면 배포하지 않는다
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      image: ${{ steps.meta.outputs.image }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.DEPLOY_SHA }}
+
+      - name: 이미지 이름 결정 (GHCR 은 소문자만 허용)
+        id: meta
+        run: echo "image=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/todo-api" >> "$GITHUB_OUTPUT"
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: GHCR 로그인
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build & Push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: runtime
+          push: true
+          tags: |
+            ${{ steps.meta.outputs.image }}:latest
+            ${{ steps.meta.outputs.image }}:${{ env.DEPLOY_SHA }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    name: Deploy to EC2
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+    env:
+      IMAGE: ${{ needs.build-and-push.outputs.image }}
+      SSH_TARGET: ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.DEPLOY_SHA }}
+
+      - name: SSH 키 설정
+        env:
+          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$EC2_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "$EC2_HOST" >> ~/.ssh/known_hosts
+
+      - name: 배포 파일 복사
+        run: |
+          ssh -i ~/.ssh/deploy_key "$SSH_TARGET" "mkdir -p ~/todo-api"
+          scp -i ~/.ssh/deploy_key \
+            deploy/docker-compose.prod.yml deploy/nginx.conf \
+            deploy/deploy.sh deploy/rollback.sh \
+            "$SSH_TARGET":~/todo-api/
+
+      - name: 배포 실행
+        env:
+          GHCR_USER: ${{ github.actor }}
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ssh -i ~/.ssh/deploy_key "$SSH_TARGET" \
+            "cd ~/todo-api && GHCR_USER='$GHCR_USER' GHCR_TOKEN='$GHCR_TOKEN' IMAGE='$IMAGE' IMAGE_TAG='$DEPLOY_SHA' bash deploy.sh"

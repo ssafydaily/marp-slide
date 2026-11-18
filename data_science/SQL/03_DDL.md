@@ -18,13 +18,13 @@ CREATE · ALTER · DROP · TRUNCATE / 제약조건 · 인덱스 · 뷰
 
 # DDL 의 대상과 명령
 
-| 대상 | 생성 | 변경 | 삭제 |
-| --- | --- | --- | --- |
-| 스키마 | `CREATE SCHEMA` | | `DROP SCHEMA` |
+| 대상  | 생성              | 변경             | 삭제            |
+| --- | --------------- | -------------- | ------------- |
+| 스키마 | `CREATE SCHEMA` |                | `DROP SCHEMA` |
 | 도메인 | `CREATE DOMAIN` | `ALTER DOMAIN` | `DROP DOMAIN` |
-| 테이블 | `CREATE TABLE` | `ALTER TABLE` | `DROP TABLE` |
-| 뷰 | `CREATE VIEW` | (불가) | `DROP VIEW` |
-| 인덱스 | `CREATE INDEX` | `ALTER INDEX` | `DROP INDEX` |
+| 테이블 | `CREATE TABLE`  | `ALTER TABLE`  | `DROP TABLE`  |
+| 뷰   | `CREATE VIEW`   | (불가)           | `DROP VIEW`   |
+| 인덱스 | `CREATE INDEX`  | `ALTER INDEX`  | `DROP INDEX`  |
 
 - DDL 은 실행 즉시 반영된다 (자동 COMMIT). ROLLBACK 으로 되돌릴 수 없다
 - 도메인: 속성이 가질 수 있는 값의 범위를 정의한 사용자 정의 타입
@@ -54,14 +54,14 @@ CREATE TABLE 학생 (
 
 # 제약조건
 
-| 제약조건 | 의미 | NULL | 테이블당 |
-| --- | --- | --- | --- |
-| `PRIMARY KEY` | 기본키. 유일 + NOT NULL | 불가 | 1개 |
-| `UNIQUE` | 중복 불가 | 허용 | 여러 개 |
-| `NOT NULL` | NULL 불가 | 불가 | 여러 개 |
-| `FOREIGN KEY` | 다른 테이블의 키를 참조 | 허용 | 여러 개 |
-| `CHECK` | 조건을 만족하는 값만 | 허용 | 여러 개 |
-| `DEFAULT` | 값을 주지 않았을 때의 기본값 | - | - |
+| 제약조건          | 의미                 | NULL | 테이블당 |
+| ------------- | ------------------ | ---- | ---- |
+| `PRIMARY KEY` | 기본키. 유일 + NOT NULL | 불가   | 1개   |
+| `UNIQUE`      | 중복 불가              | 허용   | 여러 개 |
+| `NOT NULL`    | NULL 불가            | 불가   | 여러 개 |
+| `FOREIGN KEY` | 다른 테이블의 키를 참조      | 허용   | 여러 개 |
+| `CHECK`       | 조건을 만족하는 값만        | 허용   | 여러 개 |
+| `DEFAULT`     | 값을 주지 않았을 때의 기본값   | -    | -    |
 
 - `PRIMARY KEY` = `UNIQUE` + `NOT NULL`
 - CHECK 조건의 결과가 UNKNOWN(NULL)이면 **위반이 아니다**. NULL은 통과한다
@@ -96,24 +96,24 @@ FOREIGN KEY (컬럼) REFERENCES 부모 (컬럼)
     ON UPDATE [CASCADE | SET NULL | SET DEFAULT | RESTRICT | NO ACTION]
 ```
 
-| 옵션 | 동작 |
-| --- | --- |
-| `CASCADE` | 자식 행도 함께 삭제·수정 |
-| `SET NULL` | 자식의 외래키를 NULL로 |
-| `SET DEFAULT` | 자식의 외래키를 기본값으로 |
-| `RESTRICT` | 자식이 있으면 거부 |
-| `NO ACTION` | 아무 조치도 하지 않음 (결과적으로 거부, 기본값) |
+| 옵션            | 동작                           |
+| ------------- | ---------------------------- |
+| `CASCADE`     | 자식 행도 함께 삭제·수정               |
+| `SET NULL`    | 자식의 외래키를 NULL로               |
+| `SET DEFAULT` | 자식의 외래키를 기본값으로               |
+| `RESTRICT`    | 자식이 있으면 거부                   |
+| `NO ACTION`   | 아무 조치도 하지 않음 (결과적으로 거부, 기본값) |
 
 ---
 
 # 참조 옵션 — 실습 스키마에서
 
-| 외래키 | 옵션 | 부모 행을 지우면 |
-| --- | --- | --- |
-| 수강.학번 → 학생 | `ON DELETE CASCADE` | 수강 행도 삭제 |
+| 외래키          | 옵션                   | 부모 행을 지우면      |
+| ------------ | -------------------- | -------------- |
+| 수강.학번 → 학생   | `ON DELETE CASCADE`  | 수강 행도 삭제       |
 | 학생.학과코드 → 학과 | `ON DELETE SET NULL` | 학생의 학과코드가 NULL |
-| 수강.과목코드 → 과목 | `ON DELETE RESTRICT` | 거부 |
-| 사원.부서번호 → 부서 | (지정 안 함) | 거부 |
+| 수강.과목코드 → 과목 | `ON DELETE RESTRICT` | 거부             |
+| 사원.부서번호 → 부서 | (지정 안 함)             | 거부             |
 
 ```sql
 DELETE FROM 학생 WHERE 학번 = 1001;      -- 수강 2행도 함께 삭제
@@ -134,11 +134,11 @@ ALTER TABLE 도서 ADD CONSTRAINT uq_도서_제목 UNIQUE (제목);
 ALTER TABLE 도서 DROP CONSTRAINT uq_도서_제목;
 ```
 
-| 작업 | 표준·시험 | MySQL |
-| --- | --- | --- |
-| 추가 | `ADD` | `ADD` |
-| 변경 | `ALTER` (Oracle 은 `MODIFY`) | `MODIFY`, `CHANGE` |
-| 삭제 | `DROP` | `DROP` |
+| 작업  | 표준·시험                       | MySQL              |
+| --- | --------------------------- | ------------------ |
+| 추가  | `ADD`                       | `ADD`              |
+| 변경  | `ALTER` (Oracle 은 `MODIFY`) | `MODIFY`, `CHANGE` |
+| 삭제  | `DROP`                      | `DROP`             |
 
 - 기존 데이터가 새 제약을 위반하면 제약 추가가 거부된다
 
@@ -151,10 +151,10 @@ DROP TABLE 테이블 [CASCADE | RESTRICT];
 TRUNCATE TABLE 테이블;
 ```
 
-| 옵션 | 의미 |
-| --- | --- |
-| `CASCADE` | 이 테이블을 참조하는 다른 개체도 함께 제거 |
-| `RESTRICT` | 참조하는 개체가 있으면 제거 거부 |
+| 옵션         | 의미                       |
+| ---------- | ------------------------ |
+| `CASCADE`  | 이 테이블을 참조하는 다른 개체도 함께 제거 |
+| `RESTRICT` | 참조하는 개체가 있으면 제거 거부       |
 
 MySQL 은 `CASCADE`, `RESTRICT` 를 **문법만 받아들이고 무시**한다.
 
@@ -194,7 +194,7 @@ EXPLAIN SELECT * FROM 사원 WHERE 급여 = 5500;       -- type: ALL (전체 검
 
 ```sql
 CREATE VIEW 뷰명 [(컬럼, ...)] AS SELECT문 [WITH CHECK OPTION];
-DROP VIEW 뷰명 [CASCADE | RESTRICT];
+DROP VIEW 뷰명 [CASCADE | RESTRICT];    
 ```
 
 ```sql
@@ -213,11 +213,11 @@ SELECT * FROM v_서울사원 WHERE 급여 >= 7000;   -- 김대표, 이기획, �
 
 # 뷰의 특징
 
-| 장점 | 단점 |
-| --- | --- |
-| 논리적 데이터 독립성 제공 | 독립적인 인덱스를 가질 수 없다 |
-| 사용자의 데이터 관리 단순화 | 정의를 변경할 수 없다 (삭제 후 재생성) |
-| 필요한 데이터만 보여 주어 보안에 유리 | 삽입·삭제·갱신에 제약이 있다 |
+| 장점                    | 단점                      |
+| --------------------- | ----------------------- |
+| 논리적 데이터 독립성 제공        | 독립적인 인덱스를 가질 수 없다       |
+| 사용자의 데이터 관리 단순화       | 정의를 변경할 수 없다 (삭제 후 재생성) |
+| 필요한 데이터만 보여 주어 보안에 유리 | 삽입·삭제·갱신에 제약이 있다        |
 
 - 집계 함수, GROUP BY, DISTINCT, 조인 등이 들어간 뷰는 대개 갱신할 수 없다
 
@@ -253,15 +253,15 @@ INSERT INTO v_고학년 VALUES (3000, '뷰삽입', 1);
 
 # 표준 SQL 과 MySQL 차이
 
-| 항목 | 표준·시험 | MySQL |
-| --- | --- | --- |
-| 컬럼 변경 | `ALTER TABLE ~ ALTER` / `MODIFY` | `MODIFY`, `CHANGE` |
-| `DROP TABLE ~ CASCADE` | 참조 개체까지 제거 | 무시됨 |
-| `CREATE DOMAIN` | 지원 | 미지원 (문법 오류) |
-| `DROP INDEX` | `DROP INDEX 인덱스명` | `ON 테이블` 필요 |
-| 뷰 변경 | 불가 | `ALTER VIEW` 가능 |
-| `SET DEFAULT` 참조 옵션 | 지원 | InnoDB 미지원 |
-| `CHECK` | 지원 | 8.0.16 이상에서 실제로 검사 |
+| 항목                     | 표준·시험                            | MySQL              |
+| ---------------------- | -------------------------------- | ------------------ |
+| 컬럼 변경                  | `ALTER TABLE ~ ALTER` / `MODIFY` | `MODIFY`, `CHANGE` |
+| `DROP TABLE ~ CASCADE` | 참조 개체까지 제거                       | 무시됨                |
+| `CREATE DOMAIN`        | 지원                               | 미지원 (문법 오류)        |
+| `DROP INDEX`           | `DROP INDEX 인덱스명`                | `ON 테이블` 필요        |
+| 뷰 변경                   | 불가                               | `ALTER VIEW` 가능    |
+| `SET DEFAULT` 참조 옵션    | 지원                               | InnoDB 미지원         |
+| `CHECK`                | 지원                               | 8.0.16 이상에서 실제로 검사 |
 
 ---
 

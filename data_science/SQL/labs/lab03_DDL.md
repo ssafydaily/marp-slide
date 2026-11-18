@@ -21,12 +21,12 @@ CREATE TABLE 도서 (
 DESC 도서;
 ```
 
-| Field | Type | Null | Key | Default | Extra |
-| --- | --- | --- | --- | --- | --- |
-| 도서번호 | int | NO | PRI | NULL | auto_increment |
-| 제목 | varchar(50) | NO | | NULL | |
-| 가격 | int | YES | | 10000 | |
-| 출판일 | date | YES | | NULL | |
+| Field | Type        | Null | Key | Default | Extra          |
+| ----- | ----------- | ---- | --- | ------- | -------------- |
+| 도서번호  | int         | NO   | PRI | NULL    | auto_increment |
+| 제목    | varchar(50) | NO   |     | NULL    |                |
+| 가격    | int         | YES  |     | 10000   |                |
+| 출판일   | date        | YES  |     | NULL    |                |
 
 ### 1-2. 테이블 변경
 
@@ -40,12 +40,12 @@ ALTER TABLE 도서 ADD CONSTRAINT uq_도서_제목 UNIQUE (제목);
 DESC 도서;
 ```
 
-| Field | Type | Null | Key | Default | Extra |
-| --- | --- | --- | --- | --- | --- |
-| 도서번호 | int | NO | PRI | NULL | auto_increment |
-| 제목 | varchar(100) | NO | UNI | NULL | |
-| 가격 | int | YES | | 10000 | |
-| 저자 | varchar(20) | YES | | NULL | |
+| Field | Type         | Null | Key | Default | Extra          |
+| ----- | ------------ | ---- | --- | ------- | -------------- |
+| 도서번호  | int          | NO   | PRI | NULL    | auto_increment |
+| 제목    | varchar(100) | NO   | UNI | NULL    |                |
+| 가격    | int          | YES  |     | 10000   |                |
+| 저자    | varchar(20)  | YES  |     | NULL    |                |
 
 ### 1-3. 제약조건 위반
 
@@ -61,10 +61,10 @@ INSERT INTO 도서 (제목, 가격) VALUES ('널가격', NULL);   -- 성공. CHE
 SELECT * FROM 도서;
 ```
 
-| 도서번호 | 제목 | 가격 | 저자 |
-| --- | --- | --- | --- |
-| 1 | SQL 첫걸음 | 10000 | NULL |
-| 3 | 널가격 | NULL | NULL |
+| 도서번호 | 제목      | 가격    | 저자   |
+| ---- | ------- | ----- | ---- |
+| 1    | SQL 첫걸음 | 10000 | NULL |
+| 3    | 널가격     | NULL  | NULL |
 
 도서번호가 1 다음에 3이다. 실패한 INSERT 가 AUTO_INCREMENT 번호를 이미 받아 갔고, 그 번호는 재사용되지 않기 때문이다.
 
@@ -117,17 +117,17 @@ SHOW INDEX FROM 사원;
 EXPLAIN SELECT * FROM 사원 WHERE 이름 = '정코딩';
 ```
 
-| type | possible_keys | key | rows |
-| --- | --- | --- | --- |
-| ref | idx_사원_이름 | idx_사원_이름 | 1 |
+| type | possible_keys | key       | rows |
+| ---- | ------------- | --------- | ---- |
+| ref  | idx_사원_이름     | idx_사원_이름 | 1    |
 
 ```sql
 EXPLAIN SELECT * FROM 사원 WHERE 급여 = 5500;
 ```
 
-| type | possible_keys | key | rows |
-| --- | --- | --- | --- |
-| ALL | NULL | NULL | 12 |
+| type | possible_keys | key  | rows |
+| ---- | ------------- | ---- | ---- |
+| ALL  | NULL          | NULL | 12   |
 
 `type: ALL` 은 테이블 전체를 읽는다는 뜻이다.
 
@@ -146,8 +146,8 @@ WHERE d.지역 = '서울';
 SELECT * FROM v_서울사원 WHERE 급여 >= 7000;
 ```
 
-| 사번 | 이름 | 급여 | 부서명 |
-| --- | --- | --- | --- |
+| 사번  | 이름  | 급여   | 부서명 |
+| --- | --- | ---- | --- |
 | 101 | 김대표 | 9000 | 기획부 |
 | 102 | 이기획 | 7000 | 기획부 |
 | 103 | 박개발 | 7200 | 개발부 |
